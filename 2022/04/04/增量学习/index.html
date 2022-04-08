@@ -20,28 +20,43 @@
     var CONFIG = {"hostname":"yuwxl.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="yu&#39;s blog">
-<meta property="og:url" content="https://yuwxl.github.io/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="增量学习 Federated Class Incremental Learning">
+<meta property="og:url" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220406091741329.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407203827531.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407144037372.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407194659706.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407195213471.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407201522899.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407202014694.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407202502841.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407202820253.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407202849072.png">
+<meta property="og:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407204321100.png">
+<meta property="article:published_time" content="2022-04-04T14:59:59.000Z">
+<meta property="article:modified_time" content="2022-04-08T02:09:12.552Z">
 <meta property="article:author" content="nayun">
+<meta property="article:tag" content="随笔">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220406091741329.png">
 
-<link rel="canonical" href="https://yuwxl.github.io/">
+<link rel="canonical" href="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>yu's blog</title>
+  <title>增量学习 Federated Class Incremental Learning | yu's blog</title>
   
 
 
@@ -154,9 +169,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -172,10 +188,9 @@
       <meta itemprop="name" content="yu's blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">增量学习 Federated Class Incremental Learning</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          增量学习 Federated Class Incremental Learning
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -210,6 +225,13 @@
               </span>
               <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
             </span><br>
             <span class="post-meta-item" title="本文字数">
               <span class="post-meta-item-icon">
@@ -235,240 +257,140 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220406091741329.png" alt="image-20220406091741329"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
+        <p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220406091741329.png" alt="image-20220406091741329"></p>
+<span id="more"></span>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yuwxl.github.io/2022/01/03/stepToblog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/header.jpg">
-      <meta itemprop="name" content="nayun">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/03/stepToblog/" class="post-title-link" itemprop="url">Hexo + github 搭建个人博客</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-03 19:31:38" itemprop="dateCreated datePublished" datetime="2022-01-03T19:31:38+08:00">2022-01-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-08 10:08:13" itemprop="dateModified" datetime="2022-04-08T10:08:13+08:00">2022-04-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tool/" itemprop="url" rel="index"><span itemprop="name">tool</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2022/01/03/stepToblog/" class="post-meta-item leancloud_visitors" data-flag-title="Hexo + github 搭建个人博客" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span><br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>2k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="一、预备工具："><a href="#一、预备工具：" class="headerlink" title="一、预备工具："></a>一、预备工具：</h4><ul>
-<li>Node.js下载：【它让JavaScript成为与PHP、Python、Perl、Ruby等服务端语言平起平坐的脚本语言。】安装教程：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuqiyun/p/8133904.html">https://www.cnblogs.com/liuqiyun/p/8133904.html</a></li>
-<li>Git下载：<a target="_blank" rel="noopener" href="https://github.com/git-for-windows/git/releases/download/v2.11.0.windows.3/Git-2.11.0.3-64-bit.exe%E3%80%90Git%E6%98%AF%E4%B8%80%E4%B8%AA%E5%BC%80%E6%BA%90%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%9C%89%E6%95%88%E3%80%81%E9%AB%98%E9%80%9F%E5%9C%B0%E5%A4%84%E7%90%86%E4%BB%8E%E5%BE%88%E5%B0%8F%E5%88%B0%E9%9D%9E%E5%B8%B8%E5%A4%A7%E7%9A%84%E9%A1%B9%E7%9B%AE%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E3%80%91%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B%EF%BC%9Ahttps://www.cnblogs.com/xueweisuoyong/p/11914045.html">https://github.com/git-for-windows/git/releases/download/v2.11.0.windows.3/Git-2.11.0.3-64-bit.exe【Git是一个开源的分布式版本控制系统，可以有效、高速地处理从很小到非常大的项目版本管理】安装教程：https://www.cnblogs.com/xueweisuoyong/p/11914045.html</a></li>
-<li>github账号注册：<a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv5107169/">https://www.bilibili.com/read/cv5107169/</a></li>
+<p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407203827531.png" alt="image-20220407203827531"></p>
+<p>已有工作：</p>
+<ol>
+<li><p>联邦持续学习</p>
+<blockquote>
+<p>提取任务之间共有的知识，本地用户可以利用其他用户知识</p>
+</blockquote>
+</li>
+<li><p>上传中心服务器，服务器可以反推数据 上传embeding?? repretation?的通信，通信很大负担</p>
+</li>
+<li><p>共享数据，蒸馏 （共享数据怎么来？）旧模型蒸馏，什么时候切换旧模型去蒸馏？</p>
+</li>
+<li><p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407144037372.png" alt="image-20220407144037372"></p>
+</li>
+</ol>
+<p>我们的工作：</p>
+<ol>
+<li>GLFC框架（Global-Local Forgetting Compensation）  a forgetting compensation framework</li>
+<li>FCIL方法  每个本地用户，自己采集本地数据</li>
+</ol>
+<p>具体方法：</p>
+<ol>
+<li>新旧任务之间的梯度进行补偿  class-aware gradient compensation</li>
+<li>从旧模型蒸馏类别之间语义信息，到新模型，保证对旧模型遗忘没那么快</li>
+<li>代理服务器，和本地用户交流，为本地用户的训练选择最好的旧模型，以供本地用户蒸馏</li>
+</ol>
+<p> T 个任务，假设本地用户会存储旧类别数据，即 exemplar memory</p>
+<p>假设旧类别的数据对每个旧类别来说，样本数量远小于当前任务的样本数量（存疑</p>
+<p>联邦学习假设setting：</p>
+<ol>
+<li>假设数据独立同分布</li>
+<li>假设有三种用户：So老用户（保持旧任务） +  Sb(从旧任务到新任务过渡) + Sn新用户（任务过渡时才会参与联邦学习）</li>
+<li>服务器可以决定类别的数量，但是不知道任何本地用户的分布和序号，也不知道新类别什么时候到来</li>
+</ol>
+<p>目标：在新用户和新类持续到来的情况下学习一个更好的全局模型</p>
+<p>non-iid 不平衡 ： </p>
+<p>本地：</p>
+<ul>
+<li><p>不同用户之间的数据分布不一样</p>
+</li>
+<li><p>存储空间有限，旧类别数据量小 –》 遗忘   每个客户端不一样，所以对旧的遗忘 和 对新的学习速度都是不一样的</p>
+<p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407194659706.png" alt="image-20220407194659706"></p>
+</li>
 </ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/03/stepToblog/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+<p>本地训练loss设计：</p>
+<ol>
+<li><p>交叉熵损失 * 一个系数，样本小权重大，样本大权重小，平衡不同类别之间的损失</p>
+<p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407195213471.png" alt="image-20220407195213471"></p>
+</li>
+<li><p>蒸馏损失 ，对当前训练数据</p>
+<p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407201522899.png" alt="image-20220407201522899"></p>
+</li>
+</ol>
+<p>全局：</p>
+<ul>
+<li>每一轮随机选取一部分用户参与训练</li>
+<li>所以不能确定，对于当前任务，哪一轮全局模型效果最好，因为有一个蒸馏的过程，不知道如何选择哪个全局模型进行蒸馏</li>
+</ul>
+<p>全局补偿：任务转换检测</p>
+<p>蒸馏需要确切知道任务过渡的时间，方法如下：</p>
+<ol>
+<li><p>当前类别之前见过吗？是否是新任务？ （ 但是non-iid ，可能只是某一用户没见过</p>
+</li>
+<li><p>效果变低时？performance reduction</p>
+</li>
+<li><p>(我们的方法)  不用1 2  ，用熵来检测（entropy-based detection）,交叉熵损失在训练时会下降，一旦检测到上升，就可能是新旧任务的过渡</p>
+<p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407202014694.png" alt="image-20220407202014694"></p>
+</li>
+</ol>
+<p>为蒸馏选择更好的旧模型</p>
+<p>哪一轮的全局模型更好呢？怎么确定呢？每一轮只是随机选啊？</p>
+<p>方法：一种交流手段，用户可以和代理服务器交换隐私信息，分享梯度，对梯度重构，重构出该梯度所对应的数据</p>
+<p>但是梯度应该被隐私保护，所以引入一种加密，加 perturbed, 代理服务器再去测试哪一个模型更好</p>
+<p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407202502841.png" alt="image-20220407202502841"></p>
+<p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407202820253.png" alt="image-20220407202820253"></p>
+<p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407202849072.png" alt="image-20220407202849072"></p>
+<p>将来的几个问题：</p>
+<ul>
+<li>交换用户数据怎么保护隐私？：用梯度重构，并且加了perturbed,就算重构了也不是原始数据。 也可以加入一些密码学的操作。</li>
+<li>任务过渡检测。用熵检测，遇到完全新任务效果好。但实际中过渡较平缓，熵增就不管用了。…..</li>
+<li>联邦学习setting  新任务没有标签咋办？新任务来的快怎么高效训练？？</li>
+</ul>
+<p><img src="images/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0.assets/image-20220407204321100.png" alt="image-20220407204321100"></p>
+<p>当前联邦学习还不能适应流动的数据分布的到来</p>
+<p>就是将联邦学习放到动态条件下</p>
+<p>遗忘率？</p>
+
     </div>
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://yuwxl.github.io/2021/11/11/C++%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/header.jpg">
-      <meta itemprop="name" content="nayun">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="yu's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/11/11/C++%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/" class="post-title-link" itemprop="url">C++基础算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-11-11 19:43:41" itemprop="dateCreated datePublished" datetime="2021-11-11T19:43:41+08:00">2021-11-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-08 10:07:39" itemprop="dateModified" datetime="2022-04-08T10:07:39+08:00">2022-04-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/c/" itemprop="url" rel="index"><span itemprop="name">c++</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2021/11/11/C++%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="C++基础算法" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span><br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>53k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>48 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><p><code>1.memset数组初始化方式</code></p>
-<p><code>#include&lt;cstring&gt;  memset函数在这个库中</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int a[10];</span><br><span class="line">memset(a, 0, 40);(数组名， 初始化的参数，byte的数量)</span><br><span class="line">单位是字节byte 10个int 40个byte</span><br><span class="line">从a开始的连续40个byte全部初始化为0，也就实现了整个数组都为0 </span><br><span class="line">memset(a, 0, sizeof a)</span><br><span class="line"></span><br><span class="line">数组复制memcpy</span><br><span class="line">memcpy(复制的目标数组，原数组，多长和memset一样)</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/11/11/C++%E5%9F%BA%E7%A1%80%E7%94%A8%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>nayun
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://yuwxl.github.io/2022/04/04/%E5%A2%9E%E9%87%8F%E5%AD%A6%E4%B9%A0/" title="增量学习 Federated Class Incremental Learning">https://yuwxl.github.io/2022/04/04/增量学习/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+          <div class="post-tags">
+              <a href="/tags/%E9%9A%8F%E7%AC%94/" rel="tag"># 随笔</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/03/stepToblog/" rel="prev" title="Hexo + github 搭建个人博客">
+      <i class="fa fa-chevron-left"></i> Hexo + github 搭建个人博客
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
