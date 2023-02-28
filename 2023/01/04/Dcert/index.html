@@ -1,0 +1,774 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="[论文阅读] DCert: towards secure, efficient, and versatile blockchain light clients DCert:迈向安全、高效、多功能区块链轻客户端 Ji Y, Xu C, Zhang C, et al. DCert: towards secure, efficient, and versatile blockchain light cl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DCert Towards Secure, Efficient, and Versatile Blockchain Light Clients">
+<meta property="og:url" content="https://yuwxl.github.io/2023/01/04/Dcert/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="[论文阅读] DCert: towards secure, efficient, and versatile blockchain light clients DCert:迈向安全、高效、多功能区块链轻客户端 Ji Y, Xu C, Zhang C, et al. DCert: towards secure, efficient, and versatile blockchain light cl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/Dcert.assets/image-20230101111015313.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Dcert.assets/image-20230106121655976.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Dcert.assets/image-20230106122543422.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Dcert.assets/image-20230107105652315.png">
+<meta property="article:published_time" content="2023-01-04T03:21:45.000Z">
+<meta property="article:modified_time" content="2023-02-27T12:04:34.564Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="paper">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/Dcert.assets/image-20230101111015313.png">
+  
+  
+  
+  <title>DCert Towards Secure, Efficient, and Versatile Blockchain Light Clients - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="DCert Towards Secure, Efficient, and Versatile Blockchain Light Clients"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-04 11:21" pubdate>
+          2023年1月4日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          41 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">DCert Towards Secure, Efficient, and Versatile Blockchain Light Clients</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="论文阅读-DCert-towards-secure-efficient-and-versatile-blockchain-light-clients-DCert-迈向安全、高效、多功能区块链轻客户端"><a href="#论文阅读-DCert-towards-secure-efficient-and-versatile-blockchain-light-clients-DCert-迈向安全、高效、多功能区块链轻客户端" class="headerlink" title="[论文阅读] DCert: towards secure, efficient, and versatile blockchain light clients DCert:迈向安全、高效、多功能区块链轻客户端"></a>[论文阅读] DCert: towards secure, efficient, and versatile blockchain light clients DCert:迈向安全、高效、多功能区块链轻客户端</h4><blockquote>
+<p>Ji Y, Xu C, Zhang C, et al. DCert: towards secure, efficient, and versatile blockchain light clients[C]//Proceedings of the 23rd conference on 23rd ACM/IFIP International Middleware Conference. 2022: 269-280.</p>
+</blockquote>
+<p>一种新的去中心化认证框架 DCert, 用安全证书轻松验证区块链完整性</p>
+<p>motivation: 随着区块链的发展，用户查询区块链历史数据进行分析的需求增加。</p>
+<p><strong>存在的问题</strong>：轻客户端想要查询区块链历史数据，要么就是在区块结构中事先加入某种查询信息，这种方式不适合现有的成熟的区块链系统，而且事先构建好的信息也就意味着只能按照某些固定的方式查询，不能随意灵活定制。</p>
+<blockquote>
+<p>It remains a challenge to design a verifiable query processing solution that supports efficient and versatile queries for light clients without modifying the underlying blockchains.如何在不修改底层区块链结构的情况下支持高效通用的可验证查询方法？</p>
+</blockquote>
+<h4 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h4><p><img src="/images/Dcert.assets/image-20230101111015313.png" srcset="/img/loading.gif" lazyload alt="image-20230101111015313"></p>
+<blockquote>
+<p>CI : 有TEE的全节点，作用是1.验证区块链完整性; 2.验证认证索引(authenticated index)完整性（这个是为了验证查询结果）</p>
+<p>SP : 在区块链数据上构建和维护验证索引(authenticated index),以便轻客户端能够灵活查询</p>
+<p>Superlight Client : 与传统轻节点不同的是，超轻节点<strong>只保存</strong>和验证最后一个块以及这个块的证书；同时超轻节点能够灵活任意查询区块链数据</p>
+</blockquote>
+<ol>
+<li><p>作为全节点，CI同步全局状态，并用SGX为构建证书做一些准备信息</p>
+</li>
+<li><p>接收到新block，调用SGX，为这个block构建<strong>证书</strong>以及与之关联的<strong>可验证索引</strong></p>
+</li>
+<li>构建好证书后，CI将证书广播给区块链网络</li>
+<li>超轻节点用公开的证书即可验证区块链完整性和可验证索引完整性，查询同理</li>
+</ol>
+<h4 id="Challenge"><a href="#Challenge" class="headerlink" title="Challenge"></a>Challenge</h4><blockquote>
+<p>1.证书构建过程全在SGX，开销太大，文章后续设计一些方案来优化证书构建算法</p>
+</blockquote>
+<h4 id="证书构建与验证过程"><a href="#证书构建与验证过程" class="headerlink" title="证书构建与验证过程"></a>证书构建与验证过程</h4><p><strong>问题所在</strong>：所以状态信息加载到飞地，然后更新当前块的状态并签名，但是完整的状态数据过大，飞地装不下</p>
+<p><strong>解决方法</strong>：受无状态飞地设计启发</p>
+<ul>
+<li>[ ]  <a target="_blank" rel="noopener" href="https://eprint.iacr.org/2017/201">(NDSS 2019)Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers.  </a></li>
+</ul>
+<p>在飞地外先执行部分证书构建程序。具体来说，飞地外部程序计算读写集合以及相应merkle proof，最后与上一个block以及它的证书一起送入飞地。飞地内部程序重新运行新交易，并验证签名后构建新证书。具体构建与验证算法文章中有详述。</p>
+<p><img src="/images/Dcert.assets/image-20230106121655976.png" srcset="/img/loading.gif" lazyload alt="image-20230106121655976" style="zoom: 40%;"> <img src="/images/Dcert.assets/image-20230106122543422.png" srcset="/img/loading.gif" lazyload alt="image-20230106122543422" style="zoom:40%;"></p>
+<h4 id="可验证查询"><a href="#可验证查询" class="headerlink" title="可验证查询"></a>可验证查询</h4><blockquote>
+<p>SP 要在区块链数据上构建并维护可验证索引，然后向超轻节点提供查询结果和proof<br>支持任何可验证查询只要具有可认证查询处理算法<br>怎么说？</p>
+</blockquote>
+<h5 id="存在问题"><a href="#存在问题" class="headerlink" title="存在问题"></a>存在问题</h5><p>LineageChain、vChain、vChain+都是在区块链块头添加特殊设计的索引，才能支持历史查询或者其他查询，修改了底层区块链结构，Dcert不需要修改底层就能实现按需要查询。</p>
+<p><img src="/images/Dcert.assets/image-20230107105652315.png" srcset="/img/loading.gif" lazyload alt="image-20230107105652315"></p>
+<blockquote>
+<p>DCert does not integrate the authenticated indexes with the underlying blockchain structure.</p>
+</blockquote>
+<h5 id="Dcert做法"><a href="#Dcert做法" class="headerlink" title="Dcert做法"></a>Dcert做法</h5><p>让CI给超轻客户颁发证书以跟踪可认证索引的更新，SP可以提供查询服务。需要什么样的查询，就相应构建什么样的cert</p>
+<blockquote>
+<p>When needed, a new certificate 𝑐𝑒𝑟𝑡𝑖𝑑𝑥2 can be constructed by the enclave of the CI by signing the digest 𝐻𝑖𝑑𝑥2 of this authenticated index (shown in the rightlower part of Fig. 5)</p>
+</blockquote>
+<h5 id="Dcert的TEE环境可选"><a href="#Dcert的TEE环境可选" class="headerlink" title="Dcert的TEE环境可选"></a>Dcert的TEE环境可选</h5><blockquote>
+<p>we note that the DCert can be deployed using any other TEE implementations such as ARM TrustZone, RISC-V MultiZone, and AMD Platform Security Processor.</p>
+</blockquote>
+<h4 id="Dcert-创新点总结"><a href="#Dcert-创新点总结" class="headerlink" title="Dcert 创新点总结"></a>Dcert 创新点总结</h4><blockquote>
+<p>Different from all these prior works, our proposed DCert <strong>does not require modifying the underlying blockchain</strong> [24, 33] and is not confined to specific query types [13, 35, 36]. It can dynamically <strong>support new query types</strong> by constructing corresponding certificates of the indexes in an on-demand manner.</p>
+<p>1.不修改区块链数据结构 2. 通过按需构建证书的方式支持任意查询</p>
+</blockquote>
+<h4 id="提及的重要资料"><a href="#提及的重要资料" class="headerlink" title="提及的重要资料"></a>提及的重要资料</h4><h5 id="1-谷歌区块链历史数据分析2018"><a href="#1-谷歌区块链历史数据分析2018" class="headerlink" title="1.谷歌区块链历史数据分析2018"></a>1.谷歌区块链历史数据分析2018</h5><p><a target="_blank" rel="noopener" href="https://cloud.google.com/blog/topics/public-datasets/bitcoin-in-bigquery-blockchain-analytics-on-public-data">BigQuery 中的比特币：公共数据的区块链分析</a></p>
+<h5 id="2-提供可验证查询的工作，但修改了底层区块链数据结构或者只支持特定类型查询"><a href="#2-提供可验证查询的工作，但修改了底层区块链数据结构或者只支持特定类型查询" class="headerlink" title="2.提供可验证查询的工作，但修改了底层区块链数据结构或者只支持特定类型查询"></a>2.提供可验证查询的工作，但修改了底层区块链数据结构或者只支持特定类型查询</h5><ul>
+<li><p>[ ] <a target="_blank" rel="noopener" href="https://dl.acm.org/doi/abs/10.14778/3329772.3329775">(PVLDB  2019) Fine-grained, secure and efficient data provenance on blockchain systems.区块链系统上细粒度、安全、高效的数据溯源</a></p>
+<blockquote>
+<p>设计一个经过认证的确定性跳转列表，并将该索引集成到链的每个块中</p>
+</blockquote>
+</li>
+<li><p>[ ] <a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/abstract/document/9835165/">(ICDE 2022) vChain+: Optimizing Verifiable Blockchain Boolean Range Queries. Vchain +：优化可验证区块链布尔范围查询</a> ==<a target="_blank" rel="noopener" href="https://xuc.me/publication/icde22/vchain-plus/">作者同团队</a>==</p>
+</li>
+<li><p>[ ] <a target="_blank" rel="noopener" href="https://dl.acm.org/doi/abs/10.1145/3299869.3300083">(ACM SIGMOD) vChain: Enabling Verifiable Boolean Range Queries over Blockchain Databases.Vchain：实现区块链数据库上的可验证布尔范围查询。</a>==作者同团队==</p>
+<blockquote>
+<p>vChain系列：将专门设计的认证索引的根摘要添加到块头中。</p>
+</blockquote>
+</li>
+<li>[x] <a target="_blank" rel="noopener" href="https://xuc.me/publication/tkde/auth-aggregate-queries/">(TKDE 2018 )Authenticating Aggregate Queries over Set-Valued Data with Confidentiality. 对Set - value数据上的聚合查询进行机密性认证。</a>==作者同团队==</li>
+<li>[ ] (INFOCOM 2018 )Searching an encrypted cloud meets blockchain: A decentralized, reliable and fair realization. </li>
+<li>[x] (ICDE 2021)Authenticated Keyword Search in Scalable Hybrid-Storage Blockchains.可扩展混合存储区块链中的认证关键字搜索。==作者同团队==<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/VabVyzTpBpMH9eRm4sLMFw">https://mp.weixin.qq.com/s/VabVyzTpBpMH9eRm4sLMFw</a></li>
+</ul>
+<h5 id="3-MHT-区块链底层数据结构"><a href="#3-MHT-区块链底层数据结构" class="headerlink" title="3.MHT - 区块链底层数据结构"></a>3.MHT - 区块链底层数据结构</h5><p>为了支持区块链的查询，将其扩展到数据库索引中，用于构建可认证索引。例如</p>
+<ul>
+<li>[ ] MHT可以扩展到多叉Merkle B -树( MB-树)，它遵循B + 树结构，并为每个索引项增加相应的哈希<a target="_blank" rel="noopener" href="https://dl.acm.org/doi/abs/10.1145/1142473.1142488">(2006 ACM SIGMOD)Dynamic authenticated index structures for outsourced databases.</a></li>
+</ul>
+<h5 id="4-SGX资料"><a href="#4-SGX资料" class="headerlink" title="4.SGX资料"></a>4.SGX资料</h5><p><a target="_blank" rel="noopener" href="https://eprint.iacr.org/2016/086">Intel SGX explained</a><br><a target="_blank" rel="noopener" href="https://eprint.iacr.org/2016/086.pdf">paper</a></p>
+<h5 id="5-经典区块链威胁模型"><a href="#5-经典区块链威胁模型" class="headerlink" title="5.经典区块链威胁模型"></a>5.经典区块链威胁模型</h5><ul>
+<li>[x]  <a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/abstract/document/7546538/">(SP 2016)Hawk: The Blockchain Model of Cryptography and Privacy-Preserving Smart Contracts Hawk：密码学与隐私保护智能合约的区块链模型。</a></li>
+</ul>
+<h5 id="6-用飞地做区块链隐私保护的工作"><a href="#6-用飞地做区块链隐私保护的工作" class="headerlink" title="6.用飞地做区块链隐私保护的工作"></a>6.用飞地做区块链隐私保护的工作</h5><ul>
+<li><p>[ ] (CCS 2019)Tesseract: Real-time cryptocurrency exchange using trusted hardware超正方体：使用可信硬件的实时加密货币交换</p>
+</li>
+<li><p>[ ] (<em>Euro</em>S&amp;P 2019)Ekiden: A platform for confidentiality-preserving, trustworthy, and performant smart contracts.Ekiden：一个保密性、可信任、可履约的智能合约平台。</p>
+<blockquote>
+<p>Ekiden:通过将共识节点和计算节点与可信硬件分开，提供保密的智能合约解决方案。</p>
+</blockquote>
+</li>
+<li><p>[ ] (ACM SIGMOD 2019)Towards scaling blockchain systems via sharding.通过分片实现区块链系统的扩展。</p>
+<blockquote>
+<p>将新交所支持的可信随机性引入共识协议的运行过程中，构建了一个具有高交易吞吐量的分片区块链系统。</p>
+</blockquote>
+</li>
+<li><p>[ ] (ACM SOSP 2019)Teechain: a secure payment network with asynchronous blockchain access. Teechain：具有异步区块链访问的安全支付网络。</p>
+</li>
+<li><p>[ ] (USENIX Security 2019)BITE: Bitcoin lightweight client privacy using trusted execution. BITE：使用可信执行的比特币轻量级客户端隐私。</p>
+<blockquote>
+<p>BITE将多种私人信息检索和侧通道保护技术与可信硬件集成在一起，以保护客户的地址和交易。</p>
+</blockquote>
+</li>
+<li><p>[x] (PVLDB 2021)SlimChain: Scaling Blockchain Transactions through Off-Chain Storage and Parallel Processing. SlimChain：通过链下存储和并行处理扩展区块链交易。==作者同团队== <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/he_TEVoA0SWobvSLaOwVKw">https://mp.weixin.qq.com/s/he_TEVoA0SWobvSLaOwVKw</a></p>
+</li>
+</ul>
+<ul>
+<li><p>[ ] (USENIX Security 2017)REM: Resource-efficient mining for blockchains. In USENIX Security REM：区块链的资源高效挖掘。</p>
+<blockquote>
+<p>REM提出了一种称为有用工作证明的新共识，它依赖于英特尔 SGX 中可信的随机数生成器来代替hash puzzle。</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="7-分层PKI设计-Intel-SGX-远程认证的成本过高的解决办法"><a href="#7-分层PKI设计-Intel-SGX-远程认证的成本过高的解决办法" class="headerlink" title="7.分层PKI设计,Intel SGX 远程认证的成本过高的解决办法"></a>7.分层PKI设计,Intel SGX 远程认证的成本过高的解决办法</h5><p>(ACM CCS 2016)Town crier: An authenticated data feed for smart contracts.<br>Town crier：面向智能合约的可认证数据源。</p>
+<h5 id="8-以太坊黄皮书"><a href="#8-以太坊黄皮书" class="headerlink" title="8.以太坊黄皮书"></a>8.以太坊黄皮书</h5><p>Merkle Patricia Trie <a target="_blank" rel="noopener" href="https://ethereum.github.io/yellowpaper/paper.pdf">https://ethereum.github.io/yellowpaper/paper.pdf</a><br>Merkle B-tree</p>
+<h5 id="9-可验证轻节点相关工作"><a href="#9-可验证轻节点相关工作" class="headerlink" title="9.可验证轻节点相关工作"></a>9.可验证轻节点相关工作</h5><ul>
+<li><p>[ ] (S&amp;P 2020)Flyclient: Super-light clients for cryptocurrencies. </p>
+</li>
+<li><p>[ ] (SBC 2020)Proof of Necessary Work: Succinct State Verification with Fairness Guarantees.必要工作的证明：简洁的状态验证，具有公平性保证。</p>
+</li>
+<li><p>[x] Plumo: An Ultralight Blockchain Client</p>
+</li>
+</ul>
+<h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><p> <a target="_blank" rel="noopener" href="https://github.com/apache/incubator-teaclave-sgx-sdk">https://github.com/apache/incubator-teaclave-sgx-sdk</a><br> <a target="_blank" rel="noopener" href="https://github.com/rust-blockchain/evm">https://github.com/rust-blockchain/evm</a></p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/blockchain/" class="category-chain-item">blockchain</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/paper/">#paper</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>DCert Towards Secure, Efficient, and Versatile Blockchain Light Clients</div>
+      <div>https://yuwxl.github.io/2023/01/04/Dcert/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/01/10/fabricplusplus/" title="fabric++">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">fabric++</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/04/Blockchain-basics/" title="Blockchain-basics">
+                        <span class="hidden-mobile">Blockchain-basics</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
