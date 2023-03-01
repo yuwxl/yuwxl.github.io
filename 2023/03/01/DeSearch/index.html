@@ -16,28 +16,24 @@
   <meta name="author" content="nayun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="区块链扩展调研区块链扩展有很多角度可以考虑，大致分为以下几种  1 Scalable blockchains — A systematic review 综述将区块链扩展分为水平和垂直 horizontal (node and client scalability)vertical (throughput, block generation rate, latency, and storage)s">
+    <meta name="description" content="Bringing Decentralized Search to Decentralized Services 为去中心化服务提供去中心化的、可验证的、隐私保护的搜索 源码：https:&#x2F;&#x2F;github.com&#x2F;SJTU-IPADS&#x2F;DeSearch 主页：https:&#x2F;&#x2F;www.usenix.org&#x2F;conference&#x2F;osdi21&#x2F;presentation&#x2F;li  目前的中心化服务和其对应的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Blockchain scaling">
-<meta property="og:url" content="https://yuwxl.github.io/2022/12/21/Blockchain%20scaling/index.html">
+<meta property="og:title" content="DeSearch(去中心化搜索引擎)">
+<meta property="og:url" content="https://yuwxl.github.io/2023/03/01/DeSearch/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
-<meta property="og:description" content="区块链扩展调研区块链扩展有很多角度可以考虑，大致分为以下几种  1 Scalable blockchains — A systematic review 综述将区块链扩展分为水平和垂直 horizontal (node and client scalability)vertical (throughput, block generation rate, latency, and storage)s">
+<meta property="og:description" content="Bringing Decentralized Search to Decentralized Services 为去中心化服务提供去中心化的、可验证的、隐私保护的搜索 源码：https:&#x2F;&#x2F;github.com&#x2F;SJTU-IPADS&#x2F;DeSearch 主页：https:&#x2F;&#x2F;www.usenix.org&#x2F;conference&#x2F;osdi21&#x2F;presentation&#x2F;li  目前的中心化服务和其对应的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221221164441931.png">
-<meta property="og:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221222210944185.png">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/UrYDA9tqpqWaXuRChBz3Wec4l1ZyOjlg6nW4agPJ4o6RNJJkL2Kqs6fj0CxAlTPtQEynMO1CD35aMrqwS4mumg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
-<meta property="og:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221223152831558.png">
-<meta property="og:image" content="https://miro.medium.com/max/1050/0*kLYhO4auKt0hpKSf">
-<meta property="article:published_time" content="2022-12-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-02-28T06:50:03.758Z">
+<meta property="og:image" content="https://yuwxl.github.io/images/DeSearch/image-20230301194330238.png">
+<meta property="article:published_time" content="2023-03-01T11:28:33.000Z">
+<meta property="article:modified_time" content="2023-03-01T13:02:58.198Z">
 <meta property="article:author" content="nayun">
-<meta property="article:tag" content="note">
+<meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221221164441931.png">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/DeSearch/image-20230301194330238.png">
   
   
   
-  <title>Blockchain scaling - yu&#39;s blog</title>
+  <title>DeSearch(去中心化搜索引擎) - yu&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -207,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Blockchain scaling"></span>
+            <span id="subtitle" data-typed-text="DeSearch(去中心化搜索引擎)"></span>
           
         </div>
 
@@ -218,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-21 00:00" pubdate>
-          2022年12月21日 凌晨
+        <time datetime="2023-03-01 19:28" pubdate>
+          2023年3月1日 晚上
         </time>
       </span>
     
@@ -230,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          1.4k 字
         
       </span>
     
@@ -241,7 +237,7 @@
         
         
         
-          23 分钟
+          12 分钟
         
       </span>
     
@@ -279,141 +275,38 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Blockchain scaling</h1>
+            <h1 style="display: none">DeSearch(去中心化搜索引擎)</h1>
             
             
               <div class="markdown-body">
                 
-                <h4 id="区块链扩展调研"><a href="#区块链扩展调研" class="headerlink" title="区块链扩展调研"></a>区块链扩展调研</h4><p>区块链扩展有很多角度可以考虑，大致分为以下几种</p>
-<p><img src="/images/Blockchain scaling.assets/image-20221221164441931.png" srcset="/img/loading.gif" lazyload alt="image-20221221164441931"></p>
-<h5 id="1-Scalable-blockchains-—-A-systematic-review-综述"><a href="#1-Scalable-blockchains-—-A-systematic-review-综述" class="headerlink" title="1 Scalable blockchains — A systematic review 综述"></a>1 Scalable blockchains — A systematic review 综述</h5><p>将区块链扩展分为水平和垂直</p>
-<p>horizontal (node and client scalability)<br>vertical (throughput, block generation rate, latency, and storage)scalability</p>
-<p><img src="/images/Blockchain scaling.assets/image-20221222210944185.png" srcset="/img/loading.gif" lazyload alt="image-20221222210944185" style="zoom:50%;"></p>
-<p>被许可的区块链通常有三个主要特征，即治理结构、私有交易和认证过程。</p>
-<p>不可能三角</p>
-<blockquote>
-<p>无限扩展：系统的输出能够随着节点数量的增加而增加。<br>去中心：所有节点的地位都是一致的，不假设某个或者某些节点比其他节点更有能力或者更为可信。<br>安全：对于中本聪共识，能够有1/2的容错；对于BFT共识，能有1/3的容错</p>
+                <h4 id="Bringing-Decentralized-Search-to-Decentralized-Services"><a href="#Bringing-Decentralized-Search-to-Decentralized-Services" class="headerlink" title="Bringing Decentralized Search to Decentralized Services"></a>Bringing Decentralized Search to Decentralized Services</h4><blockquote>
+<p>为去中心化服务提供去中心化的、可验证的、隐私保护的搜索</p>
+<p>源码：<a target="_blank" rel="noopener" href="https://github.com/SJTU-IPADS/DeSearch">https://github.com/SJTU-IPADS/DeSearch</a></p>
+<p>主页：<a target="_blank" rel="noopener" href="https://www.usenix.org/conference/osdi21/presentation/li">https://www.usenix.org/conference/osdi21/presentation/li</a></p>
 </blockquote>
-<p>实际上，“诚实大多数”并不是天然成立的。但究竟诚实大多数的假设成立的条件是什么，<strong>怎样的激励机制才能在非许可的网络里保证诚实大多数</strong>，这个问题时至今日仍旧是共识算法研究的一个未解之谜。</p>
-<h5 id="区块链分片（上中下）"><a href="#区块链分片（上中下）" class="headerlink" title="区块链分片（上中下）"></a>区块链分片（上中下）</h5><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/5s_2JqOAol00t1MzPh_O7g">https://mp.weixin.qq.com/s/5s_2JqOAol00t1MzPh_O7g</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ujV18k14nP7sNxPJbJ1z_w">https://mp.weixin.qq.com/s/ujV18k14nP7sNxPJbJ1z_w</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Fs4cbZeegHtogPzozFYN8A">https://mp.weixin.qq.com/s/Fs4cbZeegHtogPzozFYN8A</a></p>
-<p>根据网络分片，随机分片，根据应用分片，最后都会变成同样的问题，美国的节点可以不相信中国分片的验证结果。趋于中心化，这种自上而下的思路与区块链思想有悖。</p>
-<p>打包者负责：其他分片算法中，小红只管将交易提交给矿工，矿工负责进行后续的步骤，包括在本分片达成共识，在跨片账本达成共识，并将共识的结果作为证据发给目标分片的验证节点，在目标分片达成共识。</p>
-<p>交易者负责：这笔交易的发起者，也就是小红，<strong>有义务提供这个智能合约里面规定的证据来完成这笔交易</strong> （Chainspace）</p>
-<p>在分片中如果只有提交的矿工（下图小刚）能够获得交易费，那么跨分片矿工（小兰，Bob）为啥要配合工作。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/UrYDA9tqpqWaXuRChBz3Wec4l1ZyOjlg6nW4agPJ4o6RNJJkL2Kqs6fj0CxAlTPtQEynMO1CD35aMrqwS4mumg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
-<h4 id="Layer2-扩容方案对比"><a href="#Layer2-扩容方案对比" class="headerlink" title="Layer2 扩容方案对比"></a>Layer2 扩容方案对比</h4><ol>
-<li><p>区块链去中心化的特性,使得存储和计算性能受限,需要进行扩容(Scaling)</p>
-</li>
-<li><p>扩容可以分为</p>
+<p>目前的中心化服务和其对应的去中心化架构的服务</p>
+<p><img src="/images/DeSearch/image-20230301194330238.png" srcset="/img/loading.gif" lazyload alt="image-20230301194330238" style="zoom:50%;"></p>
+<p>已有方案</p>
+<p>去中心化搜索引擎：</p>
 <ol>
-<li><p>On- chain, Layer1。对区块链本身的性能提升.</p>
+<li>IPFS搜索 <a target="_blank" rel="noopener" href="https://ipfs-search.com/#/search">https://ipfs-search.com/#/search</a></li>
+<li>Yacy搜索 <a target="_blank" rel="noopener" href="https://yacy.net/">https://yacy.net/</a>.</li>
+</ol>
+<p>以上方案可以共享索引，并在任意peer节点查询（分布式哈希表），但是不支持可验证，并且peer节点可以监控用户的请求，还是能够泄露隐私。要想保护隐私，用户可以自己运行一个索引节点去访问区块链中的内容，但是大部分用户并没有这个资源和专业知识，一旦依赖其他第三方索引器又回到了内容审查和隐私问题上。</p>
+<p>本文的设计目标</p>
+<p>设计一个去中心化搜索引擎，该引擎满足：</p>
 <ol>
-<li><p>共识。中心化换性能。 Avalanche、 Solana。</p>
-<blockquote>
-<p>修改共识共识不像以太坊那样去中心化，雪崩协议</p>
-</blockquote>
-</li>
-<li><p>Sharding. 分库分表、并行计算。ETH2.0、Near</p>
-</li>
-</ol>
-</li>
-<li><p>Off-chain, Layer2。链下计算，结果上链；离线批处理</p>
-</li>
-</ol>
-</li>
-<li><p>各种 Layer2扩容方案的区别主要在于其保证 State Validity(SV)和Data Availablility(DA)的方式不同</p>
-<ol>
-<li><p>SV，作恶</p>
-<ol>
-<li><p>如何保证 Layer2 State的正确:</p>
-<blockquote>
-<p>ZK Proof?？Fraud Proof？PoA多签？Light Cilent?</p>
-</blockquote>
-</li>
-<li><p>防止Layer2的无效状态回传到主链</p>
-</li>
-<li><p>举例：Solana Wormhole Bridge漏洞，导致Solana上 WHETH被凭空增发,最终将 Ethereum上质押的ETH提走</p>
-</li>
-</ol>
-</li>
-<li><p>DA，跑路</p>
-<ol>
-<li><p>跑路如何保证 Layer2 State的持久化:存去中心化的 Layer1？存中心化的 Layer2？</p>
-</li>
-<li><p>防止Layer2停止维护数据丢失导致资产锁死</p>
-</li>
-<li><p>举例：StarkEx为State的存储方式提供多种选择</p>
-<p><img src="/images/Blockchain scaling.assets/image-20221223152831558.png" srcset="/img/loading.gif" lazyload alt="image-20221223152831558"></p>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h5 id="StateChannel"><a href="#StateChannel" class="headerlink" title="StateChannel"></a>StateChannel</h5><blockquote>
-<p>安全性高，TPS一般，不支持智能合约，目前用的少</p>
-<p><a target="_blank" rel="noopener" href="https://www.nichanank.com/blog/2018/9/27/scalability-pt-2-state-channels-counterfactual-instantiation">https://www.nichanank.com/blog/2018/9/27/scalability-pt-2-state-channels-counterfactual-instantiation</a></p>
-</blockquote>
-<h5 id="Sidechain"><a href="#Sidechain" class="headerlink" title="Sidechain"></a>Sidechain</h5><ol>
-<li><p>原理:Two-way- pegged Cross— chain bridge,主链质押 Token,侧链生成 Wrapped Token。主链Lock侧链Mint,侧链Bun主链 Withdraw。</p>
-</li>
-<li><p>DA &amp; SV</p>
-<ol>
-<li>DA:数据存在 Layer2,由侧链的 Validators保证DA</li>
-<li>SV(多种方案安全性由强到弱)<ol>
-<li>Light Client Bridge(例如Near的 Rainbow bridge):任何人可以将侧链的 State Root同步到主链,主链合约实现侧链的轻客户端，验证 State root保证SV</li>
-<li>Plasma Bridge(例如 Polygon的):侧链 Validators定期将State root同步到主链,主链通过 Fraud proof保证SV</li>
-<li>Multi- signature Bridge(大多数):桥的 Validators定期将State root 或Burn Event 同步到主链，主链检查多签保证SV</li>
-</ol>
-</li>
-</ol>
-</li>
+<li>可验证数据源、真实性</li>
+<li>用户的查询信息保密、不可见</li>
+<li>为用户提供查询执行结果的证明</li>
 </ol>
 <blockquote>
-<p>假设了Two-way-pegged Cross-chain Bridge的都可以视作侧链，用于通过Wrapped Token扩容主链的处理能力</p>
-<p>侧链可以支持智能合约，TPS高</p>
+<p>DESEARCH outsources fragments of search tasks such as crawling, indexing, aggregation, ranking, and query processing to trusted execution environments (TEEs) running on untrusted executors that compose a decentralized network, and introduces new data structures and mechanisms that make executors’ operations reusable and externally verifiable.</p>
+<p>DESEARCH将爬取、索引、聚合、排序、查询处理等搜索任务的片段外包给运行在不可信执行者上的可信执行环境( TEE )，构成一个去中心化的网络，并引入新的数据结构和机制，使执行者的操作具有可重用性和外部可验证性。</p>
+<p>To summarize, the contributions of this paper are: • The design of DESEARCH, the first decentralized search engine that allows any executors with a TEE to join and provide search functionality for decentralized services. • A witness mechanism that organizes verifiable proofs from short-lived executors to form a global dataflow graph. Through these witnesses, DESEARCH offers fast verification for search queries.</p>
+<p>归纳起来，本文的贡献有：•设计了第一个分散式搜索引擎研究，它允许任何具有TEE的执行器加入并为分散式服务提供搜索功能。•设计了一个见证机制，它组织来自短寿命执行器的可验证证明以形成全局数据流图。通过这些见证者，研究为搜索查询提供快速验证。</p>
 </blockquote>
-<h5 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h5><p><a target="_blank" rel="noopener" href="https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf">https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf</a></p>
-<ol>
-<li><p>原理&amp;DA&amp;SV</p>
-<ol>
-<li><p>DA</p>
-<ol>
-<li><p>Rollup: Layer2的数据压缩后上传到 Layer1,由 Layer1保证DA</p>
-<ol>
-<li>Address用树上的序号表示</li>
-<li>value用科学计数法表示</li>
-<li>ZK  rollup省去前面，Optimistic Rollup 不省略</li>
-</ol>
-</li>
-<li><p>Validium:数据不上传到 Layer1，由多个 Validator托管(其实属于 Sidechain类别,但由于是Rollup衍生出来的方案，所以大家更愿意与Rollup一起讨论比较)</p>
-</li>
-<li><p>Volition&amp; zkPorter:用户可以选择数据是否上传到 Layer1（比较贵）（上传以太坊或者自己维护的侧链）</p>
-<p><img src="https://miro.medium.com/max/1050/0*kLYhO4auKt0hpKSf" srcset="/img/loading.gif" lazyload alt="img"></p>
-</li>
-</ol>
-</li>
-<li><p>SV</p>
-<ol>
-<li>ZK Rollup:定期同步 State Root及其 Validity Proof(zK证明)到 Layer1, Layer1用合约验证 Proof保证SV</li>
-<li>Optimistic Rollup:定期同步 State Root到 Layer1, Layer1通过 Fraud proof保证SV</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>项目：<a target="_blank" rel="noopener" href="https://l2beat.com/">https://l2beat.com/</a></p>
-</li>
-</ol>
-<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ol>
-<li>侧链是性能和兼容性最好的。虽然桥的安全性依赖于PoA,但是Validate通常大量持币,从经济角度保证了安全性。</li>
-<li>Rollup因为其安全性高,成为了后起之秀。性能和兼容性尚可,需要继续开发以进一步优化。<ol>
-<li>zkSync的 ZKEVM(兼容)</li>
-<li>Ethereum社区的 ZKEVM(兼容),V神主导的 Sharding+ Rollup(性能</li>
-<li>Stark Ware的caio(兼容)、 Starnet(性能)</li>
-</ol>
-</li>
-<li>市场对扩容抱有很大的期待,可以预期还将继续诞生新的方案和项目,已有的项目会因为落地而迎来市场(比如开发中的这些)。</li>
-</ol>
 
                 
               </div>
@@ -422,11 +315,32 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/blockchain/" class="category-chain-item">blockchain</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/note/">#note</a>
+        <a href="/tags/paper/">#paper</a>
       
     </div>
   
@@ -438,8 +352,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Blockchain scaling</div>
-      <div>https://yuwxl.github.io/2022/12/21/Blockchain scaling/</div>
+      <div>DeSearch(去中心化搜索引擎)</div>
+      <div>https://yuwxl.github.io/2023/03/01/DeSearch/</div>
     </div>
     <div class="license-meta">
       
@@ -451,7 +365,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月21日</div>
+          <div>2023年3月1日</div>
         </div>
       
       
@@ -483,18 +397,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/01/04/fabric/" title="fabric相关">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">fabric相关</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/12/03/SE-note/" title="论文阅读笔记">
-                        <span class="hidden-mobile">论文阅读笔记</span>
+                      <a href="/2023/02/28/sharding/" title="区块链分层分片">
+                        <span class="hidden-mobile">区块链分层分片</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

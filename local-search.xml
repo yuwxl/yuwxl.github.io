@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>DeSearch(去中心化搜索引擎)</title>
+    <link href="/2023/03/01/DeSearch/"/>
+    <url>/2023/03/01/DeSearch/</url>
+    
+    <content type="html"><![CDATA[<h4 id="Bringing-Decentralized-Search-to-Decentralized-Services"><a href="#Bringing-Decentralized-Search-to-Decentralized-Services" class="headerlink" title="Bringing Decentralized Search to Decentralized Services"></a>Bringing Decentralized Search to Decentralized Services</h4><blockquote><p>为去中心化服务提供去中心化的、可验证的、隐私保护的搜索</p><p>源码：<a href="https://github.com/SJTU-IPADS/DeSearch">https://github.com/SJTU-IPADS/DeSearch</a></p><p>主页：<a href="https://www.usenix.org/conference/osdi21/presentation/li">https://www.usenix.org/conference/osdi21/presentation/li</a></p></blockquote><p>目前的中心化服务和其对应的去中心化架构的服务</p><p><img src="/images/DeSearch/image-20230301194330238.png" alt="image-20230301194330238" style="zoom:50%;"></p><p>已有方案</p><p>去中心化搜索引擎：</p><ol><li>IPFS搜索 <a href="https://ipfs-search.com/#/search">https://ipfs-search.com/#/search</a></li><li>Yacy搜索 <a href="https://yacy.net/">https://yacy.net/</a>.</li></ol><p>以上方案可以共享索引，并在任意peer节点查询（分布式哈希表），但是不支持可验证，并且peer节点可以监控用户的请求，还是能够泄露隐私。要想保护隐私，用户可以自己运行一个索引节点去访问区块链中的内容，但是大部分用户并没有这个资源和专业知识，一旦依赖其他第三方索引器又回到了内容审查和隐私问题上。</p><p>本文的设计目标</p><p>设计一个去中心化搜索引擎，该引擎满足：</p><ol><li>可验证数据源、真实性</li><li>用户的查询信息保密、不可见</li><li>为用户提供查询执行结果的证明</li></ol><blockquote><p>DESEARCH outsources fragments of search tasks such as crawling, indexing, aggregation, ranking, and query processing to trusted execution environments (TEEs) running on untrusted executors that compose a decentralized network, and introduces new data structures and mechanisms that make executors’ operations reusable and externally verifiable.</p><p>DESEARCH将爬取、索引、聚合、排序、查询处理等搜索任务的片段外包给运行在不可信执行者上的可信执行环境( TEE )，构成一个去中心化的网络，并引入新的数据结构和机制，使执行者的操作具有可重用性和外部可验证性。</p><p>To summarize, the contributions of this paper are: • The design of DESEARCH, the first decentralized search engine that allows any executors with a TEE to join and provide search functionality for decentralized services. • A witness mechanism that organizes verifiable proofs from short-lived executors to form a global dataflow graph. Through these witnesses, DESEARCH offers fast verification for search queries.</p><p>归纳起来，本文的贡献有：•设计了第一个分散式搜索引擎研究，它允许任何具有TEE的执行器加入并为分散式服务提供搜索功能。•设计了一个见证机制，它组织来自短寿命执行器的可验证证明以形成全局数据流图。通过这些见证者，研究为搜索查询提供快速验证。</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>blockchain</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>paper</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>区块链分层分片</title>
     <link href="/2023/02/28/sharding/"/>
     <url>/2023/02/28/sharding/</url>
