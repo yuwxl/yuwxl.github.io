@@ -24,7 +24,7 @@
 <meta property="og:description" content="POSE: Practical Off-chain Smart Contract Execution 传统链上智能合约执行代价高，限制了区块链的性能。 A prominent solution to address this problem is to execute code off-chain and only use the blockchain as a trust anchor.  mo">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-03-15T01:29:07.000Z">
-<meta property="article:modified_time" content="2023-03-15T02:56:20.660Z">
+<meta property="article:modified_time" content="2023-03-15T12:02:36.236Z">
 <meta property="article:author" content="nayun">
 <meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary_large_image">
@@ -224,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          614 字
+          871 字
         
       </span>
     
@@ -235,7 +235,7 @@
         
         
         
-          6 分钟
+          8 分钟
         
       </span>
     
@@ -287,6 +287,21 @@
 <p>链下系统迅速发展，但是目前的链下系统有以下缺点：costly blockchain interactions, lack of data privacy, huge capital costs from locked collateral, or supporting only a restricted set of applications.</p>
 </blockquote>
 <p>提出POSE——a practical off-chain protocol for smart contracts that addresses the aforementioned shortcomings of existing solutions.</p>
+<p>POSE——面向permissionless区块链的新型的链下智能合约执行框架。每个智能合约都在注册后的TEE池中随机选取TEE来执行。</p>
+<p>假设：</p>
+<ol>
+<li>TEE是安全的，论文中提到了TEE侧信道攻击的缓解措施。</li>
+<li>TEE能够提供安全的远程认证技术</li>
+</ol>
+<p>POSE协议包括：</p>
+<ol>
+<li><p>users:提供输入，与智能合约交互，获得输出</p>
+</li>
+<li><p>operators:拥有并管理基于TEE的系统，通过使用TEE向POSE网络提供计算能力，飞地中来执行用户所触发的状态转换</p>
+</li>
+<li><p>manager——a simple on-chain smart contract ：管理链下的飞地执行单元</p>
+</li>
+</ol>
 <p>参考：</p>
 <p><a target="_blank" rel="noopener" href="https://www.semanticscholar.org/paper/POSE%3A-Practical-Off-chain-Smart-Contract-Execution-Frassetto-Jauernig/c6e55929207c9e91475aeb1a6407db2eb39443d8#related-papers">https://www.semanticscholar.org/paper/POSE%3A-Practical-Off-chain-Smart-Contract-Execution-Frassetto-Jauernig/c6e55929207c9e91475aeb1a6407db2eb39443d8#related-papers</a></p>
 
