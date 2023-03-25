@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>op_git</title>
+    <link href="/2023/03/25/op-git/"/>
+    <url>/2023/03/25/op-git/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1"><a href="#1" class="headerlink" title="1"></a>1</h2><p>复制已有GitHub仓库地址/新建后复制</p><p><code>git@github.com:yuwxl/yublog_sourcecode.git</code></p><h2 id="2"><a href="#2" class="headerlink" title="2"></a>2</h2><p>进入想要上传的项目根目录，git bash</p><p>输入 <code>git init</code></p><p>输入 <code>git add</code> . 添加所有文件</p><p>输入 <code>git commit -m &#39;init&#39;</code> 添加到本地仓库</p><p>输入 <code>git remote add origin 你的仓库地址</code> 添加一个远程主机名，主机名为origin</p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">git push u origin <span class="hljs-keyword">master</span> <span class="hljs-title">将本地的代码上传到远程仓库</span><br></code></pre></td></tr></table></figure><p><a href="http://www.ruanyifeng.com/blog/2014/06/git_remote.html">http://www.ruanyifeng.com/blog/2014/06/git_remote.html</a></p><p><a href="https://backlog.com/git-tutorial/cn/stepup/stepup1_3.html">https://backlog.com/git-tutorial/cn/stepup/stepup1_3.html</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>tool</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>tool</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>POSE</title>
     <link href="/2023/03/15/POSE/"/>
     <url>/2023/03/15/POSE/</url>
