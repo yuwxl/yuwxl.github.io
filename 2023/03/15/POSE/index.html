@@ -23,13 +23,13 @@
 <meta property="og:site_name" content="yu&#39;s blog">
 <meta property="og:description" content="POSE: Practical Off-chain Smart Contract Execution 传统链上智能合约执行代价高，限制了区块链的性能。 A prominent solution to address this problem is to execute code off-chain and only use the blockchain as a trust anchor.  mo">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yuwxl.github.io/2023/03/15/images/POSE/image-20230317101317721.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/POSE/image-20230317101317721.png">
 <meta property="article:published_time" content="2023-03-15T01:29:07.000Z">
-<meta property="article:modified_time" content="2023-03-20T12:36:44.796Z">
+<meta property="article:modified_time" content="2023-03-25T09:20:43.405Z">
 <meta property="article:author" content="nayun">
 <meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yuwxl.github.io/2023/03/15/images/POSE/image-20230317101317721.png">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/POSE/image-20230317101317721.png">
   
   
   
@@ -226,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.1k 字
+          3.2k 字
         
       </span>
     
@@ -237,7 +237,7 @@
         
         
         
-          26 分钟
+          27 分钟
         
       </span>
     
@@ -305,7 +305,7 @@
 <p>workflow:</p>
 <blockquote>
 <p> 在智能合约创建之前，TEE已经利用manager进行了注册 ——详细见V-E1</p>
-<p><img src="../images/POSE/image-20230317101317721.png" srcset="/img/loading.gif" lazyload alt="image-20230317101317721"></p>
+<p><img src="/images/POSE/image-20230317101317721.png" srcset="/img/loading.gif" lazyload alt="image-20230317101317721"></p>
 <ol>
 <li>用户调用manager 初始化合约创建，以创建POSE合约，该过程包括在注册集合中选择飞地，执行之后创建的链下合约</li>
 <li>选择好的creator飞地将对给定的智能合约建立execution pool(pool size is set to 3)</li>
@@ -344,7 +344,12 @@
 </blockquote>
 <p>3）合约执行</p>
 <blockquote>
-<p>user发送执行合约请求给控制飞地E的operator,飞地E执行请求并将新状态传递到飞地pool中所有成员，称为watchdog,如果watchdog没有及时确认，就会被飞地E质询。最终飞地E收到所有watchdog的确认，要么没回复的被踢出pool.飞地E输出最新的public state给user,在所有成员都同意之前，该状态</p>
+<p>user发送执行合约请求给控制飞地E的operator,飞地E执行请求并将新状态传递到飞地pool中所有成员，称为watchdog,如果watchdog没有及时确认，就会被飞地E质询。最终飞地E收到所有watchdog的确认，要么没回复的被踢出pool.飞地E输出最新的public state给user,在所有成员都同意更新之前，该状态不会被广播。飞地E若被踢出后，会有一个$E’$代替</p>
+<p>POSE系统确保在下一次成功执行之前，所有的合约的状态都保持一致</p>
+</blockquote>
+<p>4）质询</p>
+<blockquote>
+<p>如果任何一方在链下执行期间没有收到对其消息的及时响应，它就会挑战链上的接收者。</p>
 </blockquote>
 <p><a target="_blank" rel="noopener" href="https://www.semanticscholar.org/paper/POSE%3A-Practical-Off-chain-Smart-Contract-Execution-Frassetto-Jauernig/c6e55929207c9e91475aeb1a6407db2eb39443d8#related-papers">https://www.semanticscholar.org/paper/POSE%3A-Practical-Off-chain-Smart-Contract-Execution-Frassetto-Jauernig/c6e55929207c9e91475aeb1a6407db2eb39443d8#related-papers</a></p>
 
