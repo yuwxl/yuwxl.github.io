@@ -16,12 +16,12 @@
   <meta name="author" content="nayun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="区块链扩展调研区块链扩展有很多角度可以考虑，大致分为以下几种  1 Scalable blockchains — A systematic review 综述将区块链扩展分为水平和垂直 horizontal (node and client scalability)vertical (throughput, block generation rate, latency, and storage)s">
+    <meta name="description" content="区块链扩展调研Rolluprollup是区块链layer2扩容方案之一，rollup本质上是指一个单独的区块链，用以太坊为例，rollup受以太坊智能合约管理，rollup执行交易并处理数据，以太坊接收数据并存储结果，相当于以太坊的草稿纸。rollup计算快的原因在于它产生新区块的方式并不像传统区块链那么复杂，但以太坊可以审查其处理结果，所以可以保证安全性。「将智能合约计算移到链下，同时仅在链上存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Blockchain scaling">
 <meta property="og:url" content="https://yuwxl.github.io/2022/12/21/Blockchain%20scaling/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
-<meta property="og:description" content="区块链扩展调研区块链扩展有很多角度可以考虑，大致分为以下几种  1 Scalable blockchains — A systematic review 综述将区块链扩展分为水平和垂直 horizontal (node and client scalability)vertical (throughput, block generation rate, latency, and storage)s">
+<meta property="og:description" content="区块链扩展调研Rolluprollup是区块链layer2扩容方案之一，rollup本质上是指一个单独的区块链，用以太坊为例，rollup受以太坊智能合约管理，rollup执行交易并处理数据，以太坊接收数据并存储结果，相当于以太坊的草稿纸。rollup计算快的原因在于它产生新区块的方式并不像传统区块链那么复杂，但以太坊可以审查其处理结果，所以可以保证安全性。「将智能合约计算移到链下，同时仅在链上存">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221221164441931.png">
 <meta property="og:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221222210944185.png">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221223152831558.png">
 <meta property="og:image" content="https://miro.medium.com/max/1050/0*kLYhO4auKt0hpKSf">
 <meta property="article:published_time" content="2022-12-20T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-02-28T06:50:03.758Z">
+<meta property="article:modified_time" content="2023-04-03T07:49:58.897Z">
 <meta property="article:author" content="nayun">
 <meta property="article:tag" content="note">
 <meta name="twitter:card" content="summary_large_image">
@@ -230,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          4k 字
         
       </span>
     
@@ -241,7 +241,7 @@
         
         
         
-          23 分钟
+          34 分钟
         
       </span>
     
@@ -284,7 +284,29 @@
             
               <div class="markdown-body">
                 
-                <h4 id="区块链扩展调研"><a href="#区块链扩展调研" class="headerlink" title="区块链扩展调研"></a>区块链扩展调研</h4><p>区块链扩展有很多角度可以考虑，大致分为以下几种</p>
+                <h4 id="区块链扩展调研"><a href="#区块链扩展调研" class="headerlink" title="区块链扩展调研"></a>区块链扩展调研</h4><h5 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h5><p>rollup是区块链layer2扩容方案之一，rollup本质上是指一个单独的区块链，用以太坊为例，rollup受以太坊智能合约管理，rollup执行交易并处理数据，以太坊接收数据并存储结果，相当于以太坊的草稿纸。rollup计算快的原因在于它产生新区块的方式并不像传统区块链那么复杂，但以太坊可以<strong>审查</strong>其处理结果，所以可以保证安全性。「将智能合约计算移到链下，同时仅在链上存储尽可能少的交易数据。」在 Rollup 中，只有计算（数据处理）处于链下状态。Rollup 处理的每笔交易仍将其输入数据（正式名称为「调用数据」）存储在以太坊上。「审查过程」究竟如何运作取决于 Rollup 是 Optimistic 机制还是零知识机制。在rollup中，以太坊共识才是最终结果的仲裁者，rollup不需要共识机制，与之对比，侧链解决方案中侧链的交易可以是最终的。</p>
+<p><a target="_blank" rel="noopener" href="https://learnblockchain.cn/article/2392">https://learnblockchain.cn/article/2392</a></p>
+<p>区块链性能提升方案</p>
+<p>区块链1层网络：是指区块链基础网络，比特币、以太坊。</p>
+<p>Layer 1 区块链旨在提供区块链的基本功能。任何区块链的主要目标都是优化去<em>中心化、安全性</em>和<em>可扩展性</em>。然而，这种平衡很难达到，这就是为什么将同时实现这三者的概念称为<strong>区块链三难困境</strong>。</p>
+<p>早期的 L1 链（即比特币和以太坊）优先考虑去中心化和安全性，代价是网络随着采用率的提高<strong>而扩展</strong>的能力。这启发了 L1 开发人员要么修改他们的设计以优先考虑扩展，要么在“链下”开发其他解决方案。</p>
+<p>L1 链可以通过调整其原生架构来提高扩展性的方式有限。这些包括：</p>
+<ul>
+<li><p><strong>增加块大小：</strong>块越大，每个块中可以“容纳”更多交易，从而提高网络速度。缺点是保护网络（<strong><a target="_blank" rel="noopener" href="https://www.bitstamp.net/learn/crypto-101/what-are-bitcoin-blockchain-nodes/">节点</a></strong>）的计算机必须增加其硬件要求，这有集中化的风险。</p>
+</li>
+<li><p><strong>改变共识机制</strong>：依赖于权益证明 (PoS) 共识机制的区块链通常比基于工作量证明 (PoW) 的链更快且资源密集度更低。然而，一些人认为这是以低安全性和中心化为代价的。</p>
+</li>
+<li><p><strong>分片</strong>：第 1 层链可以将其数据<em>拆分</em>为预先指定数量的不同数据组件（称为<strong><a target="_blank" rel="noopener" href="https://www.bitstamp.net/learn/blockchain/what-is-sharding-on-ethereum/">分片</a>）</strong>，从而帮助缓解网络拥塞并提高交易速度。然而，分片链之间的通信可能很复杂，导致区块链的安全性较差。</p>
+</li>
+</ul>
+<p>第 1 层要素</p>
+<ul>
+<li>第 1 层指的是基础区块链，在该区块链上生成区块、完成交易，并使用原生加密货币硬币支付交易费用并奖励网络安全人员。最受欢迎的 L1 链是比特币和以太坊。</li>
+<li>区块链三难困境指出，L1 链通常无法同时实现去中心化、安全性和可扩展性。因此，即使通过调整它们的架构，L1 也有很大的局限性。</li>
+<li>像第 2 层解决方案这样的扩展解决方案旨在解决一些 L1 无法适应增加使用的问题。同时，第 0 层区块链为特定于应用程序的 L1 链提供平台，第 3 层指的是支持区块链互操作性的协议。</li>
+</ul>
+<p>2层综述：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/syovS0br4dMB9Ryf0EeFaQ">https://mp.weixin.qq.com/s/syovS0br4dMB9Ryf0EeFaQ</a></p>
+<p>区块链扩展有很多角度可以考虑，大致分为以下几种</p>
 <p><img src="/images/Blockchain scaling.assets/image-20221221164441931.png" srcset="/img/loading.gif" lazyload alt="image-20221221164441931"></p>
 <h5 id="1-Scalable-blockchains-—-A-systematic-review-综述"><a href="#1-Scalable-blockchains-—-A-systematic-review-综述" class="headerlink" title="1 Scalable blockchains — A systematic review 综述"></a>1 Scalable blockchains — A systematic review 综述</h5><p>将区块链扩展分为水平和垂直</p>
 <p>horizontal (node and client scalability)<br>vertical (throughput, block generation rate, latency, and storage)scalability</p>
@@ -373,7 +395,7 @@
 <p>假设了Two-way-pegged Cross-chain Bridge的都可以视作侧链，用于通过Wrapped Token扩容主链的处理能力</p>
 <p>侧链可以支持智能合约，TPS高</p>
 </blockquote>
-<h5 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h5><p><a target="_blank" rel="noopener" href="https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf">https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf</a></p>
+<h5 id="Rollup-1"><a href="#Rollup-1" class="headerlink" title="Rollup"></a>Rollup</h5><p><a target="_blank" rel="noopener" href="https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf">https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf</a></p>
 <ol>
 <li><p>原理&amp;DA&amp;SV</p>
 <ol>
@@ -414,6 +436,7 @@
 </li>
 <li>市场对扩容抱有很大的期待,可以预期还将继续诞生新的方案和项目,已有的项目会因为落地而迎来市场(比如开发中的这些)。</li>
 </ol>
+<p><a target="_blank" rel="noopener" href="https://blog.chain.link/blockchain-scalability-approaches-zh/">https://blog.chain.link/blockchain-scalability-approaches-zh/</a></p>
 
                 
               </div>
