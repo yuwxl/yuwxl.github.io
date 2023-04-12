@@ -16,25 +16,22 @@
   <meta name="author" content="nayun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="【SP 2016】Hawk：The Blockchain Model of Cryptography and Privacy-Preserving Smart Contracts密码学和隐私保护智能合约的区块链模型论文创新点总结 1.提出去中心化智能合约系统Hawk，交易信息不明文存储，程序员可编写私有智能合约，编译器自动生成密码协议。2.正式提出区块链密码学模型。被广泛接受。  motivati">
+    <meta name="description" content="Ekiden 用 Tendermint as the consensus layer  其他论文对Ekiden的评价：  来自POSE  Ekiden [20] is also an off-chain execution system that leverages TEE-enabled compute nodes to perform computation and regular conse">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hawk">
-<meta property="og:url" content="https://yuwxl.github.io/2023/01/13/Hawk/index.html">
+<meta property="og:title" content="Ekiden">
+<meta property="og:url" content="https://yuwxl.github.io/2023/04/10/Ekiden/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
-<meta property="og:description" content="【SP 2016】Hawk：The Blockchain Model of Cryptography and Privacy-Preserving Smart Contracts密码学和隐私保护智能合约的区块链模型论文创新点总结 1.提出去中心化智能合约系统Hawk，交易信息不明文存储，程序员可编写私有智能合约，编译器自动生成密码协议。2.正式提出区块链密码学模型。被广泛接受。  motivati">
+<meta property="og:description" content="Ekiden 用 Tendermint as the consensus layer  其他论文对Ekiden的评价：  来自POSE  Ekiden [20] is also an off-chain execution system that leverages TEE-enabled compute nodes to perform computation and regular conse">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yuwxl.github.io/images/Hawk.assets/image-20230113105305465.png">
-<meta property="og:image" content="https://yuwxl.github.io/images/Hawk.assets/image-20230114101401521.png">
-<meta property="article:published_time" content="2023-01-13T02:32:03.000Z">
-<meta property="article:modified_time" content="2023-04-12T12:38:17.962Z">
+<meta property="article:published_time" content="2023-04-10T07:44:32.000Z">
+<meta property="article:modified_time" content="2023-04-12T12:42:20.945Z">
 <meta property="article:author" content="nayun">
 <meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yuwxl.github.io/images/Hawk.assets/image-20230113105305465.png">
   
   
   
-  <title>Hawk - yu&#39;s blog</title>
+  <title>Ekiden - yu&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -204,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hawk"></span>
+            <span id="subtitle" data-typed-text="Ekiden"></span>
           
         </div>
 
@@ -215,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-01-13 10:32" pubdate>
-          2023年1月13日 上午
+        <time datetime="2023-04-10 15:44" pubdate>
+          2023年4月10日 下午
         </time>
       </span>
     
@@ -227,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          864 字
+          1.9k 字
         
       </span>
     
@@ -238,7 +235,7 @@
         
         
         
-          8 分钟
+          17 分钟
         
       </span>
     
@@ -276,41 +273,39 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hawk</h1>
+            <h1 style="display: none">Ekiden</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="【SP-2016】Hawk：The-Blockchain-Model-of-Cryptography-and-Privacy-Preserving-Smart-Contracts密码学和隐私保护智能合约的区块链模型"><a href="#【SP-2016】Hawk：The-Blockchain-Model-of-Cryptography-and-Privacy-Preserving-Smart-Contracts密码学和隐私保护智能合约的区块链模型" class="headerlink" title="【SP 2016】Hawk：The Blockchain Model of Cryptography and Privacy-Preserving Smart Contracts密码学和隐私保护智能合约的区块链模型"></a>【SP 2016】Hawk：The Blockchain Model of Cryptography and Privacy-Preserving Smart Contracts密码学和隐私保护智能合约的区块链模型</h2><h4 id="论文创新点总结"><a href="#论文创新点总结" class="headerlink" title="论文创新点总结"></a>论文创新点总结</h4><blockquote>
-<p>1.提出去中心化智能合约系统Hawk，交易信息不明文存储，程序员可编写私有智能合约，编译器自动生成密码协议。<br>2.正式提出区块链密码学模型。被广泛接受。</p>
+                <h4 id="Ekiden"><a href="#Ekiden" class="headerlink" title="Ekiden"></a>Ekiden</h4><blockquote>
+<p>用 Tendermint as the consensus layer</p>
 </blockquote>
-<h4 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h4><blockquote>
+<p>其他论文对Ekiden的评价：</p>
 <ol>
-<li>现有区块链忽视了交易隐私性，虽然有假名，但可以被统计分析攻击</li>
-<li>Zerocash 和其他一些等隐私保护的加密货币的设计方面已经取得了进展，但是这些系统放弃了可编程性。</li>
+<li><p>来自POSE</p>
+<blockquote>
+<p>Ekiden [20] is also an off-chain execution system that leverages TEE-enabled compute nodes to perform computation and regular consensus nodes that interact with a blockchain. The major drawback of Ekiden is that it requires every computation step to retrieve its initial status from the blockchain, and it only supports input from one client at a time. Moreover, the atomic delivery of the output of each step requires to wait for publication of the updated state before the output is made available to the client. Hence, any highly interactive protocol with multiple participants (like a card game, for instance) would incur significant delays between turns just to wait for the blockchain. The paper evaluates Ekiden on a fast blockchain, Tendermint, but it does not quantify its latency for interactive protocols on mainstream blockchains like Ethereum or Bitcoin. The Oasis Network uses an updated version of Ekiden [30]; yet, this version still requires to store state on the blockchain after each call.</p>
+</blockquote>
+</li>
+<li><p>来自Astraea</p>
+<blockquote>
+<p>To take advantage of the two techniques, Cheng et al. proposed Ekiden, a system for highly performant and confidentialitypreserving SCs [37]. Ekiden is enabled by a delicate and secure integration of blockchains and trusted hardware that separates computation from consensus. Compute nodes are used to execute SC computation over private data off chain in TEEs, then attest to their correct execution on chain. The blockchain is maintained by consensus nodes which are not equipped with trusted hardware. </p>
+</blockquote>
+</li>
+<li><p>来自 Arbitrum</p>
+<blockquote>
+<p>Ekiden hides the state from external parties and also allows parties of a contract to hide private inputs from one another. The drawback of Ekiden and systems that rely on TEEs more generally is the additional trust required for both privacy as well as the correctness of contract execution. This includes both trusting that the hardware is executing correctly and privately as well as trusting the issuer of the attestation keys (e.g., Intel).</p>
+<p>Ekiden 对外部各方隐藏状态，还允许合同各方对彼此隐藏私人输入。 Ekiden 和更普遍地依赖 TEE 的系统的缺点是隐私和合约执行的正确性需要额外的信任。这包括相信硬件正在正确和私密地执行，以及相信证明密钥的发行者（例如，英特尔）。</p>
+</blockquote>
+</li>
 </ol>
-</blockquote>
-<p>Hawk</p>
-<blockquote>
-<p>Hawk，一个隐私保护智能合约的框架。</p>
-<p>Main idea: Use Zero-knowledge Proofs(ZKP)</p>
-<p>Prove statements about a ciphertext without revealing information about the plaintext</p>
-</blockquote>
-<p><img src="/images/Hawk.assets/image-20230113105305465.png" srcset="/img/loading.gif" lazyload alt="image-20230113105305465" style="zoom:50%;"></p>
-<p>对等网络提供了一种更通用的接口，不仅仅是虚拟银行，而是一种虚拟通用信计算机，可以运行任何用户定义的程序，这些程序可以和金钱交互，也可也查找数据等。</p>
-<p>区块链不能提供隐私</p>
-<p><img src="/images/Hawk.assets/image-20230114101401521.png" srcset="/img/loading.gif" lazyload alt="image-20230114101401521"></p>
-<p>分享：</p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/kaDUSz6rF1hQUCAGY0e_jw">https://mp.weixin.qq.com/s/kaDUSz6rF1hQUCAGY0e_jw</a></p>
-<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/dEFfybyUG7s9i2OAJdKH7A">https://mp.weixin.qq.com/s/dEFfybyUG7s9i2OAJdKH7A</a></p>
-<p>其他论文对其评价：</p>
-<p>1.来自Arbitrum: Scalable, private smart contracts</p>
-<blockquote>
-<p>Hawk [18] is a proposed system for private smart contracts using zkSNARKs [16, 27].</p>
-<p>Hawk [18] 是一个使用 zkSNARKs [16, 27] 的私有智能合约系统。</p>
-<p>Hawk does not improve scalability as each contract requires kilobytes of data to be put on-chain.</p>
-<p>Hawk 不会提高可扩展性，因为每个合约都需要将千字节的数据放在链上。</p>
-</blockquote>
+<p>提及的资料：</p>
+<ol>
+<li><p>安全协议威胁分析范式</p>
+<p>Universally Composable Security: A New Paradigm for Cryptographic Protocols</p>
+</li>
+</ol>
 
                 
               </div>
@@ -356,8 +351,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hawk</div>
-      <div>https://yuwxl.github.io/2023/01/13/Hawk/</div>
+      <div>Ekiden</div>
+      <div>https://yuwxl.github.io/2023/04/10/Ekiden/</div>
     </div>
     <div class="license-meta">
       
@@ -369,7 +364,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年1月13日</div>
+          <div>2023年4月10日</div>
         </div>
       
       
@@ -401,9 +396,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/01/14/papers/" title="papers">
+                      <a href="/2023/04/12/Plasma/" title="Plasma">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">papers</span>
+                        <span class="hidden-mobile">Plasma</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -411,8 +406,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/01/11/Hybrid-Storage/" title="Hybrid-Storage">
-                        <span class="hidden-mobile">Hybrid-Storage</span>
+                      <a href="/2023/04/03/mess/" title="mess">
+                        <span class="hidden-mobile">mess</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
