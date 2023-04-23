@@ -16,15 +16,15 @@
   <meta name="author" content="nayun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Ekiden 用 Tendermint as the consensus layer  其他论文对Ekiden的评价：  来自POSE  Ekiden [20] is also an off-chain execution system that leverages TEE-enabled compute nodes to perform computation and regular conse">
+    <meta name="description" content="Ekiden 用 Tendermint as the consensus layer  团队推文：https:&#x2F;&#x2F;medium.com&#x2F;phala-network&#x2F;ekiden-an-oasis-of-scalability-experiment-5a6bee3a65c8  以太坊之所以效率低下，是因为它把共识、存储和计算放在了同一层，这也是 Ekiden 的结构分为 4 层的原因：  应用层 计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ekiden">
 <meta property="og:url" content="https://yuwxl.github.io/2023/04/10/Ekiden/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
-<meta property="og:description" content="Ekiden 用 Tendermint as the consensus layer  其他论文对Ekiden的评价：  来自POSE  Ekiden [20] is also an off-chain execution system that leverages TEE-enabled compute nodes to perform computation and regular conse">
+<meta property="og:description" content="Ekiden 用 Tendermint as the consensus layer  团队推文：https:&#x2F;&#x2F;medium.com&#x2F;phala-network&#x2F;ekiden-an-oasis-of-scalability-experiment-5a6bee3a65c8  以太坊之所以效率低下，是因为它把共识、存储和计算放在了同一层，这也是 Ekiden 的结构分为 4 层的原因：  应用层 计">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-04-10T07:44:32.000Z">
-<meta property="article:modified_time" content="2023-04-12T13:32:02.526Z">
+<meta property="article:modified_time" content="2023-04-23T07:49:19.672Z">
 <meta property="article:author" content="nayun">
 <meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary_large_image">
@@ -224,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          3k 字
         
       </span>
     
@@ -235,7 +235,7 @@
         
         
         
-          17 分钟
+          25 分钟
         
       </span>
     
@@ -280,6 +280,22 @@
                 
                 <h4 id="Ekiden"><a href="#Ekiden" class="headerlink" title="Ekiden"></a>Ekiden</h4><blockquote>
 <p>用 Tendermint as the consensus layer</p>
+</blockquote>
+<p>团队推文：<a target="_blank" rel="noopener" href="https://medium.com/phala-network/ekiden-an-oasis-of-scalability-experiment-5a6bee3a65c8">https://medium.com/phala-network/ekiden-an-oasis-of-scalability-experiment-5a6bee3a65c8</a></p>
+<blockquote>
+<p>以太坊之所以效率低下，是因为它把共识、存储和计算放在了同一层，这也是 Ekiden 的结构分为 4 层的原因：</p>
+<ul>
+<li>应用层</li>
+<li>计算层</li>
+<li>存储层</li>
+<li>共识层</li>
+</ul>
+<p>计算、存储和一致性的解耦对于实现高性能和安全性至关重要。</p>
+<p>任何基于以太坊的 Dapps 都可以应用 Ekiden 作为扩容解决方案。由于 Ekiden 与 Rust 和 EVM 的兼容性，开发者可以更方便地在 Ekiden 上进行开发。这就是为什么 Ekiden 在开发者和用户的数量上比其他高吞吐量区块链具有明显的优势。</p>
+<p>我们知道，在传统链中，每个节点都会依次执行区块中的所有交易。共识协议确保每个节点可以轻松地相互调用，因为它们共享一个完整且一致的数据库；<strong>Ekiden 高效、安全、健壮，但其合约之间不允许相互调用或访问。</strong>?????</p>
+<p><strong>It results in an increase of scalability as consensus layer focusing on results. </strong> ==链下执行系统核心思路。==</p>
+<p>Still, A flaw exists: application value is reduced due to weakened composability. While emphasizing independent execution of contracts, Ekiden sacrifices mutual operation, for their confidential contracts can only be performed by local computation.</p>
+<p>==Take Ethereum as an example (again). As we know, in traditional chains, each node will sequentially execute all transactions in the block. Consensus protocol ensures each node could easily call each other for they share a complete and consistent database; Ekiden is efficient, secure, and robust, but its contracts are not allowed to call or access to each other.==</p>
 </blockquote>
 <p>其他论文对Ekiden的评价：</p>
 <ol>
