@@ -16,22 +16,24 @@
   <meta name="author" content="nayun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Phala NetworkPhala  Phala Network是一个基于Substrate开发的去中心化隐私计算平台，旨在为Web3.0提供高效、隐私安全、易扩展的计算支持。Phala Network的目标是为个人和企业提供具有隐私性、安全性和可扩展性的计算资源，并通过安全可靠的计算保护数据隐私。Phala Network采用TEE（Trusted Execution Environment）">
+    <meta name="description" content="以太坊的树以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有——棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。状态树采用Merkel-Patrica(MPT)树，而交易树和状态树采用Merkel树。 https:&#x2F;&#x2F;learnblockchain.cn&#x2F;article&#x2F;472 两个用户同时调用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Phala_network">
-<meta property="og:url" content="https://yuwxl.github.io/2023/04/23/Phala-network/index.html">
+<meta property="og:title" content="Ethereum">
+<meta property="og:url" content="https://yuwxl.github.io/2023/04/24/Ethereum/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
-<meta property="og:description" content="Phala NetworkPhala  Phala Network是一个基于Substrate开发的去中心化隐私计算平台，旨在为Web3.0提供高效、隐私安全、易扩展的计算支持。Phala Network的目标是为个人和企业提供具有隐私性、安全性和可扩展性的计算资源，并通过安全可靠的计算保护数据隐私。Phala Network采用TEE（Trusted Execution Environment）">
+<meta property="og:description" content="以太坊的树以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有——棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。状态树采用Merkel-Patrica(MPT)树，而交易树和状态树采用Merkel树。 https:&#x2F;&#x2F;learnblockchain.cn&#x2F;article&#x2F;472 两个用户同时调用">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-04-23T08:12:22.000Z">
-<meta property="article:modified_time" content="2023-04-23T11:30:50.823Z">
+<meta property="og:image" content="https://yuwxl.github.io/2023/04/24/images/Ethereum/image-20230430152206219.png">
+<meta property="og:image" content="https://yuwxl.github.io/2023/04/24/images/Ethereum/image-20230430151717120.png">
+<meta property="article:published_time" content="2023-04-24T12:41:30.000Z">
+<meta property="article:modified_time" content="2023-05-02T02:51:50.216Z">
 <meta property="article:author" content="nayun">
-<meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/2023/04/24/images/Ethereum/image-20230430152206219.png">
   
   
   
-  <title>Phala_network - yu&#39;s blog</title>
+  <title>Ethereum - yu&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Phala_network"></span>
+            <span id="subtitle" data-typed-text="Ethereum"></span>
           
         </div>
 
@@ -212,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-23 16:12" pubdate>
-          2023年4月23日 下午
+        <time datetime="2023-04-24 20:41" pubdate>
+          2023年4月24日 晚上
         </time>
       </span>
     
@@ -224,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          277 字
+          3.5k 字
         
       </span>
     
@@ -235,7 +237,7 @@
         
         
         
-          3 分钟
+          29 分钟
         
       </span>
     
@@ -273,15 +275,62 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Phala_network</h1>
+            <h1 style="display: none">Ethereum</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Phala-Network"><a href="#Phala-Network" class="headerlink" title="Phala Network"></a>Phala Network</h1><p><a target="_blank" rel="noopener" href="http://www.lianchaguan.com/tag/phala">Phala</a></p>
-<blockquote>
-<p>Phala Network是一个基于Substrate开发的去中心化隐私计算平台，旨在为Web3.0提供高效、隐私安全、易扩展的计算支持。Phala Network的目标是为个人和企业提供具有隐私性、安全性和可扩展性的计算资源，并通过安全可靠的计算保护数据隐私。Phala Network采用TEE（Trusted Execution Environment）技术保证计算的隐私安全，采用PoC（Proof of Capacity）共识算法实现共识，同时结合了Substrate和Polkadot等区块链底层技术，具有高度的可扩展性。</p>
+                <h2 id="以太坊的树"><a href="#以太坊的树" class="headerlink" title="以太坊的树"></a>以太坊的树</h2><p>以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有—<strong>—</strong>棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。<br><strong>状态树采用Merkel-Patrica(MPT)树，而交易树和状态树采用Merkel树。</strong></p>
+<p><a target="_blank" rel="noopener" href="https://learnblockchain.cn/article/472">https://learnblockchain.cn/article/472</a></p>
+<h4 id="两个用户同时调用某一智能合约？"><a href="#两个用户同时调用某一智能合约？" class="headerlink" title="两个用户同时调用某一智能合约？"></a>两个用户同时调用某一智能合约？</h4><blockquote>
+<p><strong>区块链智能合约交易并行执行模型综述</strong></p>
 </blockquote>
+<h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h3><p><a target="_blank" rel="noopener" href="https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md">https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md</a></p>
+<p><a target="_blank" rel="noopener" href="https://solidity-cn.readthedocs.io/zh/develop/introduction-to-smart-contracts.html">智能合约概述solidity</a></p>
+<h2 id="区块链可扩展性的限制"><a href="#区块链可扩展性的限制" class="headerlink" title="区块链可扩展性的限制"></a>区块链可扩展性的限制</h2><p>（强推）<a target="_blank" rel="noopener" href="https://vitalik.ca/general/2021/05/23/scaling.html">https://vitalik.ca/general/2021/05/23/scaling.html</a></p>
+<p>以太坊扩容综述 <a target="_blank" rel="noopener" href="https://www.odaily.news/post/5182589">https://www.odaily.news/post/5182589</a></p>
+<h2 id="以太坊交易速度受哪些因素限制"><a href="#以太坊交易速度受哪些因素限制" class="headerlink" title="以太坊交易速度受哪些因素限制"></a>以太坊交易速度受哪些因素限制</h2><p>以太坊现状：网络拥堵、磁盘空间（运行一个全节点很困难）</p>
+<h3 id="scalability、security、decentralization"><a href="#scalability、security、decentralization" class="headerlink" title="scalability、security、decentralization"></a>scalability、security、decentralization</h3><p>Ethereum needs to be able to handle more transactions per second without increasing the size of the nodes in the network. </p>
+<p>不提高单个节点能力的情况下每秒处理更多交易</p>
+<p><strong>The main goal of scalability</strong> is to increase transaction speed (faster finality) and transaction throughput (higher transactions per second) without sacrificing decentralization or security.</p>
+<p>解决存储问题：无状态设计？快照同步</p>
+<p><strong>The only solution to storage size problems is <a target="_blank" rel="noopener" href="https://hackmd.io/@vbuterin/state_expiry_paths">statelessness and state expiry</a>. </strong> <strong>Statelessness</strong> allows for a class of nodes that verify the chain <em>without</em> maintaining permanent storage. <strong>State expiry</strong> pushes out state that has not been recently accessed, forcing users to manually provide proofs to renew it. Both of these paths have been worked at for a long time, and proof-of-concept implementation on statelessness has already started.</p>
+<p>快照同步</p>
+<blockquote>
+<p><img src="../images/Ethereum/image-20230430152206219.png" srcset="/img/loading.gif" lazyload alt="image-20230430152206219"><img src="../images/Ethereum/image-20230430151717120.png" srcset="/img/loading.gif" lazyload alt="image-20230430151717120"></p>
+</blockquote>
+<h2 id="以太坊上的DAPP"><a href="#以太坊上的DAPP" class="headerlink" title="以太坊上的DAPP"></a>以太坊上的DAPP</h2><blockquote>
+<p>一个分布式的App不用将所有状态都存储在区块链上，或者在链上进行所有计算（译者注：比如图形渲染），这样就太花gas了。所以一个分布式App把需要大家共同信任的状态存在区块链上就好了。许多的分布式应用使用后面提到的技术，如IPFS和Gelem，在链下进行分布式存储和计算。虽然没在以太坊上，但仍使用的是区块链技术。</p>
+</blockquote>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a target="_blank" rel="noopener" href="https://www.echenshe.com/tut/bc/3-3.html">以太坊原理</a></p>
+<h2 id="区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？"><a href="#区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？" class="headerlink" title="区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？"></a>区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？</h2><blockquote>
+<p>在区块链中，balance指的是一个地址（或账户）的当前余额，即该地址当前拥有的数字货币数量。这个余额可以通过各种操作进行更改，例如通过转账、挖矿、收到交易等等。</p>
+<p>Payouts是指向某个地址发送数字货币的过程，通常是由一个智能合约触发的。智能合约会从一个地址的余额中扣除一定数量的数字货币，并将这些数字货币发送到另一个地址。</p>
+<p>Deposit是指将数字货币存入一个地址的过程。这通常涉及将数字货币从一个地址发送到另一个地址，其中目标地址是正在存款的地址。在存款完成后，该地址的余额将增加相应的数量。</p>
+<p>这三个概念之间有密切的关系。当一个地址接收到一笔Payouts时，它的余额会增加。当一个地址发送一笔Deposit时，它的余额会减少。因此，一个地址的余额可以看作是从过去的Payouts和Deposit操作的结果。</p>
+</blockquote>
+<h2 id="区块链中withdrawals是啥意思"><a href="#区块链中withdrawals是啥意思" class="headerlink" title="区块链中withdrawals是啥意思?"></a>区块链中withdrawals是啥意思?</h2><blockquote>
+<p>在区块链中，withdrawals指的是从一个地址中取出数字货币的过程。这个过程通常是由持有该地址的用户发起的，用户可以通过发送一笔交易，将数字货币从该地址发送到另一个地址，从而完成取款的过程。</p>
+<p>Withdrawals和balance、payouts和deposit之间存在紧密的关系。一个地址的余额（balance）是由过去所有的收款（deposit）和支出（withdrawals）操作的结果计算得出的。当一个用户发起一笔withdrawals时，它会从该地址的余额中扣除相应的数字货币数量，并将这些数字货币发送到另一个地址。因此，withdrawals可以被视为支出（payouts）的一种形式，因为它是将数字货币从一个地址发送到另一个地址的过程。</p>
+</blockquote>
+<h2 id="区块链中的clogging攻击指的是什么？"><a href="#区块链中的clogging攻击指的是什么？" class="headerlink" title="区块链中的clogging攻击指的是什么？"></a>区块链中的clogging攻击指的是什么？</h2><blockquote>
+<p>Clogging攻击，又称拥塞攻击，是指在区块链网络中通过发送大量无效的交易来占用网络带宽和节点资源的攻击行为。攻击者会发送一些特意构造的无效交易，这些交易会在网络中传播和验证，占用大量的带宽和节点资源，从而导致网络拥堵，让正常的交易无法及时得到验证和处理。这种攻击可以导致交易的延迟和费用的增加，甚至可以完全阻塞网络，让区块链系统失去可用性。</p>
+<p>Clogging攻击是一种分布式拒绝服务（DDoS）攻击的变种，它的目的是通过消耗网络资源来影响区块链的性能和可用性。攻击者可能会利用这种攻击手段来进行勒索或者敲诈，向网络用户和矿工勒索比特币或其他加密货币。对于区块链网络而言，防范这种攻击需要提高网络的抗DDoS能力，采取一些技术措施来限制无效交易的传播和验证，以及加强节点的监管和管理。</p>
+</blockquote>
+<h2 id="无状态区块链"><a href="#无状态区块链" class="headerlink" title="无状态区块链"></a>无状态区块链</h2><p><a target="_blank" rel="noopener" href="https://ethereum.org/zh/roadmap/statelessness/">https://ethereum.org/zh/roadmap/statelessness/</a></p>
+<blockquote>
+<p><strong>In weak statelessness proposing blocks requires access to full state data but verifying blocks requires no state data</strong></p>
+<p>提议方需要存储完整状态，但是验证方反而不要储存，因为安全性是通过验证方确定的，但是不存储完整状态怎么验证提议方的提议？</p>
+</blockquote>
+<h2 id="以太坊3难困境"><a href="#以太坊3难困境" class="headerlink" title="以太坊3难困境"></a>以太坊3难困境</h2><p><a target="_blank" rel="noopener" href="https://www.ledger.com/academy/what-is-the-blockchain-trilemma">什么是以太坊3难困境？</a></p>
+<h2 id="OPTIMISTIC-ROLLUPS-如何与以太坊交互？"><a href="#OPTIMISTIC-ROLLUPS-如何与以太坊交互？" class="headerlink" title="OPTIMISTIC ROLLUPS 如何与以太坊交互？"></a>OPTIMISTIC ROLLUPS 如何与以太坊交互？</h2><p><a target="_blank" rel="noopener" href="https://ethereum.org/en/developers/docs/scaling/optimistic-rollups/">https://ethereum.org/en/developers/docs/scaling/optimistic-rollups/</a></p>
+<p>Optimistic rollups 是在以太坊之上运行的<a target="_blank" rel="noopener" href="https://ethereum.org/en/developers/docs/scaling/#off-chain-scaling">链下扩展解决方案。</a>每个 optimistic rollup 都由一组部署在以太坊网络上的智能合约管理。Optimistic rollups 处理主以太坊链外的交易，但将链下交易（批量）发布到链上 rollup 合约。和以太坊区块链一样，这个交易记录是不可变的，形成了“乐观汇总链”。</p>
+<p>optimistic rollup 的架构包括以下部分：</p>
+<p><strong>链上合约</strong>：optimistic rollups 的操作由运行在以太坊上的智能合约控制。这包括存储汇总块、监控汇总状态更新以及跟踪用户存款的合约。从这个意义上说，以太坊是 optimistic rollups 的基础层或“第 1 层”。</p>
+<p><strong>链下虚拟机（VM）</strong>：虽然管理 optimistic rollup 协议的合约在以太坊上运行，但 rollup 协议在与以太坊虚拟机分开的另一个虚拟机上执行计算和状态<a target="_blank" rel="noopener" href="https://ethereum.org/en/developers/docs/evm/">存储</a>。链下虚拟机是应用程序运行和执行状态更改的地方；它作为 optimistic rollup 的上层或“第 2 层”。</p>
+<p>由于 optimistic rollups 旨在运行为 EVM 编写或编译的程序，因此链下 VM 包含许多 EVM 设计规范。此外，在链上计算的欺诈证明允许以太坊网络强制执行在链下 VM 中计算的状态更改的有效性。</p>
+<p>Optimistic rollups 被描述为“混合扩展解决方案”，因为虽然它们作为单独的协议存在，但它们的安全属性源自以太坊。除其他事项外，以太坊保证汇总的链下计算的正确性以及计算背后数据的可用性。这使得 optimistic rollups 比不依赖以太坊安全的纯链下扩展协议（例如，<a target="_blank" rel="noopener" href="https://ethereum.org/en/developers/docs/scaling/sidechains/">侧链）更安全。</a></p>
+<h2 id="Trust-Zone"><a href="#Trust-Zone" class="headerlink" title="Trust Zone"></a>Trust Zone</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/guyongqiangx/article/details/78020257">什么是TrustZone</a></p>
 
                 
               </div>
@@ -291,13 +340,6 @@
               <div class="post-metas my-3">
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/paper/">#paper</a>
-      
-    </div>
-  
 </div>
 
 
@@ -306,8 +348,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Phala_network</div>
-      <div>https://yuwxl.github.io/2023/04/23/Phala-network/</div>
+      <div>Ethereum</div>
+      <div>https://yuwxl.github.io/2023/04/24/Ethereum/</div>
     </div>
     <div class="license-meta">
       
@@ -319,7 +361,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年4月23日</div>
+          <div>2023年4月24日</div>
         </div>
       
       
@@ -351,9 +393,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/24/Ethereum/" title="Ethereum">
+                      <a href="/2023/04/25/layer2-sum/" title="layer2_sum">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Ethereum</span>
+                        <span class="hidden-mobile">layer2_sum</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -361,8 +403,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/21/Arbitrum/" title="Arbitrum">
-                        <span class="hidden-mobile">Arbitrum</span>
+                      <a href="/2023/04/23/Phala-network/" title="Phala_network">
+                        <span class="hidden-mobile">Phala_network</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
