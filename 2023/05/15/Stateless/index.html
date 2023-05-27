@@ -16,15 +16,15 @@
   <meta name="author" content="nayun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers">
+    <meta name="description" content="Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers 来自Ekiden评价,该论文引用为[40]  Thus, while it’s tempting to use a blockchain to checkpoint a TEE’s state (e.g. [40]), the lack of">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Stateless">
 <meta property="og:url" content="https://yuwxl.github.io/2023/05/15/Stateless/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
-<meta property="og:description" content="Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers">
+<meta property="og:description" content="Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers 来自Ekiden评价,该论文引用为[40]  Thus, while it’s tempting to use a blockchain to checkpoint a TEE’s state (e.g. [40]), the lack of">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-15T11:13:27.000Z">
-<meta property="article:modified_time" content="2023-05-15T11:14:11.896Z">
+<meta property="article:modified_time" content="2023-05-27T08:00:52.308Z">
 <meta property="article:author" content="nayun">
 <meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary_large_image">
@@ -224,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          69 字
+          1.6k 字
         
       </span>
     
@@ -235,7 +235,7 @@
         
         
         
-          1 分钟
+          14 分钟
         
       </span>
     
@@ -278,7 +278,20 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Giving-State-to-the-Stateless-Augmenting-Trustworthy-Computation-with-Ledgers"><a href="#Giving-State-to-the-Stateless-Augmenting-Trustworthy-Computation-with-Ledgers" class="headerlink" title="Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers"></a>Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers</h1>
+                <h1 id="Giving-State-to-the-Stateless-Augmenting-Trustworthy-Computation-with-Ledgers"><a href="#Giving-State-to-the-Stateless-Augmenting-Trustworthy-Computation-with-Ledgers" class="headerlink" title="Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers"></a>Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers</h1><ol>
+<li><p>来自Ekiden评价,该论文引用为[40]</p>
+<blockquote>
+<p>Thus, while it’s tempting to use a blockchain to checkpoint a TEE’s state (e.g. [40]), the lack of a reliable timer renders it tricky for a TEE to ascertain an up-to-date view of the blockchain.</p>
+<p>因此，虽然很想使用区块链来检查 TEE 的状态（例如 [40]），但由于缺乏可靠的计时器，TEE 很难确定区块链的最新视图。</p>
+<p>The missing timer also makes it hard for TEEs to verify that an item has been persisted in the blockchain, i.e. to establish “proofs of publication,” as coined by [40]. However [40] doesn’t consider threats caused by lack of trustworthy time in TEEs—e.g., injection of old, fake, easily minable blocks—that are critical in PoW-based blockchains. One of our contributions is a general, time-based proof-of-publication protocol that is secure against network adversary delaying clock read, as we now briefly explain.</p>
+<p>缺少计时器还使 TEE 很难验证某个项目是否已保存在区块链中，即建立“发布证明”，如 [40] 所创造的那样。然而，[40] 没有考虑因 TEE 中缺乏可信时间而造成的威胁——例如，注入旧的、假的、容易开采的区块——这在基于 PoW 的区块链中至关重要。我们的贡献之一是一种通用的、基于时间的发布证明协议，该协议可以防止网络对手延迟时钟读取，正如我们现在简要解释的那样。</p>
+<p>The idea of combining ledgers with trusted hardware for smart contract execution is briefly mentioned in Hawk and also treated in [21], [40]. [21] combines blockchain with TEE to achieve one-time programs that resemble smart contracts but only aim for a restricted functionality (one-shot MPC with N parties providing input). [40] includes a basic prototype, but omits critical system design issues; e.g., its permissionless “proof-of-publication” overlooks the technical difficulties arising from lack of trusted wall-clock time in enclaves.</p>
+<p>Hawk 中简要提到了将分类账与可信硬件相结合以执行智能合约的想法，并在 [21]、[40] 中进行了处理。 [21] 将区块链与 TEE 相结合，以实现类似于智能合约但仅针对受限功能的一次性程序（一次性 MPC，N 方提供输入）。 [40] 包括一个基本原型，但省略了关键的系统设计问题；例如，其未经许可的“发布证明”忽略了由于飞地中缺乏可信的挂钟时间而产生的技术困难。</p>
+</blockquote>
+</li>
+<li></li>
+</ol>
+
                 
               </div>
             

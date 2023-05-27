@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423211944994.png">
 <meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423212040551.png">
 <meta property="article:published_time" content="2023-04-21T05:25:16.000Z">
-<meta property="article:modified_time" content="2023-05-01T12:27:05.497Z">
+<meta property="article:modified_time" content="2023-05-27T09:34:38.548Z">
 <meta property="article:author" content="nayun">
 <meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary_large_image">
@@ -241,7 +241,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          977 字
+          2.8k 字
         
       </span>
     
@@ -252,7 +252,7 @@
         
         
         
-          9 分钟
+          24 分钟
         
       </span>
     
@@ -353,6 +353,15 @@
 <p><img src="/images/Arbitrum/image-20230423211838112.png" srcset="/img/loading.gif" lazyload alt="image-20230423211838112" style="zoom:50%;"></p>
 <p><img src="/images/Arbitrum/image-20230423211944994.png" srcset="/img/loading.gif" lazyload alt="image-20230423211944994" style="zoom:50%;"></p>
 <p><img src="/images/Arbitrum/image-20230423212040551.png" srcset="/img/loading.gif" lazyload alt="image-20230423212040551" style="zoom:50%;"></p>
+<p>其他论文的评价：</p>
+<ol>
+<li><p>来自fastkitten</p>
+<blockquote>
+<p>Arbitrum The disadvantage of state channels, i.e., the potentially heavy on-chain execution in case of dispute, is being addressed by the work Arbitrum [34]. Every smart contract, which Arbitrum models as a virtual machine (VM), to be executed off-chain has a set of “manager” parties responsible for correct VM execution. As long as managers reach consensus on the VM state transitions, execution progresses off-chain similarly as in state channels. In case of dispute, managers do not perform the VM state transition on-chain as in state channel. Instead, one manager can propose the next VM state which other managers can challenge. If the newly posted state is challenged, the proposer and the challenger run an interactive protocol via the blockchain, so-called “bisection” protocol, in which one disputable computation step is eventually identified and whose correct execution is verified on-chain. Hence, instead of executing the entire state transition on-chain (which might potentially require a lot of time/space), only one computation step of the state transition has to be performed on-chain in addition to the bisection protocol (which might require O(log(s)) blockchain transactions, where s is the number of computations steps in the state transition). The Arbitrum protocol works under the assumption that at least one manager of the VM is honest and challenges false states if they are posted by other managers. Since the blockchain interaction during the bisection protocol is rather expensive, Arbitrum uses monetary incentives to motivate managers to behave honestly and follow the protocol.</p>
+<p>Arbitrum 工作 Arbitrum [34] 正在解决状态通道的缺点，即在发生争议时可能会在链上执行大量任务。 Arbitrum 将其建模为虚拟机 (VM) 并在链下执行的每个智能合约都有一组“管理”方负责正确执行 VM。只要管理人员就 VM 状态转换达成共识，执行就会像在状态通道中一样在链外进行。在有争议的情况下，管理者不会像在状态通道中那样在链上执行 VM 状态转换。相反，一个管理器可以提议其他管理器可以挑战的下一个 VM 状态。如果新发布的状态受到挑战，提议者和挑战者通过区块链运行一个交互协议，即所谓的“二分法”协议，其中一个有争议的计算步骤最终被识别出来，并在链上验证其正确执行。因此，不是在链上执行整个状态转换（这可能需要大量的时间/空间），除了二分协议（这可能需要O(log(s)) 区块链事务，其中 s 是状态转换中的计算步骤数）。 Arbitrum 协议的工作假设是，至少有一名 VM 管理员是诚实的，如果其他管理员发布错误状态，则挑战这些错误状态。由于二分协议期间的区块链交互相当昂贵，Arbitrum 使用货币激励来激励管理者诚实行事并遵守协议。</p>
+</blockquote>
+</li>
+</ol>
 
                 
               </div>

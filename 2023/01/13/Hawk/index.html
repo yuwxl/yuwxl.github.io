@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://yuwxl.github.io/images/Hawk.assets/image-20230113105305465.png">
 <meta property="og:image" content="https://yuwxl.github.io/images/Hawk.assets/image-20230114101401521.png">
 <meta property="article:published_time" content="2023-01-13T02:32:03.000Z">
-<meta property="article:modified_time" content="2023-04-12T12:38:17.962Z">
+<meta property="article:modified_time" content="2023-05-27T09:52:54.883Z">
 <meta property="article:author" content="nayun">
 <meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary_large_image">
@@ -227,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          864 字
+          2.5k 字
         
       </span>
     
@@ -238,7 +238,7 @@
         
         
         
-          8 分钟
+          22 分钟
         
       </span>
     
@@ -303,6 +303,10 @@
 <p>分享：</p>
 <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/kaDUSz6rF1hQUCAGY0e_jw">https://mp.weixin.qq.com/s/kaDUSz6rF1hQUCAGY0e_jw</a></p>
 <p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/dEFfybyUG7s9i2OAJdKH7A">https://mp.weixin.qq.com/s/dEFfybyUG7s9i2OAJdKH7A</a></p>
+<blockquote>
+<p>货币支付的逻辑是简单且固定的，而具有general-purpose的智能合约的逻辑是图灵完备的，因此，其逻辑将不再是固定的。智能合约本质上是链上的代码，对于一个智能合约func(input), 大伙儿/不同的矿工都执行一遍该代码，对比给定的结果和本地输出的结果，如果一样，就accept该智能合约相关的交易。该过程本质上是为了“计算完整性 Integrity of computing”， 能够保证该程序执行结果的一致性，从而解决不同parties之间的trust问题。</p>
+<p>Hawk尝试解决这个问题。at a high-level view，它在Zerocash的基础之上引入了一个Manager，再结合zk-SNARKs来实现。该manager充当半个trusted third party的角色。</p>
+</blockquote>
 <p>其他论文对其评价：</p>
 <p>1.来自Arbitrum: Scalable, private smart contracts</p>
 <blockquote>
@@ -310,6 +314,11 @@
 <p>Hawk [18] 是一个使用 zkSNARKs [16, 27] 的私有智能合约系统。</p>
 <p>Hawk does not improve scalability as each contract requires kilobytes of data to be put on-chain.</p>
 <p>Hawk 不会提高可扩展性，因为每个合约都需要将千字节的数据放在链上。</p>
+</blockquote>
+<p>2.来自fastkitten</p>
+<blockquote>
+<p>None of the solutions discussed above achieves privacy preserving off-chain contract execution. This is tackled by the work Hawk [36] which keeps the state, all inputs and all outputs private. Hawk contracts [35] achieve these properties using Ethereum smart contracts that judge computations done by a third party (a manager), who executes the contract on private inputs and is trusted not to reveal any secrets. First all parties submit their encrypted inputs to the contract, then the manager computes the result and proves its correctness with a zero knowledge proof. If the proof is correct, the contract pays out money accordingly. While the authors of Hawk discuss the possibility to use SGX for instantiating the manager and reducing the trust assumptions in this party, it still leverages the blockchain for every user input, and it only supports single round protocols which is their main difference to FASTKITTEN. A possible extension to multi-round protocols would be difficult to achieve without letting the smart contract verify the correctness of every round individually, and thus create a large blockchain communication overhead.</p>
+<p>上面讨论的解决方案都没有实现保护隐私的链下合约执行。 Hawk [36] 解决了这个问题，它使状态、所有输入和所有输出保持私有。 Hawk 合同 [35] 使用以太坊智能合同实现这些属性，该合同判断第三方（经理）所做的计算，第三方根据私人输入执行合同，并且被信任不会泄露任何秘密。首先各方将他们的加密输入提交给合约，然后管理者计算结果并用零知识证明证明其正确性。如果证明是正确的，合同就会相应地支付款项。虽然 Hawk 的作者讨论了使用 SGX 来实例化管理器并减少这一方的信任假设的可能性，但它仍然为每个用户输入利用区块链，并且它仅支持单轮协议，这是它们与 FASTKITTEN 的主要区别。如果不让智能合约单独验证每一轮的正确性，将很难实现对多轮协议的可能扩展，从而产生大量的区块链通信开销。</p>
 </blockquote>
 
                 
