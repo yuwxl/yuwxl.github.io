@@ -16,18 +16,18 @@
   <meta name="author" content="nayun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="更改区块链执行架构 BIDL：http:&#x2F;&#x2F;xintelligence.pro&#x2F;archives&#x2F;754">
+    <meta name="description" content="更改区块链执行架构 BIDL：http:&#x2F;&#x2F;xintelligence.pro&#x2F;archives&#x2F;754   NeuChain: A Fast Permissioned Blockchain System with Deterministic Ordering NeuChain：具有确定性排序的快速许可区块链系统（VLDB 2022） 概述：这篇论文的方法是基于确定性执行的无序快速许可区块链系统的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="like_slimchain">
 <meta property="og:url" content="https://yuwxl.github.io/2023/05/24/like-slimchain/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
-<meta property="og:description" content="更改区块链执行架构 BIDL：http:&#x2F;&#x2F;xintelligence.pro&#x2F;archives&#x2F;754">
+<meta property="og:description" content="更改区块链执行架构 BIDL：http:&#x2F;&#x2F;xintelligence.pro&#x2F;archives&#x2F;754   NeuChain: A Fast Permissioned Blockchain System with Deterministic Ordering NeuChain：具有确定性排序的快速许可区块链系统（VLDB 2022） 概述：这篇论文的方法是基于确定性执行的无序快速许可区块链系统的">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yuwxl.github.io/images/like-slimchain/image-20230524103247037.png">
 <meta property="og:image" content="https://yuwxl.github.io/images/like-slimchain/image-20230524103351434.png">
 <meta property="og:image" content="https://yuwxl.github.io/images/like-slimchain/image-20230622182300137.png">
 <meta property="article:published_time" content="2023-05-24T02:31:43.000Z">
-<meta property="article:modified_time" content="2023-06-22T10:45:48.044Z">
+<meta property="article:modified_time" content="2023-07-04T02:25:51.172Z">
 <meta property="article:author" content="nayun">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://yuwxl.github.io/images/like-slimchain/image-20230524103247037.png">
@@ -227,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          51 字
+          1.1k 字
         
       </span>
     
@@ -238,7 +238,7 @@
         
         
         
-          1 分钟
+          10 分钟
         
       </span>
     
@@ -285,6 +285,22 @@
 <p>BIDL：<a target="_blank" rel="noopener" href="http://xintelligence.pro/archives/754">http://xintelligence.pro/archives/754</a></p>
 <p><img src="/images/like-slimchain/image-20230524103351434.png" srcset="/img/loading.gif" lazyload alt="image-20230524103351434"></p>
 <p><img src="/images/like-slimchain/image-20230622182300137.png" srcset="/img/loading.gif" lazyload alt="image-20230622182300137"></p>
+<p>NeuChain: A Fast Permissioned Blockchain System with Deterministic Ordering</p>
+<p>NeuChain：具有确定性排序的快速许可区块链系统（VLDB 2022）</p>
+<p>概述：这篇论文的方法是基于确定性执行的无序快速许可区块链系统的设计和实现。论文提出了一个执行-验证（EV）的架构，通过给每个交易分配一个全局唯一的ID来隐式地确定交易的执行顺序，从而消除了昂贵的排序阶段。论文还设计和实现了一个基于EV架构的区块链原型NeuChain，采用了一些优化技术，如异步区块生成和流水线，并提供了一些安全机制来抵御恶意攻击。</p>
+<p>Code :<a target="_blank" rel="noopener" href="https://github.com/iDC-NEU/NeuChain">https://github.com/iDC-NEU/NeuChain</a></p>
+<p>相关知识：</p>
+<ol>
+<li><p>strict serializability：Strict serializability is a strong level of isolation that ensures that the outcome of transactions executed in parallel is equal to one in which the transactions had been executed atomically and sequentially in the order apparent to an external observer.</p>
+</li>
+<li><p>确定性排序是一种数据库技术，它可以保证在不同的副本上执行相同的事务时，得到相同的结果。确定性排序可以避免使用昂贵的复制和提交协议，提高数据库的性能和可扩展性。确定性排序的一种方法是给每个事务分配一个全局唯一的ID，根据这个ID来隐式地确定事务的执行顺序。</p>
+</li>
+<li><p>并发控制协议：1）两阶段Two-phase；2）Optimistic Concurrency Control (OCC)；3）Serializable Snapshot Isolation (SSI)</p>
+</li>
+</ol>
+<p>相关论文：</p>
+<p>Xia H, Chen J, Ma N, et al. <strong>Efficient Execution of Blockchain Transactions Through Deterministic Concurrency Control</strong>[C]//International Conference on Database Systems for Advanced Applications. Cham: Springer Nature Switzerland, 2023: 509-518.</p>
+<p>注：链下执行系统的设计时可能会考虑到分布式提交协议，并发控制等问题</p>
 
                 
               </div>
