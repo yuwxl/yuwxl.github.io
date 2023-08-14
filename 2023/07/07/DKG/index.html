@@ -23,22 +23,22 @@
 <meta property="og:site_name" content="yu&#39;s blog">
 <meta property="og:description" content="分布式密钥生成 Distributed key generation is a main component of threshold cryptosystems. It allows a set of n servers to jointly generate a pair of public and private keys according to the distribution defi">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230708103947867.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230708104436980.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230708104423802.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230710171932661.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230711143932669.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230711155256538.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230711155003494.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230712163150262.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230712183325531.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230712184604273.png">
-<meta property="og:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230712184616968.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230708103947867.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230708104436980.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230708104423802.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230710171932661.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230711143932669.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230711155256538.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230711155003494.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230712163150262.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230712183325531.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230712184604273.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230712184616968.png">
 <meta property="article:published_time" content="2023-07-07T13:46:02.000Z">
-<meta property="article:modified_time" content="2023-07-16T04:31:00.054Z">
+<meta property="article:modified_time" content="2023-08-14T08:23:29.611Z">
 <meta property="article:author" content="nayun">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yuwxl.github.io/2023/07/07/images/DKG/image-20230708103947867.png">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/DKG/image-20230708103947867.png">
   
   
   
@@ -296,9 +296,9 @@
 <p>在无可信中心的情况下为一组参与者生成对应于一个主公钥的私钥份额</p>
 <p>不希望由任何人指定私钥，而是每个参与者都提供一个随机性，有恶意参与者</p>
 </blockquote>
-<p><img src="../images/DKG/image-20230708103947867.png" srcset="/img/loading.gif" lazyload alt="image-20230708103947867"></p>
-<p><img src="../images/DKG/image-20230708104436980.png" srcset="/img/loading.gif" lazyload alt="image-20230708104436980"></p>
-<p><img src="../images/DKG/image-20230708104423802.png" srcset="/img/loading.gif" lazyload alt="image-20230708104423802"></p>
+<p><img src="/images/DKG/image-20230708103947867.png" srcset="/img/loading.gif" lazyload alt="image-20230708103947867"></p>
+<p><img src="/images/DKG/image-20230708104436980.png" srcset="/img/loading.gif" lazyload alt="image-20230708104436980"></p>
+<p><img src="/images/DKG/image-20230708104423802.png" srcset="/img/loading.gif" lazyload alt="image-20230708104423802"></p>
 <h2 id="一、DKG是什么DKG"><a href="#一、DKG是什么DKG" class="headerlink" title="一、DKG是什么DKG"></a>一、DKG是什么DKG</h2><p>(分布式密钥生成)提供了一种去中心化的方法,使各个参与方在不相互信任的情况下生成共享密钥,以确保安全通信和多方参与的机密性。</p>
 <p>DKG技术的关键思想是使用多方计算( secure multiparty computation)和秘钥共享({ secretsharing)的概念。</p>
 <ul>
@@ -310,8 +310,8 @@
 <p>2.密钥管理和安全多方计算:DKG技术可用于密钥管理方案中,以生成和分发用于加密通信和身份验证的密钥。此外,它也可以用于安全多方计算场景( Secure MultipartyComputation,SMC),使多个参与方能够在不泄露私有数据的情况下进行协作计算</p>
 <p>3.分布式存储系统:DKG可用于分布式存储系统中,用于生成和管理用于数据保护和访问控制的密钥,以确保数据的机密性和完整性。</p>
 <p>4.门限密码学:DKG是门限密码学方案中的关键组成部分,例如门限签名方案和门限加密方案。它用于在门限数量的参与方之间生成共享密钥,从而实现高度安全和鲁棒的密码方案。</p>
-<p><img src="../images/DKG/image-20230710171932661.png" srcset="/img/loading.gif" lazyload alt="image-20230710171932661"></p>
-<p><img src="../images/DKG/image-20230711143932669.png" srcset="/img/loading.gif" lazyload alt="image-20230711143932669"></p>
+<p><img src="/images/DKG/image-20230710171932661.png" srcset="/img/loading.gif" lazyload alt="image-20230710171932661"></p>
+<p><img src="/images/DKG/image-20230711143932669.png" srcset="/img/loading.gif" lazyload alt="image-20230711143932669"></p>
 <blockquote>
 <p>该段描述涉及阈值 Schnorr 签名方案中的步骤，解释了参与方如何运行 JF-DKG 协议来生成一次性秘密 k 的秘密分享以及公共值 r = gk。具体的步骤如下：</p>
 <ol>
@@ -328,14 +328,14 @@
 </ol>
 <p>通过执行以上步骤，阈值 Schnorr 签名方案中的参与方可以生成有效的签名。每个参与方根据自己持有的一次性秘密份额 zi 和挑战值 c 计算出自己的份额分享 si，并通过验证和重构确保了份额分享的正确性。最终，所有参与方的份额分享被合并计算出签名值 s。这样，阈值 Schnorr 签名方案就完成了消息 m 的签名过程。</p>
 </blockquote>
-<p><img src="../images/DKG/image-20230711155256538.png" srcset="/img/loading.gif" lazyload alt="image-20230711155256538"></p>
-<p><img src="../images/DKG/image-20230711155003494.png" srcset="/img/loading.gif" lazyload alt="image-20230711155003494"></p>
+<p><img src="/images/DKG/image-20230711155256538.png" srcset="/img/loading.gif" lazyload alt="image-20230711155256538"></p>
+<p><img src="/images/DKG/image-20230711155003494.png" srcset="/img/loading.gif" lazyload alt="image-20230711155003494"></p>
 <blockquote>
 <p>论文 <a target="_blank" rel="noopener" href="https://www.usenix.org/conference/usenixsecurity23/presentation/das">https://www.usenix.org/conference/usenixsecurity23/presentation/das</a></p>
 </blockquote>
-<p><img src="../images/DKG/image-20230712163150262.png" srcset="/img/loading.gif" lazyload alt="image-20230712163150262"></p>
-<h2 id="拉格朗日插值"><a href="#拉格朗日插值" class="headerlink" title="拉格朗日插值"></a>拉格朗日插值</h2><p><img src="../images/DKG/image-20230712183325531.png" srcset="/img/loading.gif" lazyload alt="image-20230712183325531"></p>
-<p><img src="../images/DKG/image-20230712184604273.png" srcset="/img/loading.gif" lazyload alt="image-20230712184604273"><img src="../images/DKG/image-20230712184616968.png" srcset="/img/loading.gif" lazyload alt="image-20230712184616968"></p>
+<p><img src="/images/DKG/image-20230712163150262.png" srcset="/img/loading.gif" lazyload alt="image-20230712163150262"></p>
+<h2 id="拉格朗日插值"><a href="#拉格朗日插值" class="headerlink" title="拉格朗日插值"></a>拉格朗日插值</h2><p><img src="/images/DKG/image-20230712183325531.png" srcset="/img/loading.gif" lazyload alt="image-20230712183325531"></p>
+<p><img src="/images/DKG/image-20230712184604273.png" srcset="/img/loading.gif" lazyload alt="image-20230712184604273"><img src="/images/DKG/image-20230712184616968.png" srcset="/img/loading.gif" lazyload alt="image-20230712184616968"></p>
 
                 
               </div>
