@@ -16,15 +16,15 @@
   <meta name="author" content="nayun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="奢靡之始，危亡之渐">
+    <meta name="description" content="SoK: Layer-Two Blockchain Protocols Teechain [47] and Teechan [48] synchronize payments across channels using TEEs. TEE enable expressive and off-chain smart contracts on restricted Bitcoinbased bloc">
 <meta property="og:type" content="article">
 <meta property="og:title" content="system">
 <meta property="og:url" content="https://yuwxl.github.io/2023/05/17/privateSC/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
-<meta property="og:description" content="奢靡之始，危亡之渐">
+<meta property="og:description" content="SoK: Layer-Two Blockchain Protocols Teechain [47] and Teechan [48] synchronize payments across channels using TEEs. TEE enable expressive and off-chain smart contracts on restricted Bitcoinbased bloc">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-17T03:05:42.000Z">
-<meta property="article:modified_time" content="2023-05-17T03:05:42.334Z">
+<meta property="article:modified_time" content="2023-09-19T10:43:44.810Z">
 <meta property="article:author" content="nayun">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          2.2k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          1 分钟
+          19 分钟
         
       </span>
     
@@ -277,7 +277,13 @@
             
               <div class="markdown-body">
                 
-                
+                <blockquote>
+<p>SoK: Layer-Two Blockchain Protocols</p>
+<p>Teechain [47] and Teechan [48] synchronize payments across channels using TEEs. TEE enable expressive and off-chain smart contracts on restricted Bitcoinbased blockchain [49]. Tesseract [91] proposes to construct a scalable TEE based real-time cross-chain cryptocurrency exchange. In relation to light clients in Bitcoin, BITE [92] leverages TEEs to enable full nodes to serve privacy-preserving requests from light clients, when used in combination with other private information retrieval and side-channel protection techniques. ZLiTE [93] also leverages TEEs to provide privacy-preserving light clients for Zcash, whereby light clients operate in conjunction with a TEE-enabled server (e.g., running Intel SGX [89]).</p>
+<p>A survey of Layer-two blockchain protocols</p>
+<p>Teechan (Lind et al., 2016) uses TEEs to enable two mutually distrusting nodes to transact with each other. Here, a channel is set up between the two nodes by exchanging secrets via their TEEs. As long as the channel is open, the nodes can exchange funds with each other in a peer-to-peer manner using TEE-supported operations; even without involving the parent Bitcoin blockchain. The TEEs bear the responsibility to maintain and update the channel’s state securely throughout the channel’s lifetime. Upon channel termination, the TEEs create a Bitcoin transaction to be added to the parent chain. During the entire lifetime of such a channel, only two transactions are reflected on-chain; one for channel establishment using a 2-of-2 multisig Bitcoin address and the other for channel closure. To summarize, Teechan reduces the load on the parent chain and increases transaction throughput among distrusting nodes. Teechain Lind et al. (2019) is another such solution that executes off-chain transactions asynchronously with the main chain. Teechain employs TEE-protected treasuries to preserve the correct channel state. Teechain forms a chain of committee that holds replicated states of treasuries to handle treasury failures. Some other prominent solutions leveraging features of TEEs are Tesseract (Bentov et al., 2019), BITE (Matetic et al., 2019), and ZLiTE (Wüst et al., 2019). Tesseract is a TEE-based cryptocurrency exchange, BITE focuses on the privacy of Bitcoin lightweight clients, and ZLiTE improves the privacy of Zcash lightweight clients by involving TEEequipped servers. Nevertheless, all TEE-based solutions rely upon the integrity of the TEEs while TEEs have their own vulnerabilities and concerns (Nilsson et al., 2020; Fei et al., 2021).</p>
+</blockquote>
+
                 
               </div>
             
