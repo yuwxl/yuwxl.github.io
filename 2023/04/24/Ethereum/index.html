@@ -16,14 +16,17 @@
   <meta name="author" content="nayun">
   <meta name="keywords" content="">
   
-    <meta name="description" content="以太坊的树以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有——棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。状态树采用Merkel-Patrica(MPT)树，而交易树和状态树采用Merkel树。 https:&#x2F;&#x2F;learnblockchain.cn&#x2F;article&#x2F;472 https:&#x2F;&#x2F;">
+    <meta name="description" content="以太坊的树以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有——棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。状态树采用Merkel-Patrica(MPT)树，而交易树和收据树采用Merkel树。 账户存储树是保存与账户相关联数据的结构。该项只有合约账户才有，而在 EOA 中， storag">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Ethereum">
 <meta property="og:url" content="https://yuwxl.github.io/2023/04/24/Ethereum/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
-<meta property="og:description" content="以太坊的树以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有——棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。状态树采用Merkel-Patrica(MPT)树，而交易树和状态树采用Merkel树。 https:&#x2F;&#x2F;learnblockchain.cn&#x2F;article&#x2F;472 https:&#x2F;&#x2F;">
+<meta property="og:description" content="以太坊的树以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有——棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。状态树采用Merkel-Patrica(MPT)树，而交易树和收据树采用Merkel树。 账户存储树是保存与账户相关联数据的结构。该项只有合约账户才有，而在 EOA 中， storag">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/BC_datastructrue.png">
+<meta property="og:image" content="https://img.learnblockchain.cn/pics/20230302185957.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20231107102909599.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20231105205651566.png">
 <meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/image-20230430152206219.png">
 <meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/image-20230430151717120.png">
 <meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/image-20230716142041732.png">
@@ -35,8 +38,9 @@
 <meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20230824095845585.png">
 <meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20230824095948635.png">
 <meta property="og:image" content="https://github.com/ethereumbook/ethereumbook/blob/develop/images/evm-architecture.png?raw=true">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20231030185756893.png">
 <meta property="article:published_time" content="2023-04-24T12:41:30.000Z">
-<meta property="article:modified_time" content="2023-08-27T12:31:17.738Z">
+<meta property="article:modified_time" content="2023-11-08T12:28:32.496Z">
 <meta property="article:author" content="nayun">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/BC_datastructrue.png">
@@ -236,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9.5k 字
+          11k 字
         
       </span>
     
@@ -247,7 +251,7 @@
         
         
         
-          80 分钟
+          95 分钟
         
       </span>
     
@@ -290,15 +294,44 @@
             
               <div class="markdown-body">
                 
-                <h2 id="以太坊的树"><a href="#以太坊的树" class="headerlink" title="以太坊的树"></a>以太坊的树</h2><p>以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有—<strong>—</strong>棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。<br><strong>状态树采用Merkel-Patrica(MPT)树，而交易树和状态树采用Merkel树。</strong></p>
+                <h2 id="以太坊的树"><a href="#以太坊的树" class="headerlink" title="以太坊的树"></a>以太坊的树</h2><p>以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有—<strong>—</strong>棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。<br><strong>状态树采用Merkel-Patrica(MPT)树，而交易树和收据树采用Merkel树。</strong></p>
+<p>账户存储树是保存与账户相关联数据的结构。该项只有合约账户才有，而在 EOA 中， storageRoot 留空、 codeHash 则是一串空字符串的哈希值。所有智能合约的数据都以 32 字节映射的形式保存在账户存储树中。</p>
 <p><a target="_blank" rel="noopener" href="https://learnblockchain.cn/article/472">https://learnblockchain.cn/article/472</a></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wxudong1991/article/details/109311822">https://blog.csdn.net/wxudong1991/article/details/109311822</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bcskill.com/index.php/archives/1253.html">区块链架构</a></p>
 <p><img src="images/Ethereum/BC_datastructrue.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h4 id="两个用户同时调用某一智能合约？"><a href="#两个用户同时调用某一智能合约？" class="headerlink" title="两个用户同时调用某一智能合约？"></a>两个用户同时调用某一智能合约？</h4><blockquote>
+<p><img src="https://img.learnblockchain.cn/pics/20230302185957.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="两个用户同时调用某一智能合约？-以太坊是顺序的"><a href="#两个用户同时调用某一智能合约？-以太坊是顺序的" class="headerlink" title="两个用户同时调用某一智能合约？- 以太坊是顺序的"></a>两个用户同时调用某一智能合约？- 以太坊是顺序的</h2><blockquote>
 <p><strong>区块链智能合约交易并行执行模型综述</strong></p>
 </blockquote>
-<h3 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h3><p><a target="_blank" rel="noopener" href="https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md">https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md</a></p>
+<p><strong>It is also worth noting that smart contracts are not executed “in parallel” in any sense—the Ethereum world computer can be considered to be a single-threaded machine.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ethereumbook/ethereumbook/blob/develop/07smart-contracts-solidity.asciidoc#what-is-a-smart-contract">参考以太坊book</a></p>
+<h2 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h2><p><a target="_blank" rel="noopener" href="https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md">https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md</a></p>
 <p><a target="_blank" rel="noopener" href="https://solidity-cn.readthedocs.io/zh/develop/introduction-to-smart-contracts.html">智能合约概述solidity</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.soliditylang.org/en/v0.8.22/abi-spec.html#function-selector"><strong>Function</strong> Selector and Argument Encoding</a></p>
+<blockquote>
+<p><img src="/images/Ethereum/image-20231107102909599.png" srcset="/img/loading.gif" lazyload alt="image-20231107102909599"></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://goodgid.github.io/BlockChain-Transaction,-Message,-Call/">Transaction, Message, Call</a></p>
+<p>合约之间相互调用</p>
+<p><img src="/images/Ethereum/image-20231105205651566.png" srcset="/img/loading.gif" lazyload alt="image-20231105205651566"></p>
+<p><a target="_blank" rel="noopener" href="https://docs.chainmaker.org.cn/instructions/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E8%B7%A8%E5%90%88%E7%BA%A6%E8%B0%83%E7%94%A8.html">跨合约调用</a></p>
+<blockquote>
+<p><strong>动态调用示例</strong></p>
+<p>合约dynamic_call.sol。部署Caller合约后，可以调用任意solidity合约及其方法，不限定接口。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs solidity">// SPDX-License-Identifier: GPL-3.0<br><br>pragma solidity &gt;= 0.8.0;<br><br>contract Caller &#123;<br>    string[10] x;<br>    string[8] params;<br><br>    function cross_call(address callee, string calldata method, string calldata key, int256 value) public &#123;<br>			//注意，method必须为方法签名格式,且方法签名的参数间不能有空格，例如&quot;save(string,int256)&quot;<br>	    callee.call((abi.encodeWithSignature(method, key, value));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如示例所示，调用者合约Caller可以调用任意合约的任意方法，只需要将被调用合约的地址、方法签名和参数传给调用者合约即可。</p>
+<p>注意，被调合约的方法必须是方法签名样式，且方法签名的参数间不能有空格，如示例中注释所示，否则无法编译为准确的ABI类型的calldata，evm将无法识别。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7219567168316063804">https://juejin.cn/post/7219567168316063804</a></p>
+<blockquote>
+<p>所谓动态调用，是指调用者合约不需要提前知道被调用合约的接口，只需要在调用时，告诉调用者被调合约的方法签名即可。调用者合约不需要事前绑定被调者的接口，可以在调用时，指定任意被调用合约及其方法，更加灵活。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs solidity">// internal call<br>    function callContract(address _contractAddress, string memory _sig, bytes memory _args) internal<br>    returns(bytes memory result)<br>    &#123;<br>        bytes memory sig = abi.encodeWithSignature(_sig);<br>        bool success;<br>        (success, result) = address(_contractAddress).call(abi.encodePacked(sig, _args));<br>        if(!success) &#123;<br>            revert(string(result));<br>        &#125;<br>    &#125;<br><br>    // internal call<br>    function callContract(address _contractAddress, bytes memory _argsWithMethodId) internal<br>    returns(bytes memory result)<br>    &#123;<br>        bool success;<br>        (success, result) = address(_contractAddress).call(_argsWithMethodId);<br>        if(!success) &#123;<br>            //(string memory error) = abi.decode(result, (string));<br>            revert(string(result));<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<h2 id="区块链事件"><a href="#区块链事件" class="headerlink" title="区块链事件"></a>区块链事件</h2><p><a target="_blank" rel="noopener" href="https://hackernoon.com/zh/solidity-%E4%BA%8B%E4%BB%B6%E5%85%A8%E9%9D%A2%E6%A6%82%E8%BF%B0"><strong>Solidity 事件：全面概述</strong></a></p>
+<blockquote>
+<p><strong>以太坊不提供一种机制来获取智能合约的所有交易，但它确实提供了一种机制来从智能合约中获取所有事件。</strong></p>
+</blockquote>
 <h2 id="区块链可扩展性的限制"><a href="#区块链可扩展性的限制" class="headerlink" title="区块链可扩展性的限制"></a>区块链可扩展性的限制</h2><p>（强推）<a target="_blank" rel="noopener" href="https://vitalik.ca/general/2021/05/23/scaling.html">https://vitalik.ca/general/2021/05/23/scaling.html</a></p>
 <p>以太坊扩容综述 <a target="_blank" rel="noopener" href="https://www.odaily.news/post/5182589">https://www.odaily.news/post/5182589</a></p>
 <h2 id="以太坊交易速度受哪些因素限制"><a href="#以太坊交易速度受哪些因素限制" class="headerlink" title="以太坊交易速度受哪些因素限制"></a>以太坊交易速度受哪些因素限制</h2><p>以太坊现状：网络拥堵、磁盘空间（运行一个全节点很困难）</p>
@@ -315,6 +348,7 @@
 <p>一个分布式的App不用将所有状态都存储在区块链上，或者在链上进行所有计算（译者注：比如图形渲染），这样就太花gas了。所以一个分布式App把需要大家共同信任的状态存在区块链上就好了。许多的分布式应用使用后面提到的技术，如IPFS和Gelem，在链下进行分布式存储和计算。虽然没在以太坊上，但仍使用的是区块链技术。</p>
 </blockquote>
 <h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a target="_blank" rel="noopener" href="https://www.echenshe.com/tut/bc/3-3.html">以太坊原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ethereumbook/ethereumbook/tree/develop">以太坊书</a></p>
 <h2 id="区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？"><a href="#区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？" class="headerlink" title="区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？"></a>区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？</h2><blockquote>
 <p>在区块链中，balance指的是一个地址（或账户）的当前余额，即该地址当前拥有的数字货币数量。这个余额可以通过各种操作进行更改，例如通过转账、挖矿、收到交易等等。</p>
 <p>Payouts是指向某个地址发送数字货币的过程，通常是由一个智能合约触发的。智能合约会从一个地址的余额中扣除一定数量的数字货币，并将这些数字货币发送到另一个地址。</p>
@@ -419,6 +453,9 @@
 <p>（重要，以太坊书）<a target="_blank" rel="noopener" href="https://github.com/ethereumbook/ethereumbook/tree/develop">https://github.com/ethereumbook/ethereumbook/tree/develop</a></p>
 </blockquote>
 <p><img src="https://github.com/ethereumbook/ethereumbook/blob/develop/images/evm-architecture.png?raw=true" srcset="/img/loading.gif" lazyload alt="evm-架构.png"></p>
+<h2 id="智能合约执行所需数据"><a href="#智能合约执行所需数据" class="headerlink" title="智能合约执行所需数据"></a>智能合约执行所需数据</h2><blockquote>
+<p><img src="/images/Ethereum/image-20231030185756893.png" srcset="/img/loading.gif" lazyload alt="image-20231030185756893"></p>
+</blockquote>
 
                 
               </div>
