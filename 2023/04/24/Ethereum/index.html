@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://github.com/ethereumbook/ethereumbook/blob/develop/images/evm-architecture.png?raw=true">
 <meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20231030185756893.png">
 <meta property="article:published_time" content="2023-04-24T12:41:30.000Z">
-<meta property="article:modified_time" content="2023-11-08T12:28:32.496Z">
+<meta property="article:modified_time" content="2023-12-19T09:02:26.083Z">
 <meta property="article:author" content="nayun">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/BC_datastructrue.png">
@@ -240,7 +240,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11k 字
+          12k 字
         
       </span>
     
@@ -251,7 +251,7 @@
         
         
         
-          95 分钟
+          97 分钟
         
       </span>
     
@@ -308,6 +308,9 @@
 <p><a target="_blank" rel="noopener" href="https://github.com/ethereumbook/ethereumbook/blob/develop/07smart-contracts-solidity.asciidoc#what-is-a-smart-contract">参考以太坊book</a></p>
 <h2 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h2><p><a target="_blank" rel="noopener" href="https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md">https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md</a></p>
 <p><a target="_blank" rel="noopener" href="https://solidity-cn.readthedocs.io/zh/develop/introduction-to-smart-contracts.html">智能合约概述solidity</a></p>
+<p>Internal transaction (also “message”)</p>
+<p>A transaction sent from a contract account to another contract account or an EOA.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ethereumbook/ethereumbook/blob/c5ddebd3dbec804463c86d0ae2de9f28fbafb83a/glossary.asciidoc#L160">https://github.com/ethereumbook/ethereumbook/blob/c5ddebd3dbec804463c86d0ae2de9f28fbafb83a/glossary.asciidoc#L160</a></p>
 <p><a target="_blank" rel="noopener" href="https://docs.soliditylang.org/en/v0.8.22/abi-spec.html#function-selector"><strong>Function</strong> Selector and Argument Encoding</a></p>
 <blockquote>
 <p><img src="/images/Ethereum/image-20231107102909599.png" srcset="/img/loading.gif" lazyload alt="image-20231107102909599"></p>
@@ -327,7 +330,7 @@
 <blockquote>
 <p>所谓动态调用，是指调用者合约不需要提前知道被调用合约的接口，只需要在调用时，告诉调用者被调合约的方法签名即可。调用者合约不需要事前绑定被调者的接口，可以在调用时，指定任意被调用合约及其方法，更加灵活。</p>
 </blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs solidity">// internal call<br>    function callContract(address _contractAddress, string memory _sig, bytes memory _args) internal<br>    returns(bytes memory result)<br>    &#123;<br>        bytes memory sig = abi.encodeWithSignature(_sig);<br>        bool success;<br>        (success, result) = address(_contractAddress).call(abi.encodePacked(sig, _args));<br>        if(!success) &#123;<br>            revert(string(result));<br>        &#125;<br>    &#125;<br><br>    // internal call<br>    function callContract(address _contractAddress, bytes memory _argsWithMethodId) internal<br>    returns(bytes memory result)<br>    &#123;<br>        bool success;<br>        (success, result) = address(_contractAddress).call(_argsWithMethodId);<br>        if(!success) &#123;<br>            //(string memory error) = abi.decode(result, (string));<br>            revert(string(result));<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs solidity">https://github.com/WeBankBlockchain/WeCross-BCOS2-Stub/blob/master/src/main/resources/WeCrossHub.sol<br>// internal call<br>    function callContract(address _contractAddress, string memory _sig, bytes memory _args) internal<br>    returns(bytes memory result)<br>    &#123;<br>        bytes memory sig = abi.encodeWithSignature(_sig);<br>        bool success;<br>        (success, result) = address(_contractAddress).call(abi.encodePacked(sig, _args));<br>        if(!success) &#123;<br>            revert(string(result));<br>        &#125;<br>    &#125;<br><br>    // internal call<br>    function callContract(address _contractAddress, bytes memory _argsWithMethodId) internal<br>    returns(bytes memory result)<br>    &#123;<br>        bool success;<br>        (success, result) = address(_contractAddress).call(_argsWithMethodId);<br>        if(!success) &#123;<br>            //(string memory error) = abi.decode(result, (string));<br>            revert(string(result));<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
 <h2 id="区块链事件"><a href="#区块链事件" class="headerlink" title="区块链事件"></a>区块链事件</h2><p><a target="_blank" rel="noopener" href="https://hackernoon.com/zh/solidity-%E4%BA%8B%E4%BB%B6%E5%85%A8%E9%9D%A2%E6%A6%82%E8%BF%B0"><strong>Solidity 事件：全面概述</strong></a></p>
 <blockquote>
 <p><strong>以太坊不提供一种机制来获取智能合约的所有交易，但它确实提供了一种机制来从智能合约中获取所有事件。</strong></p>
