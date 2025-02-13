@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="BAASH: Lightweight, Efficient, and Reliable Blockchain-As-A-Service for HPC Systems Baash：面向Hpc系统的轻量、高效、可靠的Blockchain - As - A -服务  文章目标 Distributed resiliency becomes paramount to alleviate the growi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BAASH">
+<meta property="og:url" content="https://yuwxl.github.io/2023/01/27/BAASH/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="BAASH: Lightweight, Efficient, and Reliable Blockchain-As-A-Service for HPC Systems Baash：面向Hpc系统的轻量、高效、可靠的Blockchain - As - A -服务  文章目标 Distributed resiliency becomes paramount to alleviate the growi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/BAASH.assets/image-20230127193022793.png">
+<meta property="article:published_time" content="2023-01-27T10:42:20.000Z">
+<meta property="article:modified_time" content="2023-03-11T12:35:28.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="paper">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/BAASH.assets/image-20230127193022793.png">
+  
+  
+  
+  <title>BAASH - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="BAASH"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-27 18:42" pubdate>
+          2023年1月27日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">BAASH</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="BAASH-Lightweight-Efficient-and-Reliable-Blockchain-As-A-Service-for-HPC-Systems"><a href="#BAASH-Lightweight-Efficient-and-Reliable-Blockchain-As-A-Service-for-HPC-Systems" class="headerlink" title="BAASH: Lightweight, Efficient, and Reliable Blockchain-As-A-Service for HPC Systems"></a>BAASH: Lightweight, Efficient, and Reliable Blockchain-As-A-Service for HPC Systems</h1><blockquote>
+<p>Baash：面向Hpc系统的轻量、高效、可靠的Blockchain - As - A -服务</p>
+</blockquote>
+<h4 id="文章目标"><a href="#文章目标" class="headerlink" title="文章目标"></a>文章目标</h4><blockquote>
+<p><strong>Distributed resiliency</strong> becomes paramount to alleviate the growing costs of <strong>data movement</strong> and <strong>I/Os</strong> while preserving the data accuracy in HPC systems.This paper proposes to adopt <strong>blockchain-like decentralized protocols</strong> to achieve such <strong>distributed resiliency</strong>.</p>
+<p>用区块链的思想来提高分布式系统的容错能力</p>
+<p><strong>This paper proposes two key techniques to enable a blockchain service in HPC systems.</strong>（HPC系统中用区块链特性）</p>
+</blockquote>
+<ul>
+<li>分布式容错distributed resiliency</li>
+</ul>
+<p>​        即分布式系统的容错能力。分布式系统设计中的一个重要目标，是以这样的方式构建系统：它可以从部分失效中自动恢复，而且不会严重的影响整体性能。特别是，当故障发生时，分布式系统应该在进行恢复的同时继续以可接受的方式进行操作，也就是说，它应该能容忍错误，在发生错误时某种程度上可以继续操作。</p>
+<ul>
+<li><p><em>HPC</em>系统体系架构</p>
+<p>高性能计算简称 <em>HPC</em>，是指利用聚集起来的计算能力来处理标准工作站无法完成的数据密集型计算任务，包括仿真、建模和渲染等。将数据和运算相应地分布到多个单元中，这就需要引入<em>并行</em> 概念。</p>
+<p>就硬件配置而言，常用的类型有两种：</p>
+<ol>
+<li>共享内存计算机</li>
+<li>分布式内存集群</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="http://cn.comsol.com/multiphysics/high-performance-computing">高性能计算（HPC）</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_33762130/article/details/92927289">https://blog.csdn.net/weixin_33762130/article/details/92927289</a></p>
+</li>
+<li><p>HPC 的工作机制</p>
+<p>虽然 HPC 可以在单一节点上运行，但它真正强大的地方，在于连接多个 HPC 节点并将其整合成具有并行数据处理能力的集群或超级计算机。HPC 集群可以实现单一系统不可能完成的超大规模模拟计算、AI 推理和数据分析。<a target="_blank" rel="noopener" href="https://www.intel.cn/content/www/cn/zh/high-performance-computing/what-is-hpc.html">https://www.intel.cn/content/www/cn/zh/high-performance-computing/what-is-hpc.html</a></p>
+</li>
+<li><p>高性能计算机群（<em>HPC Cluster</em>）：<em>HPC</em>机群基于<em>MPI/</em>调度等软件，将计算任务分配到机群的不同计算节点而提高计算能力，主要应用在科学计算领域。</p>
+</li>
+<li><p>高性能计算—mpi</p>
+<p>Massage Passing Interface:是消息传递函数库的标准规范，由MPI论坛开发。</p>
+<p>在程序中，不同的进程需要相互的数据交换，特别是在科学计算中，需要大规模的计算与数据交换，集群可以很好解决单节点计算力不足的问题，但在集群中大规模的数据交换是很耗费时间的，因此需要一种在多节点的情况下能快速进行数据交流的标准，这就是MPI。MPI是一组用于多节点数据通信的标准，而非一种语言或者接口。<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/69497154">https://zhuanlan.zhihu.com/p/69497154</a></p>
+</li>
+</ul>
+<h4 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h4><blockquote>
+<p>分布式一致性缓存</p>
+<p>数据溯源</p>
+<p>数据保真</p>
+<p>a blockchain can enable data synchronization in HPC systems with strong reliability in an autonomous fashion.</p>
+<p>区块链能够以自动的方式在可靠性强的HPC系统中实现数据同步。</p>
+</blockquote>
+<h4 id="核心挑战"><a href="#核心挑战" class="headerlink" title="核心挑战"></a>核心挑战</h4><blockquote>
+<p>The key challenge for such an adoption lies in the mismatch between blockchain’s targeting systems (e.g., shared-nothing, loosely-coupled, TCP/IP stack) and HPC’s unique design on storage subsystems, resource allocation, and programming models.</p>
+<p>采用这种方式的关键挑战在于区块链的目标系统(例如,无共享、松耦合、TCP / IP协议栈等)与HPC在存储子系统、资源分配和编程模型上的独特设计之间的不匹配。</p>
+</blockquote>
+<h4 id="contribution"><a href="#contribution" class="headerlink" title="contribution"></a>contribution</h4><blockquote>
+<p>BAASH bridges the HPC-blockchain gap with two key components:</p>
+<p> (i) <strong>Lightweight consensus protocols</strong> for the HPC’s shared-storage architecture</p>
+<p> (ii) A new <strong>fault-tolerant mechanism</strong> compensating for the MPI to guarantee the distributed resiliency.</p>
+<p>BAASH通过两个关键组件弥合HPC -区块链之间的鸿沟：( i ) HPC共享存储架构的轻量级共识协议，( ii )补偿MPI的新容错机制，以保证分布式容错能力。</p>
+</blockquote>
+<p>简单点来说就是为HPC环境设计了一个新的区块链框架，作为中间件部署，命名为BAASH。</p>
+<p><img src="/images/BAASH.assets/image-20230127193022793.png" srcset="/img/loading.gif" lazyload alt="image-20230127193022793"></p>
+<blockquote>
+<p>We design a set of HPC-specific scalable consensus protocols to facilitate a <strong>parallel block processing </strong>to provide a <strong>lightweight distributed in-memory</strong> and <strong>sharedstorage resiliency support</strong>; </p>
+<p>我们设计了一组特定于HPC的可扩展共识协议，以促进并行块处理，从而提供轻量级的分布式内存和共享存储弹性支持</p>
+</blockquote>
+<p>架构解析</p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/InfiniBand">InfiniBand</a></p>
+<blockquote>
+<p><strong>InfiniBand</strong>（直译为“无限带宽”技术，缩写为<strong>IB</strong>）是一个用于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/超级计算机">高性能计算</a>的计算机网络通信标准，它具有极高的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/吞吐量">吞吐量</a>和极低的<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/潜伏时间_(工程学">延迟</a>)，用于计算机与计算机之间的数据互连。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/zh-hans/%E8%BF%9C%E7%A8%8B%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE">RDMA</a></p>
+<blockquote>
+<p>在数据中心领域，<strong>远程直接内存访问</strong>（英语：<strong>remote direct memory access</strong>，<strong>RDMA</strong>）是一种绕过远程主机操作系统内核访问其内存中数据的技术，由于不经过操作系统，不仅节省了大量CPU资源，同样也提高了系统吞吐量、降低了系统的网络通信<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Latency_(engineering">延迟</a>)，尤其适合在大规模并行<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/计算机集群">计算机集群</a>中有广泛应用。在基于NVMe over Fabric的数据中心中，RDMA可以配合高性能的NVMe SSD构建高性能、低延迟的存储网络。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Diskless_node">Diskless node</a></p>
+<blockquote>
+<p><strong>无盘节点</strong>（或<strong>无盘工作站</strong>）是没有<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Disk_drive">磁盘驱动器的</a><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Workstation">工作站</a>或个人计算机，它使用<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Network_booting">网络引导</a>从<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Server_(computing">服务器</a>)加载其<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Operating_system">操作系统</a>。</p>
+</blockquote>
+<p>共识协议设计</p>
+<p>协议1：协调块的事务并行处理</p>
+<p>协议2：并行管理分布式共识（通过并行事务管理器<code>Parallel transaction manager</code>）</p>
+<p>协议3：管理块验证过程</p>
+<p>协议4：通过将验证后的块存储在节点内存中并持久化共享存储，有助于弹性分布式账本的管理</p>
+<p>过程描述：</p>
+<ol>
+<li>BAASH引擎利用一个队列来跟踪各个活跃和未决事务。所有的事务由hash（地址|时间戳）来做特定标识并锁定，当事务到达时，协议1检查事务是否解锁，并在加入块前为其创造一个唯一的hash值，该块中的交易批处理过程超过时间阈值t时停止。协议1转发block并启动共识进程。</li>
+<li>BAASH共识，协议2引导块的验证和持久化。</li>
+<li>持久化存储。利用键值对将块和交易存储到内存账本和远程存储中</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://github.com/brianfrankcooper/YCSB">YCSB 区块链评估工具</a></p>
+<p>本文相关工作总结了区块链目前较为重要的研究成果。但是目前没有工作关注到可以弥补HPC和区块链之间差距的底层架构，本文是首次提出用MPI开发的类区块链并行框架，让我们可以利用HPC系统的去中心化机制。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>带有MPI的轻量级区块链架构，The HPC-aware consensus protocols and MPI-compatible reliability, under the framework coined as BAASH, collectively enable a blockchain service for HPC systems.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/blockchain/" class="category-chain-item">blockchain</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/paper/">#paper</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>BAASH</div>
+      <div>https://yuwxl.github.io/2023/01/27/BAASH/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/01/31/bc-hpc/" title="区块链和高性能计算">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">区块链和高性能计算</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/19/vscodepython/" title="vscode 配置python环境（Anaconda）">
+                        <span class="hidden-mobile">vscode 配置python环境（Anaconda）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

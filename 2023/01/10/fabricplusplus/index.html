@@ -1,0 +1,673 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="[论文阅读] (SIGMOD ’19)Blurring the Lines between Blockchains and Database Systems: the Case of Hyperledger Fabric 对fabric事务排序进行改进，提供性能，提出fabric++，主要用来理解fabric  比特币、以太坊都遵循order-execute 模式  在排序阶段，所有节点首先就全局">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fabric++">
+<meta property="og:url" content="https://yuwxl.github.io/2023/01/10/fabricplusplus/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="[论文阅读] (SIGMOD ’19)Blurring the Lines between Blockchains and Database Systems: the Case of Hyperledger Fabric 对fabric事务排序进行改进，提供性能，提出fabric++，主要用来理解fabric  比特币、以太坊都遵循order-execute 模式  在排序阶段，所有节点首先就全局">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/fabricplusplus.assets/image-20230110120459044.png">
+<meta property="article:published_time" content="2023-01-10T02:46:45.000Z">
+<meta property="article:modified_time" content="2023-02-27T12:04:36.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="paper">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/fabricplusplus.assets/image-20230110120459044.png">
+  
+  
+  
+  <title>fabric++ - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="fabric++"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-10 10:46" pubdate>
+          2023年1月10日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">fabric++</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="论文阅读-SIGMOD-’19-Blurring-the-Lines-between-Blockchains-and-Database-Systems-the-Case-of-Hyperledger-Fabric"><a href="#论文阅读-SIGMOD-’19-Blurring-the-Lines-between-Blockchains-and-Database-Systems-the-Case-of-Hyperledger-Fabric" class="headerlink" title="[论文阅读] (SIGMOD ’19)Blurring the Lines between Blockchains and Database Systems: the Case of Hyperledger Fabric"></a>[论文阅读] (SIGMOD ’19)Blurring the Lines between Blockchains and Database Systems: the Case of Hyperledger Fabric</h4><blockquote>
+<p>对fabric事务排序进行改进，提供性能，提出fabric++，主要用来理解fabric</p>
+</blockquote>
+<p>比特币、以太坊都遵循order-execute 模式</p>
+<blockquote>
+<p>在排序阶段，所有节点首先就全局交易订单达成一致，通常使用共识机制。然后，每个对等点在本地的状态的副本上按该顺序进行交易执行。虽然这种方法很简单，但它有两个严重的缺点：首先，事务的执行是按顺序进行的。其次，由于每个交易都必须在每个节点上执行，系统的性能不会随着节点数量的增加而增加（<strong>不可扩展</strong>）。当然，并行执行和扩展能力多年来一直是分布式数据库系统公认的特性。</p>
+</blockquote>
+<p>fabric 采用 simulate-order-validate-commit 模式</p>
+<blockquote>
+<p>该模型在很大程度上受到数据库系统中的乐观并发控制机制的影响：事务在实际排序之前被推测性地并行模拟。并行交易执行，因此具有扩展能力(<strong>可扩展性</strong>)</p>
+</blockquote>
+<h4 id="fabric-架构"><a href="#fabric-架构" class="headerlink" title="fabric 架构"></a>fabric 架构</h4><p><img src="/images/fabricplusplus.assets/image-20230110120459044.png" srcset="/img/loading.gif" lazyload alt="image-20230110120459044" style="zoom:50%;"></p>
+<blockquote>
+<p><code>peers</code>被分组到托管它们的<code>组织</code>中。<br>在一个组织内，所有<code>peer</code>都相互信任。每个对等点都运行一个 Fabric 的本地实例。此实例包括分类账的副本，其中包含通过系统的所有交易的有序序列（包括有效和无效交易）。除了账本之外，每个<code>peer</code>还包含状态数据库形式的<code>current state</code>，它表示将账本中的所有有效交易应用到初始状态后的状态。除了在模拟阶段和验证阶段都发挥重要作用的对等点之外，还有一个称为ordering service排序服务的单独实例，它是排序阶段的核心组件，并被认为是可信的。</p>
+</blockquote>
+<h5 id="模拟阶段。"><a href="#模拟阶段。" class="headerlink" title="模拟阶段。"></a>模拟阶段。</h5><p>在模拟阶段，客户端向一些背书节点（peer节点的子集）提交交易提议以进行模拟。向哪些背书节点提交由<code>背书策略</code>中定义。由于组织之间并不完全信任，因此通常会指定每个相关组织的至少一个<code>peer</code>必须模拟交易提议。背书者现在针对当前状态的本地副本<strong>并行</strong>模拟交易提案。每个背书者在模拟期间建立一个<code>读取集</code>和一个<code>写入集</code>。模拟后，每个背书者将其读写集返回给客户端。除此之外，背书人还返回一个关于集合的加密签名。如果返回的所有<code>读写集</code>都相等，则客户端形成一个实际的事务。它包含先前计算的读取集和写入集以及所有签名。然后客户端将此交易传递给排序服务。</p>
+<h5 id="排序阶段。"><a href="#排序阶段。" class="headerlink" title="排序阶段。"></a>排序阶段。</h5><p>在排序阶段，受信任的排序服务接收来自客户的交易。在所有收到的交易中，它建立一个全局秩序，并将它们打包成包含一定数量交易的区块。默认情况下，事务基本上按照它们到达服务的方式排序，而不以任何方式检查事务语义。然后排序服务将每个形成的块分发给网络的所有<code>peer</code>。请注意，系统不保证所有节点同时收到一个块。但是，它保证所有对等点都以相同的顺序接收相同的块。</p>
+<h5 id="验证阶段。"><a href="#验证阶段。" class="headerlink" title="验证阶段。"></a>验证阶段。</h5><p>当一个块到达一个节点时，它的验证阶段就开始了。对于块内的每个事务，验证包括两个检查：首先，Fabric测试事务是否遵守背书策略，以及是否所有事务都包含对读写集的签名。如果情况并非如此，则意味着client或背书节点以某种方式篡改了交易。在这种情况下，系统将交易标记为无效。如果一个事务通过了第一个测试，Fabric会进行第二个测试，检查是否出现序列化条件。由于交易模拟在对交易进行排序之前是并行进行的，因此模拟的效果可能与既定顺序相冲突。因此，Fabric也将与先前交易冲突的交易标记为无效交易。</p>
+<h5 id="提交阶段。"><a href="#提交阶段。" class="headerlink" title="提交阶段。"></a>提交阶段。</h5><p>在提交阶段，每个节点将包含有效和无效事务的块追加到其本地账本中。此外，每个节点将有效事务所做的所有更改应用于其当前状态。（即修改写入本地数据库）</p>
+<p>总结：Fabric 不用在每个节点重复执行操作，而是通过读写集直接修改世界状态。</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/xL8LwWigbFd2UDs8Q2p9Wg">https://mp.weixin.qq.com/s/xL8LwWigbFd2UDs8Q2p9Wg</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/blockchain/" class="category-chain-item">blockchain</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/paper/">#paper</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>fabric++</div>
+      <div>https://yuwxl.github.io/2023/01/10/fabricplusplus/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/01/11/Hybrid-Storage/" title="Hybrid-Storage">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hybrid-Storage</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/04/Dcert/" title="DCert Towards Secure, Efficient, and Versatile Blockchain Light Clients">
+                        <span class="hidden-mobile">DCert Towards Secure, Efficient, and Versatile Blockchain Light Clients</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

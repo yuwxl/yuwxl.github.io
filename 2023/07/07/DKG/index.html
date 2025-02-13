@@ -1,0 +1,682 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="分布式密钥生成 Distributed key generation is a main component of threshold cryptosystems. It allows a set of n servers to jointly generate a pair of public and private keys according to the distribution defi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DKG">
+<meta property="og:url" content="https://yuwxl.github.io/2023/07/07/DKG/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="分布式密钥生成 Distributed key generation is a main component of threshold cryptosystems. It allows a set of n servers to jointly generate a pair of public and private keys according to the distribution defi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230708103947867.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230708104436980.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230708104423802.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230710171932661.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230711143932669.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230711155256538.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230711155003494.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20231101155230491.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230712163150262.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230712183325531.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230712184604273.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/DKG/image-20230712184616968.png">
+<meta property="article:published_time" content="2023-07-07T13:46:02.000Z">
+<meta property="article:modified_time" content="2023-11-01T12:05:46.000Z">
+<meta property="article:author" content="nayun">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/DKG/image-20230708103947867.png">
+  
+  
+  
+  <title>DKG - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="DKG"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-07-07 21:46" pubdate>
+          2023年7月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">DKG</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="分布式密钥生成"><a href="#分布式密钥生成" class="headerlink" title="分布式密钥生成"></a>分布式密钥生成</h2><blockquote>
+<p>Distributed key generation is a main component of threshold cryptosystems. It allows a set of n servers to jointly generate a pair of public and private keys according to the distribution defined by the underlying cryptosystem without having to ever compute, reconstruct, or store the secret key in any single lo cation and without assuming any trusted party (dealer). While the public key is output in the clear, the private key is maintained as a (virtual) secret shared via a threshold scheme.</p>
+</blockquote>
+<h2 id="DKG目标"><a href="#DKG目标" class="headerlink" title="DKG目标"></a>DKG目标</h2><blockquote>
+<p>在无可信中心的情况下为一组参与者生成对应于一个主公钥的私钥份额</p>
+<p>不希望由任何人指定私钥，而是每个参与者都提供一个随机性，有恶意参与者</p>
+</blockquote>
+<p><img src="/images/DKG/image-20230708103947867.png" srcset="/img/loading.gif" lazyload alt="image-20230708103947867"></p>
+<p><img src="/images/DKG/image-20230708104436980.png" srcset="/img/loading.gif" lazyload alt="image-20230708104436980"></p>
+<p><img src="/images/DKG/image-20230708104423802.png" srcset="/img/loading.gif" lazyload alt="image-20230708104423802"></p>
+<h2 id="一、DKG是什么DKG"><a href="#一、DKG是什么DKG" class="headerlink" title="一、DKG是什么DKG"></a>一、DKG是什么DKG</h2><p>(分布式密钥生成)提供了一种去中心化的方法,使各个参与方在不相互信任的情况下生成共享密钥,以确保安全通信和多方参与的机密性。</p>
+<p>DKG技术的关键思想是使用多方计算( secure multiparty computation)和秘钥共享({ secretsharing)的概念。</p>
+<ul>
+<li>秘钥共享则将密钥分割成多个部分,每个参与方只持有其中的一部分,需要达到一定國值オ能重构出完整的钥;</li>
+<li>多方计算使得多个参与方能够共同执行计算任务,而不泄露私有输入</li>
+</ul>
+<p>DKG技术在「需要多方参与」和「分布式信任」的领域得到应用:</p>
+<p>1.共识协议:DKG可用于生成共识协议所需的密钥,确保在分布式环境中节点之间的通信和交互的安全性和可靠性。例如, Algorand和 Finity等区块链项目使用DKG来生成节点的共识密钥,从而实现拜占庭容错和安全的共识算法</p>
+<p>2.密钥管理和安全多方计算:DKG技术可用于密钥管理方案中,以生成和分发用于加密通信和身份验证的密钥。此外,它也可以用于安全多方计算场景( Secure MultipartyComputation,SMC),使多个参与方能够在不泄露私有数据的情况下进行协作计算</p>
+<p>3.分布式存储系统:DKG可用于分布式存储系统中,用于生成和管理用于数据保护和访问控制的密钥,以确保数据的机密性和完整性。</p>
+<p>4.门限密码学:DKG是门限密码学方案中的关键组成部分,例如门限签名方案和门限加密方案。它用于在门限数量的参与方之间生成共享密钥,从而实现高度安全和鲁棒的密码方案。</p>
+<p><img src="/images/DKG/image-20230710171932661.png" srcset="/img/loading.gif" lazyload alt="image-20230710171932661"></p>
+<p><img src="/images/DKG/image-20230711143932669.png" srcset="/img/loading.gif" lazyload alt="image-20230711143932669"></p>
+<blockquote>
+<p>该段描述涉及阈值 Schnorr 签名方案中的步骤，解释了参与方如何运行 JF-DKG 协议来生成一次性秘密 k 的秘密分享以及公共值 r = gk。具体的步骤如下：</p>
+<ol>
+<li>参与方执行 JF-DKG 协议：参与方执行 JF-DKG 协议的一个实例，生成一次性秘密 k 的秘密分享和公共值 r = gk。在这一步中，参与方 Pi ∈ QUAL 生成一个秘密分享的份额 ui，对应于一次性秘密 k。这些份额 ui 本身也是通过秘密分享方案生成的。</li>
+<li>计算挑战值 c：每个参与方独立地计算挑战值 c = H(m, r)，其中 H 是一个哈希函数。这个挑战值将用于后续的签名计算。</li>
+<li>广播秘密份额分享：QUAL ∩ QUAL’ 中的参与方 Pi 广播自己的秘密份额分享 si = ui + czi。其中，zi 是该参与方持有的一次性秘密 k 的份额。这些份额分享可以通过验证来验证其正确性。</li>
+<li>验证和重构：每个参与方 Pi 在广播份额分享时，同时也广播验证值 Xi0 = yi = gzi 和 Ki0 = ri = gui。这些验证值是在初始的密钥生成 JF-DKG 协议和生成 r 和 k 的 JF-DKG 协议中由参与方广播的。其他参与方可以通过验证这些值来验证份额分享的正确性。</li>
+<li><ul>
+<li>如果验证失败，表示一些参与方的份额分享不正确。在这种情况下，参与方需要重构 xi 和 ki 的 Feldman 秘密分享，并公开计算 si 的值。</li>
+<li>对于 QUAL 中的参与方，但不在 QUAL’ 中的参与方，其份额 zi 会被公开重构。这些参与方被认为是“不良参与方”。对于这些参与方，si 的值被设置为 czi。</li>
+</ul>
+</li>
+<li>计算最终的签名值 s：最终的签名值 s 被计算为 s = ∑ i∈QUAL si。这样，秘密 s 可以像 Feldman-VSS 协议中那样有效地进行重构。</li>
+</ol>
+<p>通过执行以上步骤，阈值 Schnorr 签名方案中的参与方可以生成有效的签名。每个参与方根据自己持有的一次性秘密份额 zi 和挑战值 c 计算出自己的份额分享 si，并通过验证和重构确保了份额分享的正确性。最终，所有参与方的份额分享被合并计算出签名值 s。这样，阈值 Schnorr 签名方案就完成了消息 m 的签名过程。</p>
+</blockquote>
+<p><img src="/images/DKG/image-20230711155256538.png" srcset="/img/loading.gif" lazyload alt="image-20230711155256538"></p>
+<p><img src="/images/DKG/image-20230711155003494.png" srcset="/img/loading.gif" lazyload alt="image-20230711155003494"></p>
+<blockquote>
+<p>论文 <a target="_blank" rel="noopener" href="https://www.usenix.org/conference/usenixsecurity23/presentation/das">https://www.usenix.org/conference/usenixsecurity23/presentation/das</a></p>
+<p><img src="/images/DKG/image-20231101155230491.png" srcset="/img/loading.gif" lazyload alt="image-20231101155230491"></p>
+</blockquote>
+<p><img src="/images/DKG/image-20230712163150262.png" srcset="/img/loading.gif" lazyload alt="image-20230712163150262"></p>
+<h2 id="拉格朗日插值"><a href="#拉格朗日插值" class="headerlink" title="拉格朗日插值"></a>拉格朗日插值</h2><p><img src="/images/DKG/image-20230712183325531.png" srcset="/img/loading.gif" lazyload alt="image-20230712183325531"></p>
+<p><img src="/images/DKG/image-20230712184604273.png" srcset="/img/loading.gif" lazyload alt="image-20230712184604273"><img src="/images/DKG/image-20230712184616968.png" srcset="/img/loading.gif" lazyload alt="image-20230712184616968"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>DKG</div>
+      <div>https://yuwxl.github.io/2023/07/07/DKG/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年7月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/08/11/MeHLDT/" title="MeHLDT">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MeHLDT</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/06/29/Apply-for-Ph-D/" title="Apply_for_Ph.D.">
+                        <span class="hidden-mobile">Apply_for_Ph.D.</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

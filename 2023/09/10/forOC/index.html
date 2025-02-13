@@ -1,0 +1,695 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="以太坊工具：https:&#x2F;&#x2F;github.com&#x2F;Consensys&#x2F;ethereum-developer-tools-list&#x2F;tree&#x2F;master  合约编写，编写智能合约，若干个接口，以便于进行外包计算的任务发布、管理和结算。    工具： truffle 资料：https:&#x2F;&#x2F;archive.trufflesuite.com&#x2F;   Enclave 程序编写，将外包计算代码加载到encla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lab测试">
+<meta property="og:url" content="https://yuwxl.github.io/2023/09/10/forOC/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="以太坊工具：https:&#x2F;&#x2F;github.com&#x2F;Consensys&#x2F;ethereum-developer-tools-list&#x2F;tree&#x2F;master  合约编写，编写智能合约，若干个接口，以便于进行外包计算的任务发布、管理和结算。    工具： truffle 资料：https:&#x2F;&#x2F;archive.trufflesuite.com&#x2F;   Enclave 程序编写，将外包计算代码加载到encla">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/lab_test/image-20230910153212898.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lab_test/image-20230910152557622.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lab_test/image-20230910153433034.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lab_test/image-20230912162616416.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lab_test/image-20230915165435356.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lab_test/image-20230910211339344.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lab_test/image-20230910211714219.png">
+<meta property="article:published_time" content="2023-09-10T06:36:00.000Z">
+<meta property="article:modified_time" content="2024-04-11T02:14:06.887Z">
+<meta property="article:author" content="nayun">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/lab_test/image-20230910153212898.png">
+  
+  
+  
+  <title>lab测试 - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="lab测试"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-09-10 14:36" pubdate>
+          2023年9月10日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">lab测试</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>以太坊工具：<a target="_blank" rel="noopener" href="https://github.com/Consensys/ethereum-developer-tools-list/tree/master">https://github.com/Consensys/ethereum-developer-tools-list/tree/master</a></p>
+<ol>
+<li>合约编写，编写智能合约，若干个接口，以便于进行外包计算的任务发布、管理和结算。</li>
+</ol>
+<blockquote>
+<p> 工具： truffle</p>
+<p>资料：<a target="_blank" rel="noopener" href="https://archive.trufflesuite.com/">https://archive.trufflesuite.com/</a></p>
+</blockquote>
+<ol>
+<li>Enclave 程序编写，将外包计算代码加载到enclave 并运行。</li>
+</ol>
+<blockquote>
+<p>工具：teaclave </p>
+<p>资料：<a target="_blank" rel="noopener" href="https://github.com/apache/incubator-teaclave-sgx-sdk">https://github.com/apache/incubator-teaclave-sgx-sdk</a></p>
+</blockquote>
+<ol>
+<li>合约和enclave交互代码，从合约中获取外包任务，enclave计算完成后，将结果返回到合约上</li>
+</ol>
+<blockquote>
+<p>库：ether.rs</p>
+<p>语言： rust</p>
+<p>资料：<a target="_blank" rel="noopener" href="https://github.com/gakonst/ethers-rs">https://github.com/gakonst/ethers-rs</a></p>
+</blockquote>
+<ol>
+<li>Enclave内密钥管理，计算的输入和输出如需保持隐私，需要设计enclave中的密钥，以加密输入和输出。</li>
+</ol>
+<blockquote>
+<p>参考论文 ：Ekiden: A Platform for Confidentiality-Preserving, Trustworthy, and Performant Smart Contracts 中的密钥管理部分</p>
+</blockquote>
+<h2 id="truffle-部署智能合约到ganache-cli测试链"><a href="#truffle-部署智能合约到ganache-cli测试链" class="headerlink" title="truffle 部署智能合约到ganache-cli测试链"></a>truffle 部署智能合约到ganache-cli测试链</h2><h5 id="1-安装truffle"><a href="#1-安装truffle" class="headerlink" title="1.安装truffle"></a>1.安装truffle</h5><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">sudo npm <span class="hljs-keyword">install</span> -g truffle<br></code></pre></td></tr></table></figure>
+<h5 id="2-安装ganache-cli"><a href="#2-安装ganache-cli" class="headerlink" title="2.安装ganache-cli"></a>2.安装ganache-cli</h5><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">npm install ganache-<span class="hljs-keyword">cli</span><br></code></pre></td></tr></table></figure>
+<h5 id="3-开启ganache-cli测试链"><a href="#3-开启ganache-cli测试链" class="headerlink" title="3.开启ganache-cli测试链"></a>3.开启ganache-cli测试链</h5><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs 1c">启动测试链：ganache-cli -d -h localhost:<span class="hljs-number">8545</span> &gt; ganache.<span class="hljs-built_in">log</span> <span class="hljs-meta">&amp;</span><br>ganache-cli -d -h <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">8545</span> &gt; ganache.<span class="hljs-built_in">log</span> <span class="hljs-meta">&amp;</span><br>ganache-cli &gt; ganache.<span class="hljs-built_in">log</span> <span class="hljs-meta">&amp;</span><br>查看测试链tail -f ganache.<span class="hljs-built_in">log</span><br>查看端口进程 lsof -i :<span class="hljs-number">8545</span><br>ganache-cli -p <span class="hljs-number">8546</span> &gt; ganache.<span class="hljs-built_in">log</span> <span class="hljs-meta">&amp;</span><br></code></pre></td></tr></table></figure>
+<p><img src="/images/lab_test/image-20230910153212898.png" srcset="/img/loading.gif" lazyload alt="image-20230910153212898"></p>
+<h5 id="4-初始化truffle项目"><a href="#4-初始化truffle项目" class="headerlink" title="4.初始化truffle项目"></a>4.初始化truffle项目</h5><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">在项目根目录下<br>初始化：truffle init<br>.<br>├── contracts<br>├── migrations<br>├── test<br>└── truffle-<span class="hljs-built_in">config</span>.<span class="hljs-keyword">js</span><br><span class="hljs-keyword"></span><span class="hljs-number">3</span> <span class="hljs-keyword">directories, </span><span class="hljs-number">1</span> file<br></code></pre></td></tr></table></figure>
+<p><img src="/images/lab_test/image-20230910152557622.png" srcset="/img/loading.gif" lazyload alt="image-20230910152557622"></p>
+<h5 id="5-创建合约"><a href="#5-创建合约" class="headerlink" title="5.创建合约"></a>5.创建合约</h5><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">编写简单智能合约和测试代码<br>在项目根目录下的contracts目录中创建一个新的Solidity合约文件，例如SimpleStorage.sol，并添加以下内容：<br>// SimpleStorage.sol<br>// SPDX-License-Identifier: MIT<br>pragma solidity ^<span class="hljs-number">0.8</span><span class="hljs-number">.17</span>;<br><br>contract SimpleStorage &#123;<br>    uint256 <span class="hljs-built_in">public</span> storedData;<br><br>    <span class="hljs-keyword">function</span> <span class="hljs-keyword">set</span>(uint256 x) <span class="hljs-built_in">public</span> &#123;<br>        storedData = x;<br>    &#125;<br><br>    <span class="hljs-keyword">function</span> <span class="hljs-keyword">get</span>() <span class="hljs-built_in">public</span> <span class="hljs-keyword">view</span> <span class="hljs-keyword">returns</span> (uint256) &#123;<br>        <span class="hljs-keyword">return</span> storedData;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h5 id="6-创建一个合约迁移脚本"><a href="#6-创建一个合约迁移脚本" class="headerlink" title="6.创建一个合约迁移脚本"></a>6.创建一个合约迁移脚本</h5><p>在项目根目录下的<code>migrations</code>目录中创建一个新的迁移脚本，例如<code>2_deploy_simple_storage.js</code>，并添加以下内容：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript">javascriptCopy code<span class="hljs-comment">// 2_deploy_simple_storage.js</span><br><span class="hljs-keyword">const</span> SimpleStorage = artifacts.require(<span class="hljs-string">&quot;SimpleStorage&quot;</span>);<br><br><span class="hljs-built_in">module</span>.exports = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">deployer</span>) </span>&#123;<br>  deployer.deploy(SimpleStorage);<br>&#125;;<br></code></pre></td></tr></table></figure>
+<h5 id="7-部署合约到测试链"><a href="#7-部署合约到测试链" class="headerlink" title="7.部署合约到测试链"></a>7.部署合约到测试链</h5><p>（确保测试链处于运行状态，并且truffle-config.js内的网络配置正确连接到测试网）</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">部署：truffle migrate<br>truffle migrate <span class="hljs-comment">--to 2</span><br>truffle migrate <span class="hljs-comment">--reset --f 4 --to 4</span><br><br>truffle migrate <span class="hljs-comment">--f 2 --to 2</span><br>truffle-config.js<br> development: &#123;<br>     host: &quot;127.0.0.1&quot;,     // Localhost (<span class="hljs-keyword">default</span>: <span class="hljs-keyword">none</span>)<br>     port: <span class="hljs-number">8545</span>,            // Standard Ethereum port (<span class="hljs-keyword">default</span>: <span class="hljs-keyword">none</span>)<br>     network_id: &quot;*&quot;,       // <span class="hljs-keyword">Any</span> network (<span class="hljs-keyword">default</span>: <span class="hljs-keyword">none</span>)<br>    &#125;<br>    ../../coordinator/build/SimpleStorage.json<br>        let contract_address = Address::from_str(&quot;0x10fB2Ab116E2Eb3a8B5a1Ca912E05f63c3D969E4&quot;)?;<br>    let contract_abi = include_bytes!(&quot;SimpleStorage.json&quot;);<br></code></pre></td></tr></table></figure>
+<p><img src="/images/lab_test/image-20230910153433034.png" srcset="/img/loading.gif" lazyload alt="image-20230910153433034"></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp">查看已部署合约:<br>进入控制台：<span class="hljs-function">truffle console</span><br><span class="hljs-function"><span class="hljs-title">truffle</span>(<span class="hljs-params">development</span>)&gt; <span class="hljs-keyword">let</span> instance</span> = <span class="hljs-keyword">await</span> TexasHoldemPoker.deployed();<br>truffle(development)&gt; instance2.address<br><span class="hljs-keyword">let</span> instance2 = <span class="hljs-keyword">await</span> COORDINATOR.deployed()<br><span class="hljs-keyword">await</span> instance.<span class="hljs-keyword">set</span>(<span class="hljs-number">1234</span>); <span class="hljs-comment">//调用合约</span><br><span class="hljs-keyword">await</span> instance.<span class="hljs-keyword">get</span>();<br></code></pre></td></tr></table></figure>
+<p><img src="/images/lab_test/image-20230912162616416.png" srcset="/img/loading.gif" lazyload alt="image-20230912162616416"></p>
+<p><img src="/images/lab_test/image-20230915165435356.png" srcset="/img/loading.gif" lazyload alt="image-20230915165435356"></p>
+<h2 id="rust项目"><a href="#rust项目" class="headerlink" title="rust项目"></a>rust项目</h2><p>1.安装rust <a target="_blank" rel="noopener" href="https://rustup.rs/">https://rustup.rs/</a></p>
+<p>参考： <a target="_blank" rel="noopener" href="https://course.rs/first-try/installation.html">https://course.rs/first-try/installation.html</a></p>
+<h2 id="rust和ganache-cli测试链交互"><a href="#rust和ganache-cli测试链交互" class="headerlink" title="rust和ganache-cli测试链交互"></a>rust和ganache-cli测试链交互</h2><p>1.添加web3依赖项，Cargo.toml</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[dependencies]</span><br><span class="hljs-attr">web3</span> = <span class="hljs-string">&quot;0.19&quot;</span><br><span class="hljs-attr">tokio</span> = &#123; version = <span class="hljs-string">&quot;1&quot;</span>, features = [<span class="hljs-string">&quot;full&quot;</span>] &#125;<br></code></pre></td></tr></table></figure>
+<p>2.编写交互代码，main.rs</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs rust"><span class="hljs-keyword">use</span> web3::transports::Http;<br><span class="hljs-keyword">use</span> web3::Web3;<br><br><span class="hljs-meta">#[tokio::main]</span><br><span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() &#123;<br>    <span class="hljs-comment">// 创建一个web3实例，连接到本地的ganache-cli测试链</span><br>    <span class="hljs-keyword">let</span> http = Http::new(<span class="hljs-string">&quot;http://localhost:8545&quot;</span>).unwrap();<br><br>    <span class="hljs-comment">// 创建web3实例</span><br>    <span class="hljs-keyword">let</span> web3 = Web3::new(http);<br><br>    <span class="hljs-comment">// 调用web3.eth().accounts()方法，获取所有账户地址</span><br>    <span class="hljs-keyword">let</span> accounts = web3.eth().accounts().<span class="hljs-keyword">await</span>.unwrap();<br><br>    <span class="hljs-comment">// 打印所有账户地址</span><br>    <span class="hljs-built_in">println!</span>(<span class="hljs-string">&quot;Accounts: &#123;:?&#125;&quot;</span>, accounts);<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>3.运行项目</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">cargo <span class="hljs-built_in">run</span><br></code></pre></td></tr></table></figure>
+<p><img src="/images/lab_test/image-20230910211339344.png" srcset="/img/loading.gif" lazyload alt="image-20230910211339344"></p>
+<p>检验正确性，初始的虚拟账户为：</p>
+<p><img src="/images/lab_test/image-20230910211714219.png" srcset="/img/loading.gif" lazyload alt="image-20230910211714219"></p>
+<h2 id="安装Solidity编译器"><a href="#安装Solidity编译器" class="headerlink" title="安装Solidity编译器"></a>安装Solidity编译器</h2><p>资料： <a target="_blank" rel="noopener" href="https://solidity-cn.readthedocs.io/zh/develop/installing-solidity.html">https://solidity-cn.readthedocs.io/zh/develop/installing-solidity.html</a></p>
+<h5 id="1-安装solidity版本管理器"><a href="#1-安装solidity版本管理器" class="headerlink" title="1.安装solidity版本管理器"></a>1.安装solidity版本管理器</h5><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">pip</span> install solc-<span class="hljs-literal">select</span><br></code></pre></td></tr></table></figure>
+<h5 id="2-选择版本进行安装-启用-验证"><a href="#2-选择版本进行安装-启用-验证" class="headerlink" title="2.选择版本进行安装/启用/验证"></a>2.选择版本进行安装/启用/验证</h5><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">solc</span>-select install <span class="hljs-number">0</span>.<span class="hljs-number">8</span>.<span class="hljs-number">17</span><br><span class="hljs-attribute">solc</span>-select install <span class="hljs-number">0</span>.<span class="hljs-number">8</span>.<span class="hljs-number">17</span> &amp;&amp; solc-select use <span class="hljs-number">0</span>.<span class="hljs-number">8</span>.<span class="hljs-number">17</span><br><span class="hljs-attribute">solc</span> --version<br></code></pre></td></tr></table></figure>
+<p>3.与合约进行交互</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://docs.moonbeam.network/cn/builders/build/eth-api/libraries/ethersrs/">https://docs.moonbeam.network/cn/builders/build/eth-api/libraries/ethersrs/</a></p>
+<h2 id="安装Docker-部署sgx环境"><a href="#安装Docker-部署sgx环境" class="headerlink" title="安装Docker + 部署sgx环境"></a>安装Docker + 部署sgx环境</h2><p><strong>参考资料</strong></p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://teaclave.apache.org/blog/2021-08-25-developing-sgx-application-with-teaclave-sgx-sdk/">使用 TEACLAVE SGX SDK 开发 SGX 应用</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/dingelish/SGXfail/blob/master/01.md">剖析hello-rust</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/apache/incubator-teaclave-sgx-sdk">incubator-teaclave-sgx-sdk</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>lab测试</div>
+      <div>https://yuwxl.github.io/2023/09/10/forOC/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年9月10日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/01/15/rw/" title="rw">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">rw</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/09/10/lab_test/" title="lab测试">
+                        <span class="hidden-mobile">lab测试</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

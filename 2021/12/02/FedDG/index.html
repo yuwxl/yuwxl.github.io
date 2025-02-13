@@ -1,0 +1,1497 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="[论文翻译]FedDG: Federated Domain Generalization on Medical Image Segmentation via Episodic Learning in Continuous Frequency Space FedDG:通过在连续频率空间的Episodic Learning 的联邦域生成在医学图像分割上的应用  Abstract​        Fe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【论文翻译】FedDG">
+<meta property="og:url" content="https://yuwxl.github.io/2021/12/02/FedDG/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="[论文翻译]FedDG: Federated Domain Generalization on Medical Image Segmentation via Episodic Learning in Continuous Frequency Space FedDG:通过在连续频率空间的Episodic Learning 的联邦域生成在医学图像分割上的应用  Abstract​        Fe">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20211202135641019.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20211204091653731.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220110110541204.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220110110541204.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220110122610403.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220110121738512.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220110122610403.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220110121738512.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220111102946631.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220111103151298.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220111104708578.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220111104923190.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220111102946631.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220111103151298.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220111104708578.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220111104923190.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20220126201535533.png">
+<meta property="article:published_time" content="2021-12-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-28T01:27:04.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/FedDG.assets/image-20211202135641019.png">
+  
+  
+  
+  <title>【论文翻译】FedDG - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="【论文翻译】FedDG"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-12-02 00:00" pubdate>
+          2021年12月2日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          48k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          402 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">【论文翻译】FedDG</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <hr>
+<h3 id="论文翻译-FedDG-Federated-Domain-Generalization-on-Medical-Image-Segmentation-via-Episodic-Learning-in-Continuous-Frequency-Space"><a href="#论文翻译-FedDG-Federated-Domain-Generalization-on-Medical-Image-Segmentation-via-Episodic-Learning-in-Continuous-Frequency-Space" class="headerlink" title="[论文翻译]FedDG: Federated Domain Generalization on Medical Image Segmentation via Episodic Learning in Continuous Frequency Space"></a>[论文翻译]<strong>FedDG: Federated Domain Generalization on Medical Image Segmentation via Episodic Learning in Continuous Frequency Space</strong></h3><blockquote>
+<p>FedDG:通过在连续频率空间的<strong>Episodic Learning</strong> 的联邦域生成在医学图像分割上的应用</p>
+</blockquote>
+<h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a><strong>Abstract</strong></h4><p>​        Federated learning allows distributed medical institutions to collaboratively learn a shared prediction model with privacy protection. While at clinical deployment, the models trained in federated learning can still suffer from performance drop when applied to completely unseen hospitals outside the federation. In this paper, we point out and solve ==a novel problem setting== of federated domain generalization (FedDG), which aims to learn a federated model from multiple distributed source domains such that it can directly generalize to unseen target domains. We present a novel approach, named as ==Episodic Learning== in Continuous Frequency Space (ELCFS), for this problem by enabling each client to exploit multi-source data distributions under the challenging constraint of data decentralization. Our approach transmits the distribution information across clients in a privacy-protecting way through an effective continuous frequency space interpolation mechanism. With the transferred multi-source distributions, we further carefully  design a boundary-oriented episodic learning paradigm to expose the local learning to ==domain distribution shifts== and particularly meet the challenges of model generalization in medical image segmentation scenario. The effectiveness of our method is demonstrated with superior performance over state-of-the-arts and ==in-depth ablation experiments== on two medical image segmentation tasks. The code is available at  <a target="_blank" rel="noopener" href="https://github.com/liuquande/FedDG-ELCFS">https://github.com/liuquande/FedDG-ELCFS</a>.</p>
+<blockquote>
+<p><strong>摘要</strong></p>
+<p>​        联合学习允许分布式医疗机构协同学习具有隐私保护的共享预测模型。而在临床部署时，联邦学习训练的模型在应用于联邦之外完全看不见的医院时，仍然会遭受性能下降的困扰。本文提出并解决了一个新的联邦域泛化问题( FedDG )，该问题旨在从多个分布式源域学习一个联邦模型，使其能够直接泛化到不可观测的目标域。针对这个问题，我们提出了一种新的方法，称为连续频率空间中的情景学习( ELCFS )，使每个客户端能够在数据分散的挑战约束下利用多源数据分布。我们的方法通过有效的连续频率空间插值机制，以隐私保护的方式传输跨客户端的分布信息。随着转移的多源分布，我们进一步精心设计了一个面向边界的情景学习范式，以使局部学习能够适应领域分布的变化，并特别针对医学图像分割场景中模型泛化的挑战。我们的方法在两个医学图像分割任务上的性能均优于目前的研究现状和深度消融实验。代码可在<strong><a target="_blank" rel="noopener" href="https://github.com/liuquande/FedDG-ELCFS">https://github.com/liuquande/FedDG-ELCFS</a></strong>获得。</p>
+</blockquote>
+<h4 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a><strong>1. Introduction</strong></h4><p>​        Data collaboration across multiple medical institutions is increasingly desired to build accurate and robust data-driven deep networks for medical image segmentation [7, 18, 50]. Federated learning (FL) [20] has recently opened the door for a promising privacy-preserving solution, which allows training a model on distributed datasets while keeping data locally. The paradigm works in a way that each local client(e.g., hospital) learns from their own data, and only aggregates the model parameters at a certain frequency at the central server to generate a global model. <code>怎么聚合？为什么聚合后可以适用于全局？</code>All the data samples are kept within each local client during federated training.</p>
+<blockquote>
+<p>1.引言</p>
+<p>​        跨多个医疗机构的数据协作越来越希望构建精确、稳健的数据驱动的医学图像分割深度网络[  7、 18、 50 ]。联邦学习( Federation Learning，FL ) 最近开启了一个很有前途的隐私保护解决方案的大门，它允许在分布式数据集上训练一个模型同时保持数据在本地。该范式的工作方式是每个本地客户 ( 例如 ,医院 )从自身数据中学习，只在中心服务器以一定频率聚合模型参数，生成全局模型。在联邦训练过程中，所有的数据样本都保存在每个本地客户端。</p>
+</blockquote>
+<p><img src="/images/FedDG.assets/image-20211202135641019.png" srcset="/img/loading.gif" lazyload alt="image-20211202135641019"></p>
+<p>Figure 1. (a) The novel problem setting of federated domain generalization (FedDG), which aims to learn a federated model from multiple decentralized source domains such that it can directly generalize to completely unseen target domains. (b) Our main idea to tackle FedDG by transferring distribution information in frequency space and episodic learning at each local client.</p>
+<blockquote>
+<p>图1 .(a) 一个新的联邦域泛化问题( FedDG )，该问题旨在从多个分布式源域学习一个联邦模型，使其能够直接泛化到不可观测的目标域;(b)我们的主要想法是通过在频率空间中传输分布信息和在每个本地客户的Episodic Learning来处理FedDG。</p>
+</blockquote>
+<p>​        Although FL has witnessed some pilot progress on medical image segmentation tasks [4, 44, 49], all existing works only focus on improving model performance on the internal clients, while neglecting model generalizability onto unseen domains outside the federation. This is a crucial problem impeding wide applicability of FL models in real practice. The testing medical images encountered in unseen hospitals can differ significantly from the source clients in terms of data distributions, due to the variations in imaging scanners and protocols. How to generalize the federated model under such distribution shifts is technically challenging yet unexplored so far. In this work, we identify the novel problem setting of <em>Federated Domain Generalization</em> (FedDG),which aims to learn a federated model from multiple decentralized source domains such that it can directly generalize to completely unseen domains, as illustrated in Fig. 1 (a).</p>
+<blockquote>
+<p>​    尽管FL在医学图像分割任务方面取得了一些试点进展[  4、 44、 49 ]，但现有的所有工作都只注重提高内部客户端的模型性能，而忽略了模型在联邦之外的<strong>不可视领域的可推广性</strong>。这是阻碍FL模型在实际应用中广泛应用的关键问题。由于成像扫描仪和协议的不同，无法观察到的医院所遇到的测试医学图像在数据分布上会与源客户端产生明显差异。如何在这种分布移位下推广联邦模型，在技术上是具有挑战性的，但迄今为止还没有探索。在本工作中，我们识别了联邦域泛化( FedDG )的新颖问题设置，它旨在从多个分散的源域中学习一个联邦模型，使其能够直接泛化到完全看不见的域，如图1 ( a )所示。</p>
+</blockquote>
+<p>​    Unseen domain generalization (DG) is an active research topic with different methods being proposed [3, 8, 11, 24,25, 26, 29, 37, 43], but the federated paradigm with distributed data sources poses new challenges for DG. With the goal to extract representations that are robust to distribution shift, existing DG approaches usually require access to multi-source distributions in the learning process. For instance, adversarial feature alignment methods [26, 29] have to train the domain discriminator with samples from different source datasets. Meta-learning based methods [8, 24] need to use multi-source data of different distributions to construct virtual training and virtual testing domains within each minibatch. Whereas in federated paradigm, data are stored distributedly and the learning at each client can only access its local data. Therefore, current DG methods are typically not applicable in FedDG scenario. In addition, the local optimization would make model biased to its own data distribution, thus less generalizable to new target domains.<code>风格迁移？？？</code></p>
+<blockquote>
+<p>​        不可视领域泛化( DG )是一个活跃的研究课题，不同的方法被提出[  3、 8、 11、 24、 25、 26、 29、 37、 43 ]，但分布式数据源的联邦范式对DG提出了新的挑战。现有DG方法以提取对分布偏移具有鲁棒性的表示为目标，在学习过程中通常需要访问多源分布。例如，对抗特征对齐方法[  26,29 ]需要用来自不同源数据集的样本训练领域判别器。基于元学习的方法[  8,24 ]需要使用不同分布的多源数据在每个小批量数据内构建虚拟训练和虚拟测试域。而在联邦模式下，数据是分布式存储的，每个客户端的学习只能访问其本地数据。因此，目前的DG方法在FedDG场景中通常不适用。此外，局部优化会使模型偏向于自身的数据分布，从而对新的目标域的通用性较差。</p>
+</blockquote>
+<p>​        To solve this FedDG problem, <strong>our insight is to enable each client to access multi-source data distributions in a privacy-protecting way</strong>. The idea is motivated by the knowledge that <strong>the low-level distributions (i.e., style) and high level semantics of an image can be respectively captured by amplitude and phase spectrum in the frequency space</strong>, as revealed by visual psychophysics [13, 42, 57].<strong>We can consider exchanging these amplitude spectrum across clients to transmit the distribution information (cf. Fig. 1 (b)), while keeping the phase spectrum with core semantics locally for privacy protection.</strong> Based on this, we also devise a <code>continuous frequency space interpolation mechanism</code>, which interpolates between the local and transferred distributions for enriching the established multi-domain distributions for each local client.<code>怎么插值，啥意思?</code> This promotes the local training to gain domain-invariance benefiting from a dedicated dense distribution space. With these established distributions, we expose the local learning to domain distribution shifts via an episodic training paradigm to enhance the generalizability of local parameters. A novel meta-update objective function is designed to guide cross-domain optimization attending to the boundary area. This is notably important for medical image segmentation applications where generalization errors often come from imprecise predictions at ambiguous boundary of anatomies.</p>
+<blockquote>
+<p>​        为了解决联邦不可视域泛化的问题，我们提出以一种隐私保护的方式让每个客户端能够接触多种数据分布。该想法灵感来源于：这个想法的动机是，正如视觉心理物理学所揭示的那样，<strong>图像的低级分布（即样式）和高级语义可以分别通过频率空间中的振幅和相位谱</strong>来捕获[13，42，57]。为了解决这个FedDG问题，我们的见解是使每个客户端能够以隐私保护的方式访问多源数据分布。这一想法的动机是，图像的低级分布( 即 ,风格 )和高级语义可以分别由频率空间中的幅度和相位谱捕获，如视觉心理物理学所揭示的[  13,42,57 ]。我们可以考虑通过客户端上传分布信息交换这些振幅谱，同时保持本地这些带余核心语义 的频谱信息得到隐私保护。我们可以考虑在客户端之间交换这些幅度谱来传输分布信息(  cf .图 1 ( b  )，同时在本地保留具有核心语义的相位谱来进行隐私保护。基于此，我们设计了一个连续频率空间插值机制，能够为在本地和已上传分布中插值，为每个本地用户丰富已建立的多域联邦分布。这促使本地训练能够得到域不变性，有利于专用的密集的分布空间。利用这些已建立的分布，我们通过情景训练范式将局部学习暴露给域分布偏移，以增强局部参数的可泛化性。设计了一种新的元更新目标函数来指导关注边界区域的跨域优化。这对于医学图像分割应用尤其重要，因为泛化误差往往来自于解剖结构模糊边界处的不精确预测。</p>
+</blockquote>
+<p> Our main contributions are highlighted as follows:</p>
+<ul>
+<li>We tackle the novel and practical problem of  Federated Domain Generalization. To the best of our knowledge, this is the first work to improve generalizability on completely unseen domains for federated models.</li>
+<li>We propose a privacy-preserving solution to learn the generalizable FL model under decentralized datasets, through an effective continuous frequency space interpolation mechanism across clients.</li>
+<li>We present a novel boundary-oriented episodic learning scheme for the local training at a client, which exposes local optimization to ==domain shifts== and enhances model generalizability at ambiguous boundary area.</li>
+<li>We conduct extensive experiments on two typical medical image segmentation tasks, i.e., retinal fundus image segmentation (four datasets) and prostate MRI segmentation (six datasets). Our achieved superior performance over state-of-the-arts and in-depth analytical experiments demonstrate the efficacy of our approach.</li>
+</ul>
+<blockquote>
+<p>我们的主要贡献突出如下：</p>
+<ul>
+<li>我们攻克了联邦域泛化这一新颖而实际的问题。据我们所知，这是第一个改进联邦模型在完全看不见的域上的可推广性的工作。</li>
+<li>我们提出了一种隐私保护方案，通过跨客户端的有效连续频率空间插值机制，学习分散数据集下的可推广FL模型。</li>
+<li>我们提出了一种新颖的面向边界的情景学习方案用于客户端的局部训练，它将局部优化暴露给域转换，并增强了模型在模糊边界区域的泛化能力。</li>
+<li>我们对两个典型的医学图像分割任务进行了广泛的实验，即视网膜眼底图像分割(四个数据集)和前列腺MRI分割(六个数据集)。我们取得了优于先进水平的性能，深入的分析实验证明了我们的方法的有效性。</li>
+</ul>
+</blockquote>
+<h4 id="2-Related-Work"><a href="#2-Related-Work" class="headerlink" title="2. Related Work"></a><strong>2. Related Work</strong></h4><h5 id="2-1-Federated-Learning-in-Medical-Imaging"><a href="#2-1-Federated-Learning-in-Medical-Imaging" class="headerlink" title="2.1. Federated Learning in Medical Imaging"></a><strong>2.1. Federated Learning in Medical Imaging</strong></h5><p>​        Federated learning [15, 20, 36, 56] provides a promising privacy-preserving solution for multi-site data collaboration, which develops a global model from decentralized datasets by aggregating the parameters of each local client while keeping data locally. Representatively, McMahan etal. [36] propose the popular federated averaging algorithm for communication-efficient federated training of deep networks. With the advantage of privacy protection, FL has recently drawn increasing interests in medical image applications [4, 18, 22, 27, 45, 49, 51]. Sheller et al. [49] is a pilot study to investigate the collaborative model training without sharing patient data for the multi-site brain tumor segmentation. Later on, Li et al. [27] further compare several weights sharing strategies in FL to alleviate the effect of data imbalance among different hospitals. However, these works all focus on improving performance on internal clients, without considering the generalization issue for unseen domains outside the federation, which is crucial for wide clinical usability. Latest literature has studied a related problem of unsupervised domain adaptation in FL paradigm [28, 41], whereas these methods typically require data from the target domain to adapt the model. In practice, it would be time consuming or even impractical to collect data from each new hospital before model deployment. Instead, our tackled new problem setting of FedDG aims to directly generalize the federated model to completely unseen domains, in which no prior knowledge from the target domain is needed.</p>
+<blockquote>
+<p>​        联邦学习[15,20,36,56]为多站点数据协作提供了一个很有前途的隐私保护解决方案，该解决方案通过聚合每个本地客户端的参数，同时在本地保存数据，从分散的数据集开发一个全局模型。典型地, 麦克马汉等等。[36]提出了一种流行的联合平均算法，用于深度网络的通信高效联合训练。随着隐私保护的优势，FL最近在医学图像应用中越来越受到关注[4,18,22,27,45,49,51]。Sheller等人的[49]是一项试点研究，旨在调查无需共享患者数据的协作模型训练用于多位点脑肿瘤分割。Li et al.[27]进一步比较了FL中的几种权重共享策略，以缓解不同医院之间数据不平衡的影响。然而，这些工作都关注于提高内部客户机的性能，而没有考虑联邦之外的未查看领域的泛化问题，而这对广泛的临床可用性至关重要。最新的文献研究了FL范式中无监督域适应的相关问题[28,41]，而这些方法通常需要目标域的数据来适应模型。在实践中，在模型部署之前从每个新医院收集数据将是耗时的，甚至是不切实际的。相反，我们处理的FedDG的新问题设置旨在直接将联邦模型泛化到完全不可见的领域，在这些领域中不需要来自目标领域的先验知识。</p>
+</blockquote>
+<h5 id="2-2-Domain-Generalization"><a href="#2-2-Domain-Generalization" class="headerlink" title="2.2. Domain Generalization"></a>2.2. Domain Generalization</h5><p>​        Domain generalization [5, 9, 12, 14, 43, 47, 58, 59] aims to learn a model from multiple source domains such that it can directly generalize to unseen target domains. Among previous efforts, some methods aim to learn domain-invariant representations by minimizing the domain discrepancy across multiple source domains [11,16, 26, 29, 32, 37, 38, 55]. For example, Motiian etal. [37] utilize a contrastive loss to minimize the distance between samples from the same class but different domains. Some other DG methods are based on meta-learning, which is an episodic training paradigm by creating meta-train and meta-test splits at each iteration to stimulate domain shift [1, 8, 24, 30]. Li et al. [30] employ meta-learning to learn an ==auxiliary loss== that guides the feature extractor to learn more generalized features. However, these methods typically require centralizing multi-domain data in one place for learning, which violates privacy protection in federated learning setting with decentralized datasets.</p>
+<blockquote>
+<p>​        域泛化 [5， 9， 12， 14， 43， 47， 58， 59] 旨在从多个源域中学习模型，以便它可以直接泛化到看不见的目标域。在以前的研究中，一些方法旨在通过最小化多个源域之间的域差异来学习域不变表示[11，16，26，29，32，37，38，55]。例如，Motiian etal。[37]利用对比损失来最小化来自同一类别但不同域的样本之间的距离。其他一些DG方法基于元学习，这是一种情节训练范式，通过在每次迭代时创建元训练和元测试拆分来刺激域转移[1，8，24，30]。Li等人[30]利用元学习来学习辅助损失，该损失指导特征提取器学习更广义的特征。但是，这些方法通常需要将多域数据集集中在一个学习位置，这违反了具有分散数据集的联合学习设置中的隐私保护。</p>
+</blockquote>
+<p>​         There are other methods tackling DG by manipulating deep neural network architectures [19, 23, 35], leveraging self-supervision signals [3, 54], designing training heuristics [17, 25], or conducting data augmentations [48, 53, 60,61], which are free from requirement of data centralization. Representatively, Carlucci et al. [3] adopt self-supervised learning by solving ==jigsaw puzzles==. Zhang et al. [60] conduct extensive data augmentations on each source domain by stacking a series of transformations. These approaches, when applied in FL paradigm, can helpfully act as regularizations for the local training with individual source domain data, yet hardly exploit the rich data distributions across domains. Our method instead, aims to transfer the distribution information across clients to make full use of the multi-source distributions towards FedDG. We also experimentally compare with these typical methods under the FL setting with superior performance demonstrated.</p>
+<blockquote>
+<p>​        处理DG的其他方法包括操纵深度神经网络架构[19,23,35]、利用自我监督信号[3,54]、设计训练启发式[17,25]或进行数据增强[48,53,60,61]，这些方法都不需要数据集中化。具有代表性的是，Carlucci等人通过拼图游戏采用自我监督学习。Zhang等人通过叠加一系列变换对每个源域进行广泛的数据增强。这些方法在FL范例中应用时，可以有效地作为个别源域数据的局部训练的规范化，但很难利用跨域的丰富数据分布。相反，我们的方法旨在跨客户端传递分发信息，以充分利用面向FedDG的多源分发。我们还与这些典型的方法进行了实验比较，在FL设置下显示了优越的性能。</p>
+</blockquote>
+<h4 id="3-Method"><a href="#3-Method" class="headerlink" title="3. Method"></a><strong>3. Method</strong></h4><p>​        We start with the formulation for federated domain generalization and its challenges in medical image segmentation scenario. We then describe the proposed method Episodic Learning in Continuous Frequency Space(ELCFS) to explicitly address these challenges. An overview of the method is shown in Fig. 2.</p>
+<blockquote>
+<p>​        我们从联合域泛化的公式及其在医学图像分割场景中的挑战开始。然后，我们描述了所提出的连续频率空间中的情景学习（ELCFS）方法，以明确解决这些挑战。该方法的概述如图2所示。</p>
+</blockquote>
+<p><img src="/images/FedDG.assets/image-20211204091653731.png" srcset="/img/loading.gif" lazyload alt="image-20211204091653731"></p>
+<p>Figure 2. Overview of our proposed episodic learning in continuous frequency space (ELCFS). The distribution information is exchanged across clients from frequency space with an continous interpolation mechanism, enabling each local client to access the multi-source distributions. An episodic training paradigm is then established to expose the local optimization to domain shift, with explicit regularization to promote domain-independent feature cohesion and separation at the ambiguous boundary region for improving generalizability.</p>
+<blockquote>
+<p>图2 .综述我们提出的连续频率空间的幕式学习( ELCFS )。分布信息通过频率空间的连续插值机制在客户端之间交换，使得每个本地客户端都能够访问多源分布。然后建立了一种情景训练范式，将局部优化暴露在领域转移中，并通过显式正则化来促进领域无关特征在模糊边界区域的凝聚和分离，以提高泛化能力。</p>
+</blockquote>
+<h5 id="3-1-Federated-Domain-Generalization"><a href="#3-1-Federated-Domain-Generalization" class="headerlink" title="3.1. Federated Domain Generalization"></a><strong>3.1. Federated Domain Generalization</strong></h5><p>​        <strong>Preliminaries:</strong> In FedDG, we denote$ (X,Y)$ as the joint image and label space of a task, $S =\{ S^1,S^2,…,S^K \}$ as the set of $K$ distributed source domains involved in federated learning. Each domain contains data and label pairs of $S^k= \{ ( x^k_i, y_i^k)\}^{N^k}_{i=1}$ ,  which are sampled from a domain specific distribution  $(X^ k, Y)$. The goal of FedDG is to learn a model  $f_θ : X → Y$ using the $K$  distributed source domains, such that it can directly generalize to a completely unseen testing domain $T$​ with a high performance.</p>
+<p>​        Standard federated learning paradigm involves the communication between a central server and the $K$​ local clients. At each federated round $t$​, every client $k$​  will receive the same global model weights $θ$​ from the central server and update the model with their local data $S^k$​ for $E$​ epochs. The central server then collects the local parameters $ θ^k$​ from all clients and aggregates them to update the global model. This process repeats until the global model converges. In this work, we consider the most popular federated averaging algorithm (FedAvg) [36], which aggregates the local parameters with weights in proportional to the size of each local dataset to update the global model, i.e.,  $θ = {\sum ^K _{k=1}} \frac {N^k}Nθ^ k $​,where $N = {\sum ^K _{k=1}} N^k$​​​ . It is worth noting that our method can also be flexibly incorporated to other FL backbones.</p>
+<blockquote>
+<p>​        <strong>预备知识：</strong>在FedDG中，$ (X,Y)$表示任务的联合图像和标记空间，$S =\{ S^1,S^2,…,S^K \}$表示参与联合学习的K个分布式源域集合。每个域包含$S^k= \{ ( x^k_i, y_i^k)\}^{N^k}_{i=1}$的数据和标签对，这些数据和标签对是从特定域分布$(X^ k, Y)$中采样的。FedDG的目标是利用K个分布式源域学习一个模型$f_θ : X → Y$​，使其能够直接泛化到一个完全看不到的高性能的测试域T。</p>
+<p>​        标准的联邦学习范式涉及中心服务器与K个本地客户端之间的通信。在每个联邦轮 t，每个客户端 k将从中央服务器收到相同的全局模型权值θ，并以它们的本地数据$S^k$更新模型，用于E 个 epochs。然后，中心服务器从所有客户端收集本地参数$ θ^k$，并将其聚合以更新全局模型。这个过程重复，直到全局模型收敛。在这项工作中，我们考虑了最流行的联邦平均算法( FedAvg ) ，它将局部参数按照每个局部数据集的大小按比例聚集起来，以更新全局模型，即$θ = {\sum ^K _{k=1}} \frac {N^k}Nθ^ k $，其中$N = {\sum ^K _{k=1}} N^k$​。值得注意的是，我们的方法也可以灵活地纳入其他FL骨干（网络）。</p>
+</blockquote>
+<p>​        <strong>Challenges:</strong> With the goal of unseen domain generalization, a model is expected to thoroughly investigate the multi-source data distributions to pursue domain-invariance of its learned latent space. However, the federated setting in the specific medical image segmentation scenario poses several challenges for that. ==<em>First</em>==, the multi-source data in FL are stored distributedly and the learning at each client can only access its individual local distribution, which constrains to make full use of the multi-source distributions to learn generalizable parameters. ==<em>Second</em>==, though FL has collaborated multi-source data, the medical images acquired from different clinical sites can present large heterogeneity. This leads to distinct distributions among the collaborative datasets, which is insufficient to ensure domain invariance in a more continuous distribution space to attain good generalizability in complex clinical environments. ==Third==, the structure of medical anatomises usually present high ambiguity around its boundary region, raising challenge for previous DG techniques that typically lacks assurance for the domain-invariance of features in such ambiguous region.</p>
+<blockquote>
+<p>​        <strong>挑战:</strong>以未知领域泛化为目标，期望模型深入研究多源数据分布，以追求其学习的潜在空间的领域不变性。然而，特定的医学图像分割场景中的联邦设置对此提出了一些挑战。==首先==，FL中的多源数据是分布式存储的，每个客户端的学习只能访问其单独的局部分布，这就限制了充分利用多源分布来学习可概化参数。==第二==,虽然FL合作了多源数据，但从不同临床站点获得的医学图像存在很大的异质性。这导致协同数据集之间存在不同的分布，这不足以确保在更连续的分布空间中具有领域不变性，从而在复杂的临床环境中获得良好的泛化性。 ==第三==，医学解剖的结构通常在其边界区域具有高度的模糊性，这对以往的DG技术提出了挑战，通常缺乏对这种模糊区域特征的域不变性的保证。</p>
+</blockquote>
+<h5 id="3-2-Continuous-Frequency-Space-Interpolation"><a href="#3-2-Continuous-Frequency-Space-Interpolation" class="headerlink" title="3.2. Continuous Frequency Space Interpolation"></a><strong>3.2. Continuous Frequency Space Interpolation</strong></h5><p>​        To address the restriction of decentralized datasets, the foundation of our solution is to exchange the distribution information across clients, such that each local client can get access to multi-source data distributions for learning generalizable parameters. Considering that sharing raw images is forbidden, <strong>we propose to exploit the information inherent in the frequency space, which enables to separate the distribution (i.e. style) information from the original images to be shared between clients without privacy leakage</strong>. </p>
+<p>​        Specifically, given a sample  $x^k_i∈R^{H×W×C} $  (C = 3 for RGB image and C = 1 for grey-scale image) from the $k-th$ client, we can obtain its frequency space signal through fast Fourier transform [39] as:</p>
+<script type="math/tex; mode=display">
+F(x^k_i)(u,v,c) = \sum ^{H−1}_{h=0} \sum ^{W-1}_{w=0} x^k_i(h, w,c)e^{−j2π(\frac hHu+ \frac wWv)} (1)</script><p>This frequency space signal  $F(x^k_i)$ can be further decomposed to an amplitude spectrum $ A^k_i ∈ R^{H×W×C}$ and  a phase spectrum $ P^k_i ∈ R^{H×W×C}$ which respectively reflect the low-level distributions (e.g. style) and high-level semantics (e.g. object) of the image. To exchange the distribution information across clients, we first construct a distribution bank $A = [A^1 , …, A^K]$, where each $ A^k = \{ A^k_i \}^{N^k}_{i=1}$ contains all amplitude spectrum of images from the <em>k</em>-th client,representing the distribution of $X^k$​ . This bank is then made accessible to all clients as shared distribution knowledge.</p>
+<blockquote>
+<p>​        为了解决分散数据集的限制，我们的解决方案的基础是在客户端之间交换分布信息，使得每个本地客户端都可以访问多源数据分布来学习可泛化的参数。考虑到不允许共享原始图像，我们提出利用频率空间中固有的信息，使分布(即风格)信息与原始图像分离，以便在客户端之间共享，而不造成隐私泄露。</p>
+<p>​        具体来说，给定一个$k-th$客户端的样本$x^k_i∈R^{H×W×C} $ (  RGB图像 C = 3 ,灰度图像 C = 1 )，我们可以通过快速傅里叶变换得到其频率空间信号：</p>
+<script type="math/tex; mode=display">
+F(x^k_i)(u,v,c) = \sum ^{H−1}_{h=0} \sum ^{W-1}_{w=0} x^k_i(h, w,c)e^{−j2π(\frac hHu+ \frac wWv)} (1)</script><p>这个频率空间信号$F(x^k_i)$可以进一步分解为一个幅度谱$ A^k_i ∈ R^{H×W×C}$和一个相位谱$ P^k_i ∈ R^{H×W×C}$，分别反映图像的低层分布(如样式)和高层语义(如对象)。为了在客户端之间交换分布信息，我们首先构造一个分布库$A = [A^1 , …, A^K]$，其中每个$ A^k = \{ A^k_i \}^{N^k}_{i=1}$包含来自k -th客户端的所有图像幅度谱，代表$X^k$​的分布。然后将该库作为共享分发知识，使所有客户都可以访问。</p>
+</blockquote>
+<p>​        Next, we design a continuous interpolation mechanism within the frequency space, aiming to transmit multi-source distribution information to a local client leveraging the distribution bank. As shown in the left part of Fig. 2, given a local image $x^k_i$ at client $k$, we can replace some low-frequency component of its amplitude spectrum with the ones in distribution bank $A$, while its phase spectrum is unaffected to preserve the semantic content. As an outcome, we can generate images with transformed appearances exhibiting distribution characteristics of other clients. More importantly, we continuously interpolate between amplitude spectrum of local data and the transferred amplitude spectrum of other domains. In this way, we can enrich the established multi domain distributions for each local client, benefiting from a dedicated dense space with smooth distribution changes. Formally, this is achieved by randomly sampling an amplitude spectrum item $ A^n_j (n \neq k)$ from the distribution bank,then synthesize a new amplitude spectrum by interpolating between $A^k_i$ and $A^n_j$ . Let  $ M = \mathbb{1}_{(h,w)}∈[−αH:αH,−αW:αW]$ be a binary mask which controls the scale of low-frequency component within amplitude spectrum to be exchanged, whose value is 1 at the central region and 0 elsewhere. Denote $λ$ as the interpolation ratio adjusting the amount of distribution information contributed by $A^k_i$ and $A^n_j$ , the generated new amplitude spectrum interacting distributions for local client $k$ and external client $n$ is represented as:</p>
+<script type="math/tex; mode=display">
+A^{k→n}_{i,λ} = (1−λ)A^k_i∗(1−M) + λA^n_j∗M.(2)</script><blockquote>
+<p>​        接下来，我们设计了一个在频率空间内的连续插值机制，旨在利用分布库将多源分布信息传输到本地客户端。如图2左侧所示，给定客户端$k$上的局部图像$x^k_i$，我们可以用分布库 $A$替换其幅谱中的低频分量，而相位谱不受影响，保留语义内容。因此，我们可以生成具有改变外观的图像，显示其他客户端的分布特征。更重要的是，我们不断地在本地数据的振幅谱和其他域的传输振幅谱之间进行插值。这样，我们可以丰富每个本地客户建立的多域分布，得益于专用的密集空间，分布变化平稳。正式地说，这是通过从分布库中随机抽样一个振幅谱项$A^n_j (n \neq k)$，然后通过插值$A^k_i$和$A^n_j$，合成一个新的振幅谱来实现的。设$ M = \mathbb{1}_{(h,w)}∈[−αH:αH，−αW:αW]$为二元掩模，控制振幅谱内低频分量的交换比例，其中心区域值为1，其他区域值为0。其中$λ$为调整$A^k_i$和$A^n_j$贡献的分布信息量的插补比，本地客户$k$和外部客户$n$产生的新的振幅谱相互作用分布表示为:</p>
+<script type="math/tex; mode=display">
+A^{k→n}_{i,λ} = (1−λ)A^k_i∗(1−M) + λA^n_j∗M.(2)</script></blockquote>
+<p>After obtaining the interpolated amplitude spectrum $A^{k→n}_{i,λ}$​ ,we then combine it with the original phase spectrum to generate the transformed image via inverse Fourier transform $ F^{−1}$​​ as follows:</p>
+<script type="math/tex; mode=display">
+x^{k→n}_{i,λ}=F^{−1}(A^{k→n}_{i,λ},P_i^k), (3)</script><p>where the generated image $x^{k→n}_{i,λ}$ preserves the original semantics of $x^k_i$ while carrying a new distribution interacted between $X^k$ and $X^n$. In our implementation, the interpolation ratio $λ$ will be dynamically sampled from [0.0,1.0] to generate images via a continuous distribution space. As intuitive examples shown in Fig. 2, our interpolation operation allows the generated samples to bridge the intermediate space between distinct distributions across domains. Note that the method described above does not require heavy computations, thus can be performed online as the local learning goes on. Practically, for each input $x^k_i$ ,we will sample an amplitude spectrum $A^n_j$ from the distribution bank for each external client $n \ne k$, and transform its image appearance as Eqs. (2-3). Through this, we obtain $K−1$ transformed images $ \{ x^{k→n}_{i,λ} \}  _ {n \ne k} $ of different distributions, which share the same semantic label as $x^k_i$ . For ease of denotation, we represent these transformed images as $t^k_i$ hereafter, i.e. $t^k_i =\{ x^{k→n}_{i,λ} \}_{n \ne k}$. Furthermore, this approach does not violate the privacy concern since the phase spectrum containing core semantics are retained at each client throughout the whole process, and the raw images cannot be reconstructed with the amplitude spectrum alone [46].</p>
+<blockquote>
+<p>在得到插值幅度谱$A^{k→n}_{i,λ}$之后，我们将其与原始相位谱结合，通过逆傅里叶变换$ \mathcal F^{−1}$生成变换图像，如下所示：</p>
+<script type="math/tex; mode=display">
+x^{k→n}_{i,λ}=\mathcal F^{−1}(A^{k→n}_{i,λ},P_i^k), (3)</script><p>其中，生成的图像$x^{k→n}_{i,λ}$保留了$x^k_i$原有的语义，同时在$X^k$和 $X^n$之间传递了一个新的分布。在我们的实现中，插值比 λ 将从[  0.0,1.0 ]中动态采样，通过连续的分布空间生成图像。如图2所示的直观示例，我们的插值操作允许生成的样本在跨域的不同分布之间架起中间空间。请注意，上面描述的方法不需要大量的计算，因此可以随着本地学习的进行在线执行。实际中，对于每个输入$x^k_i$，我们将为每个外部客户端  $n \ne k$从分布库中采样一个幅值谱$A^n_j$，并将其图像外观变换为Eqs.( 2 - 3 )。通过这种方法，我们得到了不同分布的$K−1$变换图像$ \{ x^{k→n}_{i,λ} \}  _ {n \ne k} $，它们具有与$x^k_i$相同的语义标签。为了便于表示，我们将这些变换后的图像表示为$t^k_i$，即$t^k_i =\{ x^{k→n}_{i,λ} \}_{n \ne k}$​ .此外，这种方法并不违反隐私关注，因为包含核心语义的相位谱在整个过程中保留在每个客户端，并且原始图像不能单独用幅度谱重建。</p>
+</blockquote>
+<h5 id="3-3-Boundary-oriented-Episodic-Learning"><a href="#3-3-Boundary-oriented-Episodic-Learning" class="headerlink" title="3.3. Boundary-oriented Episodic Learning"></a>3.3. Boundary-oriented Episodic Learning</h5><p>​        The above constructed continuous multi-source distributions at each local client provide the materials to learn generalizable local parameters. In the following, we carefully design a boundary-oriented episodic learning scheme for local training, by particularly meeting challenges of model generalization in medical image segmentation scenario.</p>
+<p>​        <strong>Episodic learning at local client:</strong> We establish the local training as an episodic meta-learning scheme, which learns generalizable model parameters by simulating train/test domain shift explicitly. Note that in our case, the domain shift at a local client comes from the data generated from frequency space with different distributions. Specifically, in each iteration, we consider the raw input $x^k_i$ as meta-train and its counterparts $t^k_i$ generated from frequency space as meta-test presenting distribution shift (cf. Fig. 2). The meta-learning scheme can then be decoupled to two steps. First, the model parameters $θ^k$ are updated on meta-train with segmentation Dice loss  $\mathcal L_{seg}$:</p>
+<script type="math/tex; mode=display">
+\widehatθ^k= θ^k−β∇_{θ^k} \mathcal L_{seg}(x^k_i; θ^k), (4)</script><p>where <em>β</em> denotes the learning rate for the inner-loop update. Second, a meta-update is performed to virtually evaluate the updated parameters $\widehatθ^k$​ on the held-out meta-test data $t^k_i$​ with a meta-objective $\mathcal  L _{meta}$​. Crucially, this objective is computed with the updated parameters $θ^k$​ , but optimized w.r.t the original parameters $θ^k$​ . Such optimization paradigm aims to train the model such that its learning on source domains can further fulfill certain properties that we desire in unseen domains, which are quantified by $\mathcal  L _{meta}$​.</p>
+<blockquote>
+<p>​        上述构造的连续多源分布在每个局部客户端提供了材料，以学习可泛化的局部参数。接下来，我们针对医学图像分割场景中模型泛化的挑战，精心设计了一种面向边界的episodic learning方案用于局部训练。</p>
+<p>​        <strong>本地客户情景学习</strong>：我们将本地训练建立为情景元学习方案，通过显式模拟训练/测试域转换来学习可泛化的模型参数。请注意，在我们的案例中，本地客户机的域转换来自于从具有不同分布的频率空间生成的数据。具体来说，在每次迭代中，我们将原始输入$x^k_i$视为元训练，而从频率空间生成的对应项$t^k_i$视为表示分布偏移的元测试(参见参考资料图2 )。然后，元学习方案可以分解为两个步骤。首先，在分割Dice损失$\mathcal L_{seg}$的元训练集上更新模型参数$θ^k$：</p>
+<script type="math/tex; mode=display">
+\widehatθ^k= θ^k−β∇_{θ^k} \mathcal L_{seg}(x^k_i; θ^k), (4)</script><p>其中 β表示内环更新的学习率。其次，使用元目标$\mathcal  L _{meta}$在保留的元测试数据$t^k_i$上执行元更新来虚拟评估更新后的参数$\widehatθ^k$。最重要的是，这个目标是用更新的参数$θ^k$计算的，但优化了原始参数$θ^k$。这种优化范式旨在训练模型，使其在源域上的学习能够进一步满足我们在未知域中所期望的某些属性，这些属性由$\mathcal  L _{meta}$量化。</p>
+</blockquote>
+<p>​        <strong>Boundary-oriented meta optimization:</strong> We define the $\mathcal  L _{meta}$ with considering specific challenges in medical image segmentation. Particularly, it is observed that the performance drop of segmentation results at unseen domains outside federation often comes from the ambiguous boundary area of anatomies. To this end, we design a new boundary-oriented objective to enhance the domain invariant boundary delineation, by carefully learning from the local data $x^k_i$ and the corresponding $t^k_i$ generated from frequency space with multi-source distributions.  ==The idea is to regularize the boundary-related and background-related features of these data to respectively cluster to a compact space regardless of their distributions while reducing the clusters overlap.==This is crucial, since if the model cannot project their features around boundary area with distribution-independent class-specific cohesion and separation, the predictions will suffer from ambiguous decision boundaries and still be sensitive to the distribution shift when deployed to unseen domains outside federation.         Specifically, we first extract the boundary-related and background-related features for the input samples. Given image $x^k_i$ with segmentation label $y_i^k$ , we can extract its binary boundary mask $y_{i_bd}^k$ and background mask $y_{i_bg}^k$ with morphological operations on $y_i^k$ . Here, the mask $y_{i_bg}^k$ only contains background pixels around the anatomy boundary instead of from the whole image, as we expect to enhance the discriminability for features around the boundary region. Let $Z_i^k$ denote the activation map extracted from layer $l$, which is interpolated with bilinear interpolation to keep consistent dimensions as $y_i^k$ . Then the boundary-related and background-related features of  $x^k_i$ can be extracted from $Z_i^k$ with masked average pooling over <em>$y_{i_bd}^k$</em> and  $y_{i_bg}^k$ as:</p>
+<script type="math/tex; mode=display">
+h^k_{i\_bd} = \frac {\sum _{h,w} Z^k_i * y^k_{i\_bd} }{\sum _{h,w} y^k_{i\_bd}} ;h^k_{i\_bg} = \frac {\sum _{h,w} Z^k_i * y^k_{i\_bg} }{\sum _{h,w} y^k_{i\_bg}} (5)</script><p>where $*$ denote element-wise product. The produced $h^k_{i_bd}$ and  $h^k_{i_bg}$ are single-dimensional vectors, representing the averaged region-level features of the boundary and background pixels. By further performing the same operation for $K-1$ transformed images $t^k_i$ with different distributions transferred from the frequency space, we accordingly obtain together $K$  boundary-related and $K$ background-related features.</p>
+<blockquote>
+<p>​        <strong>面向边界的元优化</strong>：考虑到医学图像分割中的特定挑战，我们定义了$\mathcal  L _{meta}$。特别地，观察到分割结果在联邦之外的未知域上的性能下降往往来自于解剖学的模糊边界区域。为此，我们设计了一个新的面向边界的目标，通过仔细学习本地数据$x^k_i$和从具有多源分布的频率空间生成的相应 $t^k_i$，来增强域不变边界定界。其思想是将这些数据的边界相关特征和背景相关特征分别聚类到紧凑的空间中，不管它们的分布如何，同时减少聚类重叠。这一点至关重要，因为如果模型不能将它们的特性投影到与分布无关的类特定衔接和分离的边界地区，那么预测将面临模糊的决策边界，并且在部署到联邦到联邦之外的不可观察的域时，仍然对分布转移敏感。</p>
+<p>​        具体来说，我们首先提取输入样本的边界相关和背景相关特征。给定具有分割标记 $y_i^k$的图像 $x^k_i$，可以在 $y_i^k$上用形态学运算提取其二值边界掩模$y_{i_bd}^k$和背景掩模 $y_{i_bg}^k$。在这里，掩模 $y_{i_bg}^k$只包含解剖边界周围的背景像素，而不是来自整个图像，因为我们期望增强对边界区域周围特征的区分能力。令$Z_i^k$表示从第l层提取的激活图，该图用双线性插值插值，保持与$y_i^k$一致的维数。然后从$Z_i^k$中提取与边界相关和背景相关的$x^k_i$特征，掩蔽平均池化过 $y_{i_bd}^k$ 和$y_{i_bg}^k$​为：</p>
+<script type="math/tex; mode=display">
+h^k_{i\_bd} = \frac {\sum _{h,w} Z^k_i * y^k_{i\_bd} }{\sum _{h,w} y^k_{i\_bd}} ;h^k_{i\_bg} = \frac {\sum _{h,w} Z^k_i * y^k_{i\_bg} }{\sum _{h,w} y^k_{i\_bg}} (5)</script><p>其中*表示元素乘积。产生的$h^k_{i_bd}$和$h^k_{i_bg}$为一维向量，分别代表边界和背景像素的平均区域级特征。进一步对从频率空间传递的不同分布的$K- 1$变换图像$t^k_i$进行同样的运算，得到 K个边界相关特征和 K个背景相关特征。</p>
+</blockquote>
+<p>​        Next, we enhance the domain-invariance and discriminability of these features, by regularizing their intra-class cohesion and inter-class separation regardless of distributions. Here, we employ the well-established InfoNCE [6] objective to impose such regularization. Denote ($h_m$, $h_p$) as a pair of features, which is a positive pair if  $h_m$ and  $h_p$ are of the same class (both boundary-related or background related) and otherwise negative pair. In our case, the In foNCE loss is defined over each positive pair ($h_m$, $h_p$) within the  $2 × K$ region-level features as:</p>
+<script type="math/tex; mode=display">
+\mathscr l(h_m,h_p)=-log{\frac {exp(h_m \bigodot {h_p/{\tau}})} {\sum ^{2K}_{q=1,q \ne m} \mathbb F(h_m,h_q)·exp(h_m \bigodot h_q/\tau)},(6)}</script><p>where $\bigodot $ denote the cosine similarity: $a\bigodot b = \frac {\langle a,b\rangle} {||a||_2||b||_2}$;the value of $ \mathbb F(h_m,h_q) $ is 0 and 1 for positive and negative pair respectively; $τ$ denotes the temperature parameter. The final loss $\mathcal L_{boundary}$ is the average of  $\mathscr l$​​ over all positive pairs:</p>
+<script type="math/tex; mode=display">
+\mathcal L_{boundary}=\sum ^{2K}_{m=1} \sum ^{2K}_{p=m+1} \frac {(1- \mathbb F(h_m,h_p))·\mathscr l(h_m,h_p)} {B(K,2)\times 2},(7)</script><p>where $B(K,2)$ is the number of combinations.</p>
+<p>​        <strong>Overall local learning objective:</strong> The overall meta objective is composed of the segmentation dice loss $\mathcal L_{seg}$ and the boundary-oriented objective $L_{boundary}$​ as:</p>
+<script type="math/tex; mode=display">
+\mathcal L_{meta} = \mathcal L_{seg}(t^k_i;\widehatθ^k) + \gamma \mathcal L_{boundary}(x^k_i, t^k_i;\widehatθ^k). (8)</script><p>where $\widehatθ^k$ is the updated parameter from Eq. 4, $\gamma $ is a balancing hyper-parameter. Finally, both the inner-loop objective and meta objective will be optimized together with respect to the original parameter $θ^k$​ as:</p>
+<script type="math/tex; mode=display">
+arg_{θ^k}min  \mathcal L_{seg}(x^k_i;θ^k)+\mathcal L_{meta}(x^k_i, t^k_i;\widehatθ^k).(9)</script><p>In a federated round, once the local learning is finished, the local parameters $θ^k$ from all clients will be aggregated at the central server to update the global model.</p>
+<blockquote>
+<p>​        接下来，我们通过正则化这些特征的类内聚和类间分离（无论分布如何）来增强这些特征的域不变性和可判别性。在这里，我们采用完善的InfoNCE [6]目标来实施这种正则化。表示 （$h_m$， $h_p$） 作为一对特征，如果 $h_m$ 和 $h_p$ 属于同一类（边界相关或背景相关），则为正对，否则为负对。在我们的例子中，In foNCE 损失在 2 × K$ 区域级特征内的每个正对（$h_m$，$​​h_p）上定义为：</p>
+<script type="math/tex; mode=display">
+\mathscr  l \ (h_m,h_p)=-log{\frac {exp(h_m \bigodot {h_p/{\tau}})} {\sum ^{2K}_{q=1,q \ne m} \mathbb F(h_m,h_q)·exp(h_m \bigodot h_q/\tau)},(6)}</script><p>其中 $\bigodot $ 表示余弦相似性： $a\bigodot b = \frac {\langle a，b\rangle} {||a||_2||b||_2}$;对于正对和负对，$ \mathbb F(h_m,h_q) $ 的值分别为 0 和 1;$τ$ 表示温度参数。最终损失 $\mathcal L_{boundary}$是所有正对的 $\mathscr l$​ 的平均值：</p>
+<script type="math/tex; mode=display">
+\mathcal L_{boundary}=\sum ^{2K}_{m=1} \sum ^{2K}_{p=m+1} \frac {(1- \mathbb F(h_m,h_p))·\mathscr l(h_m,h_p)} {B(K,2)\times 2},(7)</script><p>其中 $B（K，2）$ 是组合数。</p>
+<p><strong>总体局部学习目标：</strong>整体元目标由分割骰子损失 $\mathcal L_{seg}$ 和面向边界的目标 $\mathcal L_{boundary}$ 组成:</p>
+<script type="math/tex; mode=display">
+\mathcal L_{meta} = \mathcal L_{seg}(t^k_i;\widehatθ^k) + \gamma \mathcal L_{boundary}(x^k_i, t^k_i;\widehatθ^k). (8)</script><p>其中 $\widehatθ^k$​ 是从 Eq. 4 更新的参数，$\gamma $​是一个平衡超参数。最后，内循环目标和元目标将相对于原始参数 $θ^k$​ 一起优化为：</p>
+<script type="math/tex; mode=display">
+arg_{θ^k}min  \mathcal L_{seg}(x^k_i;θ^k)+\mathcal L_{meta}(x^k_i, t^k_i;\widehatθ^k).(9)</script><p>在联合回合中，一旦本地学习完成，来自所有客户端的本地参数 $θ^k$​ 将在中央服务器上聚合以更新全局模型。</p>
+</blockquote>
+<h4 id="4-Experiments"><a href="#4-Experiments" class="headerlink" title="4. Experiments"></a><strong>4. Experiments</strong></h4><p>​    We extensively evaluate our method on two medical image segmentation tasks, i.e., the optic disc and cup segmentation on retinal fundus images [40], and the prostate segmentation on T2-weighted MRI [31]. We first conduct comparison with DG methods that can be incorporated in the federated paradigm, and then provide in-depth ablation studies to analyze our method.</p>
+<blockquote>
+<p>我们广泛评估了我们的方法在两个医学图像分割任务，即视网膜眼底图像的视盘和杯分割和T2加权MRI的前列腺分割。我们首先与可以纳入联邦范式的DG方法进行比较，然后提供深入的消融研究来分析我们的方法。</p>
+</blockquote>
+<h5 id="4-1-Datasets-and-Evaluation-Metrics"><a href="#4-1-Datasets-and-Evaluation-Metrics" class="headerlink" title="4.1. Datasets and Evaluation Metrics"></a>4.1. Datasets and Evaluation Metrics</h5><p>​    We employ <strong>retinal fundus images from 4 different clinical centers</strong> of public datasets [52, 10, 40] for optic<br>disc and cup segmentation. For pre-processing, we center crop a 800 × 800 disc region for these data uniformly, then resize the cropped region to 384×384 as network input. We further collect <strong>prostate T2-weighted MRI images from 6 different data sources</strong> partitioned from the public datasets [2, 21, 31, 33] for prostate MRI segmentation task. All the data are pre-processed to have similar field of view for the prostate region and resized to 384×384 in axial plane. We then normalize the data individually to zero mean and unit variance in intensity values. Note that for both tasks, the data acquired from different clinical centers present heterogeneous distributions due to the varying imaging conditions. The example cases and sample numbers of each data source are presented in ==Fig. 3== Data augmentation of random rotation, scaling, and flipping are employed in the two tasks. For evaluation, we adopt two commonly-used metrics of Dice coefficient (Dice) and Hausdorff distance(HD), to quantitatively evaluate the segmentation results on the whole object region and the surface shape respectively.</p>
+<p><img src="/images/FedDG.assets/image-20220110110541204.png" srcset="/img/loading.gif" lazyload alt="image-20220110110541204"></p>
+<p>Figure 3. Example cases and slice number of each data source in fundus image segmentation and prostate MRI segmentation tasks.</p>
+<blockquote>
+<p>​    我们使用4个不同临床中心的公开数据集[  52、 10、 40 ]的视网膜眼底图像进行视盘和杯分割。为了进行预处理，我们对这些数据均匀地中心割出一个800×800的圆盘区域，然后将割出的区域调整为384×384作为网络输入。我们进一步从公共数据集[  2、 21、 31、 33 ]中分割的6个不同数据源中采集前列腺T2加权MRI图像，用于前列腺MRI分割任务。所有数据都经过预处理，使前列腺区域具有相似的视野，并在轴面上调整为384×384。然后将数据分别归一化为零均值和单位方差强度值。需要注意的是，对于这两个任务，由于成像条件的不同，来自不同临床中心的数据呈现异质性分布。各数据源的实例案例和样本数如图3所示。两个任务分别采用随机旋转、缩放和翻转的数据增强。为了评价，我们采用Dice系数( Dice )和Hausdorff距离( HD )两个常用的度量指标，分别对整个对象区域和表面形状上的分割结果进行定量评价。</p>
+<p><img src="/images/FedDG.assets/image-20220110110541204.png" srcset="/img/loading.gif" lazyload alt="image-20220110110541204"></p>
+<p>图3. 在眼底图像分割和前列腺MRI分割任务中每个数据源的病例数和切片数</p>
+</blockquote>
+<h5 id="4-2-Implementation-Details"><a href="#4-2-Implementation-Details" class="headerlink" title="4.2. Implementation Details"></a><strong>4.2. Implementation Details</strong></h5><p>​        In the federated learning process, all clients use the same hyper-parameter settings, and the local model is trained using Adam optimizer with batch size of 5 and Adam momentum of 0.9 and 0.99. The meta-step size and learning rate are both set as $1e^{-3}$ . The interpolation ratio$λ$ in frequency space is randomly sampled within [0.0, 1.0], and we will investigate this parameter in the ablation study. The hyper-parameter <em>α</em> is empirically set as 0.01 to avoid artifacts on the transformed images. The activation map from the last two deconvolutional layers are interpolated and concatenated to extract the semantic features around boundary region, and the temperature parameter  $τ$ is empirically set as 0.05. The weight $γ$ is set as 0.1 and 0.5 in the two tasks to balance the magnitude of the training objectives. We totally train 100 federated rounds as the global model has converged stably, and the local epoch $E$ in each federated round is set as 1. The framework is implemented with Pytorch library, and is trained on two NVIDIA TitanXp GPUs.</p>
+<blockquote>
+<p>​        在联邦学习过程中，所有客户端使用相同的超参数设置，本地模型使用批大小为5、亚当动量为0.9和0.99的Adam优化器进行训练。元步大小和学习速率均设置为1e-3。频率空间的插值比λ在[  0.0,1.0 ]内随机采样，我们将在烧蚀研究中考察这一参数。为了避免变换后图像出现伪影，超参数α被经验设定为0.01。对最后两个反褶积层的激活图进行插值拼接，提取边界区域周围的语义特征，并将温度参数τ经验设定为0.05。在两个任务中权重γ分别设定为0.1和0.5，以平衡训练目标的大小。由于全局模型稳定收敛，我们共训练100个联邦轮，每个联邦轮的局部历元E设为1。该框架使用Pytorch库实现，并在两个NVIDIA TitanXp GPU上进行训练。</p>
+</blockquote>
+<h5 id="4-3-Comparison-with-DG-methods"><a href="#4-3-Comparison-with-DG-methods" class="headerlink" title="4.3. Comparison with DG methods"></a><strong>4.3. Comparison with DG methods</strong></h5><p>​        <strong>Experimental setting:</strong> In our experiments, we follow the practice in domain generalization literature to adopt the leave-one-domain-out strategy, i.e., training on $K-1$ distributed source domains and testing on the one left-out unseen target domain. This results in four generalization settings for the fundus image segmentation task and six settings for the prostate MRI segmentation task. We compare with recent state-of-the-art DG methods that are free from data centralization and can be incorporated into the local learning process in federated paradigm,including: <strong>JiGen [3]</strong> an effective self-supervised learning approach to learn general representations by solving jigsaw puzzles; <strong>BigAug [60]</strong> a method that performs extensive data transformations to regularize general representation learning; <strong>Epi-FCR [25]</strong> a scheme to periodically exchange partial model (classifier or feature extractor) across domains to expose model learning to domain shift; <strong>RSC [17]</strong> a method that randomly discards the dominating features to promote robust model optimization. For the implementation, we follow their public code or paper and establish them in the federated setting. We also compare with the baseline setting,i.e., learning a global model with the basic <strong>FedAvg [36]</strong> algorithm without any generalization technique.</p>
+<p>​        <strong>Comparison results:</strong> ==Table 1== presents the quantitative results for retinal fundus segmentation. We see that different DG methods can improve the overall generalization performance more or less over FedAvg. This attributes to their regularization effect on the local learning to extract general representations. Compared with these methods, our ELCFS achieves higher overall performance and obtains improvements on most unseen sites in terms of Dice and HD for both optic disc and cup segmentation. This benefits from our frequency space interpolation mechanism which presents multi-domain distributions to local client. Specifically, for other DG methods, their local learning still can only access the individual distribution and fail to regularize the features towards domain-invariance in a diverse distribution space. In contrast, our method enables the local learning to take full advantages of the multi-source distributions and explicitly enhances the domain-invariance of features around the ambiguous boundary region. In addition, our ELCFS achieves consistent improvements over FedAvg across all unseen domain settings, with the overall performance increase of 2.02% in Dice and 2.86 in HD. For prostate MRI segmentation, the comparison DG methods generally perform better than FedAvg, but the improvements are relatively marginal. Our ELCFS obtains the highest Dice across all the six unseen sites and HD on most sites. Overall, our method improves over FedAvg for Dice from 85.57% to 87.39% and HD from 12.42 to 10.88, outperforming other DG methods. ==Fig. 4== shows the segmentation results with two cases from unseen domains for each task. It is observed that our method accurately segments the structure and delineates the boundary in images of unknown distributions, whereas other methods sometimes fail to do so.</p>
+<p><img src="/images/FedDG.assets/image-20220110122610403.png" srcset="/img/loading.gif" lazyload alt="image-20220110122610403"></p>
+<p>Figure 4. Qualitative comparison on the generalization results of different methods in fundus image segmentation (top two rows) and prostate MRI segmentation (bottom two tows).</p>
+<p>Table 1. Comparison of federated domain generalization results on Optic Disc/Cup segmentation from fundus images.</p>
+<p><img src="/images/FedDG.assets/image-20220110121738512.png" srcset="/img/loading.gif" lazyload alt="image-20220110121738512"></p>
+<blockquote>
+<p>​    <strong>实验设置：</strong> 在我们的实验中，我们遵循域泛化文献中的做法，采用”留一域”策略，即在$K-1$分布式源域上进行训练，并在一个遗漏的看不见的目标域上进行测试。这导致眼底图像分割任务的四个泛化设置和前列腺MRI分割任务的六个设置。我们将与最近最先进的DG方法进行了比较，这些方法不受数据集中化，并且可以以联合范式的形式纳入本地学习过程，包括：<strong>JiGen [3]</strong>一种有效的自我监督学习方法，通过解决拼图来学习一般表示;<strong>BigAug [60]</strong> 一种执行大量数据转换以规范化一般表示学习的方法;<strong>Epi-FCR [25]</strong> 一种跨域定期交换偏模型（分类器或特征提取器）的方案，以将模型学习暴露给域转移;<strong>RSC [17]</strong> 一种随机丢弃主导特征以促进稳健模型优化的方法。对于实现，我们遵循他们的公共代码或论文，并在联合设置中建立它们。我们还与基线设置进行比较，即使用基本的<strong>FedAvg [36]</strong>算法学习全局模型，而无需任何泛化技术。</p>
+<p>​        <strong>比较结果：</strong> ==表1==给出了视网膜眼底分割的定量结果。我们看到，与FedAvg相比，不同的DG方法可以或多或少地提高整体泛化性能。这归因于它们的正则化对局部学习提取一般表示的影响。与这些方法相比，我们的ELCFS实现了更高的整体性能，并在大多数看不见的站点上获得了改进，包括用于视盘和杯子分割的骰子和HD。这得益于我们的频率空间插值机制，该机制向本地客户端呈现多域分布。具体而言，对于其他DG方法，它们的局部学习仍然只能访问单个分布，并且无法在多样化的分布空间中将特征正则化为域不变性。相比之下，我们的方法使局部学习能够充分利用多源分布，并显式增强模糊边界区域周围特征的域不变性。此外，我们的ELCFS在所有看不见的域设置中都实现了对FedAvg的持续改进，Dice的整体性能提高了2.02%，HD提高了2.86%。对于前列腺MRI分割，比较DG方法通常比FedAvg表现更好，但改进相对较小。我们的ELCFS在所有六个看不见的站点中获得最高的骰子，并在大多数站点上获得HD。总体而言，我们的方法比FedAvg的骰子从85.57%提高到87.39%，HD从12.42提高到10.88，优于其他DG方法。==图 4== 显示了每个任务中来自未见过的域的两个案例的分割结果。据观察，我们的方法准确地分割了结构并描绘了未知分布图像中的边界，而其他方法有时则无法做到这一点。    </p>
+<p><img src="/images/FedDG.assets/image-20220110122610403.png" srcset="/img/loading.gif" lazyload alt="image-20220110122610403"></p>
+<p>图 4.不同方法在眼底图像分割（前两行）和前列腺MRI分割（下两拖）中的泛化结果的定性比较。</p>
+<p>表 1.从眼底图像比较联合域泛化结果对视盘/杯分割的影响。</p>
+<p><img src="/images/FedDG.assets/image-20220110121738512.png" srcset="/img/loading.gif" lazyload alt="image-20220110121738512"></p>
+</blockquote>
+<h5 id="4-4-Ablation-Analysis-of-Our-Method"><a href="#4-4-Ablation-Analysis-of-Our-Method" class="headerlink" title="4.4. Ablation Analysis of Our Method"></a><strong>4.4. Ablation Analysis of Our Method</strong></h5><p>​        We conduct ablation studies to investigate four key questions regarding our ELCFS: <strong>1)</strong> the contribution of each component to our model performance, <strong>2)</strong> the benefit of the interpolation operation and the choice of <em>λ</em>, <strong>3)</strong> how the semantic feature space around the boundary region is influenced by our method, and <strong>4)</strong> how the numbers of participanting clients affect the performance of our method.</p>
+<p>​        <strong>Contribution of each component:</strong> We first validate the effect of the two key components in our method, i.e. continuous frequency space interpolation (<strong>CFSI</strong>) and Boundary oriented Episodic Learning (<strong>BEL</strong>), by removing them respectively from our method to observe the model performance. As shown in ==Fig. 5==, removing either part will lead to decrease on the generalization performance in different unseen domain settings for the two tasks. This is reasonable and reflects how the two components play complementary roles to the performance of our method, i.e., the generated distributions from CFSI lays foundation for the learning of BEL, and the BEL inversely provides assurance to effectively exploit the generated distributions.</p>
+<p><img src="/images/FedDG.assets/image-20220111102946631.png" srcset="/img/loading.gif" lazyload alt="image-20220111102946631"></p>
+<p>Figure 5. Ablation results to analyze the effect of the two components (i.e. CFSI and BEL) in our method.</p>
+<p>​        <strong>Importance of continuous interpolation in frequency space:</strong> To analyze the effect of continuous interpolation mechanism in ELCFS , we use t-SNE [34] to visualize the distribution of generated images in fundus image segmentation. As shown in ==Fig. 6 (a)==, the pink points denote the local data of a client, and other points denote the transformed data that are generated with amplitude spectrum from different clients. It appears that fixing <em>λ</em> (left) will lead to several distinct distributions, while the continuous interpolation mechanism (right) can smoothly bridge the distinct distributions to enrich the established multi-domain distributions. This promotes the local learning to attain domain-invariance in adedicted dense distribution space.</p>
+<p>​         We then analyze the effect of the choice of <em>λ</em> on our model performance, for which we conduct experiments with fixed values from 0.0 to 1.0 with a step size 0.2, and continuous sampling in range of [0.0, 0.5], [0.5, 1.0] and [0.0, 1.0]. As shown in ==Fig. 6 (b)==, compared with not transferring any distribution information (i.e., <em>λ</em> = 0), setting <em>λ &gt;</em> 0 as a fixed value can always improve the model performance. Besides, the continuous sampling can further improve the performance and the sampling range of [0.0, 1.0] yields the best results, which reflects the benefits of continuous distribution space for domain generalization.</p>
+<p><img src="/images/FedDG.assets/image-20220111103151298.png" srcset="/img/loading.gif" lazyload alt="image-20220111103151298"></p>
+<p>Figure 6. (a) Visualization of t-SNE [34] embedding for the original fundus images at a local client (pink points) and the corresponding transformed images with amplitude spectrum from different clients (green, yellow, and blue points); (b) Generalization performance on optic disc segmentation under different settings of interpolation ratio <em>λ</em>, with fifixed value or continuous sampling from different ranges (with error bar from three independent runs).</p>
+<p><img src="/images/FedDG.assets/image-20220111104708578.png" srcset="/img/loading.gif" lazyload alt="image-20220111104708578"></p>
+<p>Figure 7. (a) Cosine distance between the boundary-related and background-related features; (b) Generalization performance of our method with or without the boundary-oriented meta objective.</p>
+<p><img src="/images/FedDG.assets/image-20220111104923190.png" srcset="/img/loading.gif" lazyload alt="image-20220111104923190"></p>
+<p>Figure 8. Curves of generalization performance on two unseen prostate datasets (i.e., site A and B) as the number of participating clients increases, using our proposed approach and FedAvg.</p>
+<p>​        <strong>Discriminability at ambiguous boundary region:</strong> We plot the cosine distance between the boundary-related and background-related features, i.e., $ \mathbb E[h_{i _ bd} \bigodot  \ h_{i_ bg}]$, to ana-lyze how the semantic feature space around the boundary region is influenced by our method. In Fig. 7 (a), the two green lines denote the growth of feature distance in our ELCFS and the FedAvg baseline respectively, for samples drawn from the training source domains. We can see that ELCFS yields a higher feature distance, indicating that the features of the boundary and the surrounding background region can be better separated in our method. For the two yellow lines, sample features are drawn from the unseen domains. As expected, the distance is not as high as in source domain, yet our method also presents a clearly higher margin than FedAvg. We also quantitatively analyze the effect of $\mathcal L_{boundary}$ on the model performance. As observed from Fig. 7 (b), removing this objective from the meta optimization leads to consistent performance drops on the generalization performance in different tasks.</p>
+<p>​        <strong>Effect of participating client number:</strong> We further analyze how the generalization performance of our method and FedAvg will be affected when different numbers of hospitals participating in federated learning. Fig. 8 shows the results on prostate MRI segmentation, in which we present the generalization results on two unseen sites with the client number gradually increasing from 1 to <em>K</em> <em>−</em>1. As expected, the models trained with single-source data cannot obtain good results when deployed to unseen domains. The generalization performance increases when more clients participating in the federated training, which is reasonable as aggregating data from multiple sources can cover a more comprehensive data distribution. Particularly, our ELCFS consistently outperforms FedAvg on all generalization settings with different client numbers, demonstrating the stable effificacy of our method to leverage distributed data sources to enhance the generalizability of federated learning model.</p>
+<blockquote>
+<p>我们进行消融研究以调查有关ELCFS的四个关键问题：<strong>1）</strong>每个组件对模型性能的贡献，<strong>2）</strong>插值操作的好处和<em>λ</em>的选择，<strong>3）</strong>边界区域周围的语义特征空间如何受到我们方法的影响，以及<strong>4）</strong>参与客户的数量如何影响我们方法的性能。</p>
+<p><strong>每个组件的贡献：</strong> 我们首先验证了方法中两个关键组件（即连续频率空间插值（<strong>CFSI</strong>）和面向边界的情景学习（<strong>BEL</strong>））的影响，方法是分别从方法中删除它们以观察模型性能。如图 5 所示，删除任一部分都会导致两个任务在不同的未见过的域设置中的泛化性能降低。这是合理的，反映了这两个组件如何对我们方法的性能起到互补作用，即CFSI生成的分布为学习BEL奠定了基础，BEL反向提供了有效利用生成的分布的保证。</p>
+<p><img src="/images/FedDG.assets/image-20220111102946631.png" srcset="/img/loading.gif" lazyload alt="image-20220111102946631"></p>
+<p>图 5.烧蚀结果用于分析我们方法中两种组分（即CFSI和BEL）的影响。</p>
+<p><strong>连续插值在频率空间中的重要性：</strong> 为了分析连续插值机制在ELCFS中的作用，我们使用t-SNE [34]来可视化底图像分割中生成的图像的分布。如图 6 （a） 所示，粉红色点表示客户端的本地数据，其他点表示使用来自不同客户端的振幅频谱生成的转换数据。似乎固定 <em>λ</em>（左）将导致几个不同的分布，而连续插值机制（右）可以平滑地桥接不同的分布，以丰富已建立的多域分布。这促进了局部学习，以在受约束的密集分布空间中实现域不变性。然后，我们分析了选择 <em>λ</em> 对模型性能的影响，为此，我们进行了从 0.0 到 1.0 的固定值（步长为 0.2）的实验，并在 [0.0， 0.5]、[0.5， 1.0] 和 [0.0， 1.0] 的范围内进行连续采样。如图6（b）所示，与不传输任何分布信息（即<em>λ</em> = 0）相比，将<em>λ&gt;</em> 0设置为固定值总是可以提高模型性能。此外，连续采样可以进一步提高[0.0， 1.0]的采样范围的性能，产生最佳结果，从而反转连续分布空间的益处，用于域泛化。</p>
+<p><img src="/images/FedDG.assets/image-20220111103151298.png" srcset="/img/loading.gif" lazyload alt="image-20220111103151298"></p>
+<p>图 6.（a） 在本地客户端（粉红色点）嵌入原始眼底图像的t-SNE[34]以及来自不同客户端（绿色，黄色和蓝色点）的振幅光谱的相应转换图像的可视化;（b） 在插值比<em>λ</em>的不同设置下，使用固定值或来自不同范围的连续采样（带有三次独立运行的误差线）下对视盘分割的泛化性能。</p>
+<p><img src="/images/FedDG.assets/image-20220111104708578.png" srcset="/img/loading.gif" lazyload alt="image-20220111104708578"></p>
+<p>图 7.（a） 与边界有关的地物和与背景有关的地物之间的余弦距离;（b）有或没有面向边界的元目标的方法的泛化性能。</p>
+<p><img src="/images/FedDG.assets/image-20220111104923190.png" srcset="/img/loading.gif" lazyload alt="image-20220111104923190"></p>
+<p>图 8.使用我们提出的方法和FedAvg，随着参与客户数量的增加，两个看不见的前列腺数据集（即站点A和B）的泛化性能曲线。</p>
+<p><strong>模糊边界区域的可判别性：</strong> 我们绘制边界相关特征和背景相关特征（即 $E[<em>h**i bd</em> <em>h**i bg</em>]$）之间的余弦距离，以分析边界区域周围的语义特征空间如何受到我们方法的影响。在图 7 （a） 中，对于从训练源域中提取的样本，两条绿线分别表示 ELCFS 和 FedAvg 基线中特征距离的增长。我们可以看到ELCFS产生更高的特征距离，表明在我们的方法中边界的特征和周围的背景区域可以更好地分离。对于两条黄线，示例要素是从看不见的域中绘制的。正如预期的那样，距离并不像源域中那么高，但是我们的方法也呈现出明显高于FedAvg的裕量。我们还定量分析了<em>L**边界</em>对模型性能的影响。从图 7 （b） 中可以看出，从元优化中删除此目标会导致不同任务中泛化性能的持续性能下降。</p>
+<p><strong>参与客户数量的影响：</strong> 我们进一步分析了当不同数量的医院参与联合学习时，我们的方法和FedAvg的泛化性能将如何影响。图8显示了前列腺MRI分割的结果，其中我们在两个看不见的部位上呈现了泛化结果，客户数量从1逐渐增加到<em>K</em> <em>−</em>1。正如预期的那样，使用单源数据训练的模型在部署到看不见的领域时无法获得良好的结果。当更多客户端参与联合训练时，泛化性能会提高，这是合理的，因为聚合来自多个源的数据可以涵盖更全面的数据分布。特别是，我们的ELCFS在具有不同客户端编号的所有泛化设置上始终优于FedAvg，证明了我们利用分布式数据源来增强联合学习模型的泛化性的方法的稳定有效性。</p>
+</blockquote>
+<h4 id="5-Conclusion"><a href="#5-Conclusion" class="headerlink" title="5. Conclusion"></a><strong>5. Conclusion</strong></h4><p>​        We have proposed a novel problem setting of federated domain generalization, and presented a novel approach for it with continuous frequency space interpolation and a boundary-oriented episodic learning scheme. The superior effificacy of our method is demonstrated on two important medical image segmentation tasks. Our solution has opened a door in federated learning to enable local client access multi-source distributions without privacy leakage, which has great potential to address other problems encountered in FL, e.g., data heterogeneity. The proposed learning scheme for encouraging boundary delineation is also generally extendable to other segmentation problems.</p>
+<blockquote>
+<p>​        提出了一种新的联邦域泛化问题集，并提出了一种具有连续频率空间插值和边界导向的情景学习方案的新方法。我们的方法的优越有效性在两个重要的医学图像分割任务中得到了证明。我们的解决方案为联合学习打开了一扇门，使本地客户端能够在没有隐私泄漏的情况下访问多源发行版，这对于解决FL中遇到的其他问题（例如数据异构性）具有很大的潜力。为鼓励边界划定而提出的学习方案通常也可扩展到其他分割问题。</p>
+</blockquote>
+<h4 id="6-Acknowledgement"><a href="#6-Acknowledgement" class="headerlink" title="6. Acknowledgement"></a><strong>6. Acknowledgement</strong></h4><p>​        This work was supported by Key-Area Research and Development Program of Guangdong Province, China (2020B010165004); National Natural Science Foundation of China with Project No. U1813204; Hong Kong Innovation and Technology Fund (Project No. ITS/311/18FP and GHP/110/19SZ).</p>
+<blockquote>
+<p>​        这项工作得到了广东省重点区域研究与发展计划（2020B010165004）的支持;国家自然科学基金项目编号U1813204;香港创新科技基金（项目编号：香港创新科技基金）ITS/311/18FP 和 GHP/110/19SZ）。</p>
+</blockquote>
+<h4 id="附录A：术语"><a href="#附录A：术语" class="headerlink" title="附录A：术语"></a>附录A：术语</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cosine similarity</td>
+<td>余弦相似性</td>
+</tr>
+<tr>
+<td>interpolation</td>
+<td>插值</td>
+</tr>
+<tr>
+<td>domain-invariance</td>
+<td>域不变性</td>
+</tr>
+<tr>
+<td>episodic training paradigm</td>
+<td></td>
+</tr>
+<tr>
+<td>generalizability</td>
+<td>可泛化性</td>
+</tr>
+<tr>
+<td>privacy-preserving</td>
+<td>隐私保护</td>
+</tr>
+<tr>
+<td>prostate</td>
+<td>前列腺</td>
+</tr>
+<tr>
+<td>pilot study</td>
+<td>初步研究；预备试验；试点</td>
+</tr>
+<tr>
+<td>brain tumor</td>
+<td>脑肿瘤；</td>
+</tr>
+<tr>
+<td>unsupervised</td>
+<td>adj. 无人监督的,无人管理的</td>
+</tr>
+<tr>
+<td>prior knowledge</td>
+<td>先验知识</td>
+</tr>
+<tr>
+<td>iteration</td>
+<td>迭代</td>
+</tr>
+<tr>
+<td>auxiliary loss</td>
+<td>辅助损失</td>
+</tr>
+<tr>
+<td>self-supervision</td>
+<td>自我监督</td>
+</tr>
+<tr>
+<td>heuristics</td>
+<td>n. 启发(法)，探索法</td>
+</tr>
+<tr>
+<td>data augmentations</td>
+<td>数据增强</td>
+</tr>
+<tr>
+<td>stacking a series of transformations</td>
+<td>堆叠一系列转换</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>vi. 堆积，堆叠</td>
+</tr>
+<tr>
+<td>regularization</td>
+<td>n. 规则化,调整</td>
+</tr>
+<tr>
+<td>local optimization</td>
+<td>局部优化;</td>
+</tr>
+<tr>
+<td>explicit regularization</td>
+<td>显式正则化</td>
+</tr>
+<tr>
+<td>continous interpolation mechanism</td>
+<td>连续插值机制</td>
+</tr>
+<tr>
+<td>preliminary</td>
+<td>准备工作；初步行动</td>
+</tr>
+<tr>
+<td>converge</td>
+<td>趋同，趋于一致，融合，收敛</td>
+</tr>
+<tr>
+<td>latent space</td>
+<td>潜在空间</td>
+</tr>
+<tr>
+<td>heterogeneity</td>
+<td>n. 异质性;不均匀性;不纯一性</td>
+</tr>
+<tr>
+<td>Fourier transform</td>
+<td>傅里叶变换</td>
+</tr>
+<tr>
+<td>information inherent</td>
+<td>固有的信息</td>
+</tr>
+<tr>
+<td>phase spectrum</td>
+<td>相位谱</td>
+</tr>
+<tr>
+<td>amplitude spectrum</td>
+<td>振幅谱；振幅频谱</td>
+</tr>
+<tr>
+<td>semantics</td>
+<td>n. 语义学</td>
+</tr>
+<tr>
+<td>decouple</td>
+<td>解耦</td>
+</tr>
+<tr>
+<td>cluster</td>
+<td>聚类</td>
+</tr>
+<tr>
+<td>quantify</td>
+<td>[V] 确定…的数量;用数量来表示；量化</td>
+</tr>
+<tr>
+<td>delineation</td>
+<td>圈定、界定</td>
+</tr>
+<tr>
+<td>overlap</td>
+<td>n. 重叠；重复</td>
+</tr>
+<tr>
+<td>morphological operation</td>
+<td>形态学操作</td>
+</tr>
+<tr>
+<td>element-wise product</td>
+<td>元素积</td>
+</tr>
+<tr>
+<td>aggregate</td>
+<td>vt. &amp; vi. (使)聚集</td>
+</tr>
+<tr>
+<td>generalization</td>
+<td>泛化、概览</td>
+</tr>
+<tr>
+<td>decentralization</td>
+<td>n. 分散,地方分权,排除集中</td>
+</tr>
+<tr>
+<td>in-depth ablation</td>
+<td></td>
+</tr>
+<tr>
+<td>adversarial feature alignment</td>
+<td>对抗性特征对齐</td>
+</tr>
+<tr>
+<td>dedicated dense</td>
+<td>专用密集的</td>
+</tr>
+<tr>
+<td>retinal fundus</td>
+<td>视网膜眼底</td>
+</tr>
+<tr>
+<td>heterogeneity</td>
+<td>n. 异质性;不均匀性;不纯一性</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h4 id="附录B：生词"><a href="#附录B：生词" class="headerlink" title="附录B：生词"></a>附录B：生词</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>promote</td>
+<td>encourage sth 促进</td>
+</tr>
+<tr>
+<td>dedicated</td>
+<td>专用的</td>
+</tr>
+<tr>
+<td>dense</td>
+<td>密集的</td>
+</tr>
+<tr>
+<td>enhance</td>
+<td>大大提高；显著提高:</td>
+</tr>
+<tr>
+<td>objective</td>
+<td>客观的</td>
+</tr>
+<tr>
+<td>paradigm</td>
+<td>范式</td>
+</tr>
+<tr>
+<td>expose</td>
+<td>充分暴露</td>
+</tr>
+<tr>
+<td>notably</td>
+<td>特别;尤其</td>
+</tr>
+<tr>
+<td>imprecise</td>
+<td>不精确；好像不确切</td>
+</tr>
+<tr>
+<td>anatomies</td>
+<td>解剖学</td>
+</tr>
+<tr>
+<td>ambiguous</td>
+<td>含糊不清的;</td>
+</tr>
+<tr>
+<td>tackle</td>
+<td>处理，解决(难题或任务)</td>
+</tr>
+<tr>
+<td>decentralize</td>
+<td>分散;下放…的权力</td>
+</tr>
+<tr>
+<td>extensive</td>
+<td>广泛的;全面的;包罗万象的</td>
+</tr>
+<tr>
+<td>state-of-the-arts</td>
+<td>技术发展最新水平</td>
+</tr>
+<tr>
+<td>demonstrate</td>
+<td>证明;论证;表明;说明</td>
+</tr>
+<tr>
+<td>aggregate</td>
+<td>合计;总计;汇集；</td>
+</tr>
+<tr>
+<td>representatively</td>
+<td>典型的</td>
+</tr>
+<tr>
+<td>investigate</td>
+<td>调查;审查；</td>
+</tr>
+<tr>
+<td>collaborative</td>
+<td>合作的;协作的；</td>
+</tr>
+<tr>
+<td>alleviate</td>
+<td>减轻，缓解痛苦等</td>
+</tr>
+<tr>
+<td>whereas</td>
+<td>但是，然而</td>
+</tr>
+<tr>
+<td>discrepancy</td>
+<td>差异;不符;不一致;出入</td>
+</tr>
+<tr>
+<td>utilize</td>
+<td>利用；使用</td>
+</tr>
+<tr>
+<td>contrastive</td>
+<td>adj. 对比的</td>
+</tr>
+<tr>
+<td>stimulate</td>
+<td>刺激;激励;促使;促起</td>
+</tr>
+<tr>
+<td>violate</td>
+<td>违反，违背</td>
+</tr>
+<tr>
+<td>manipulate</td>
+<td>摆布，操纵，</td>
+</tr>
+<tr>
+<td>leverage</td>
+<td>vt. 促使…改变，利用</td>
+</tr>
+<tr>
+<td>adopt</td>
+<td>采取；采纳；采用</td>
+</tr>
+<tr>
+<td>cohesion</td>
+<td>团结;凝聚力</td>
+</tr>
+<tr>
+<td>denote</td>
+<td>意思是;指代</td>
+</tr>
+<tr>
+<td>thoroughly</td>
+<td>adv. 彻底地；认真仔细地</td>
+</tr>
+<tr>
+<td>distinct</td>
+<td>adj. 截然不同的, 完全分开的</td>
+</tr>
+<tr>
+<td>insufficient</td>
+<td>不充分的;不足的;缺乏的；</td>
+</tr>
+<tr>
+<td>invariance</td>
+<td>n. 不变性,恒定性</td>
+</tr>
+<tr>
+<td>anatomises</td>
+<td>解剖结构</td>
+</tr>
+<tr>
+<td>ambiguity</td>
+<td>含糊不清；不明确；模棱两可</td>
+</tr>
+<tr>
+<td>exploit</td>
+<td>充分运用；发挥</td>
+</tr>
+<tr>
+<td>leakage</td>
+<td>漏出物,渗漏物</td>
+</tr>
+<tr>
+<td>decompose</td>
+<td>(使) (死去的动植物)腐烂;使分解</td>
+</tr>
+<tr>
+<td>synthesize</td>
+<td>vt. 综合, 使合成</td>
+</tr>
+<tr>
+<td>ratio</td>
+<td>比;比率;比例；</td>
+</tr>
+<tr>
+<td>intuitive</td>
+<td>直觉的;凭直觉获知的</td>
+</tr>
+<tr>
+<td>denotation</td>
+<td>n. 指示</td>
+</tr>
+<tr>
+<td>hereafter</td>
+<td>adv. 今后,从此以后,此后</td>
+</tr>
+<tr>
+<td>violate</td>
+<td>违反，违背，</td>
+</tr>
+<tr>
+<td>counterparts</td>
+<td>n. 与对方地位相当的人, 与另一方作用相当的物</td>
+</tr>
+<tr>
+<td>regularize</td>
+<td>vt. 调整；使有秩序；使合法化</td>
+</tr>
+<tr>
+<td>crucially</td>
+<td>adv. 至关重要地;关键地</td>
+</tr>
+<tr>
+<td>w.r.t</td>
+<td>abbr. With respect to 关于</td>
+</tr>
+<tr>
+<td>property</td>
+<td>[N-COUNT 可数名词] 特性；性质；性能；属</td>
+</tr>
+<tr>
+<td>to this end</td>
+<td>因此</td>
+</tr>
+<tr>
+<td>compact</td>
+<td>小而紧凑的；</td>
+</tr>
+<tr>
+<td>project</td>
+<td>[VERB 动词] 投射；放映</td>
+</tr>
+<tr>
+<td>product</td>
+<td>乘积</td>
+</tr>
+<tr>
+<td>collaborative</td>
+<td>adj. 合作的,协作的,协力完成的</td>
+</tr>
+<tr>
+<td>neglect</td>
+<td>[VERB 动词] 忽视;忽略</td>
+</tr>
+<tr>
+<td>impede</td>
+<td>[VERB 动词] 妨碍;阻碍;</td>
+</tr>
+<tr>
+<td>adversarial</td>
+<td>对立的；敌对的；</td>
+</tr>
+<tr>
+<td>devise</td>
+<td>vt. 想出；计划；设计；发明</td>
+</tr>
+<tr>
+<td>present</td>
+<td>清晰地表述；有条理地提出:</td>
+</tr>
+<tr>
+<td>discrepancy</td>
+<td>[N-VAR 可变名词] 差异;不符;不一致;出入；</td>
+</tr>
+<tr>
+<td>manipulate</td>
+<td>操纵</td>
+</tr>
+<tr>
+<td>proportional</td>
+<td>[ADJ 形容词] 与…成比例的</td>
+</tr>
+<tr>
+<td>incorporate</td>
+<td>[VERB 动词] 包含;吸收；</td>
+</tr>
+<tr>
+<td>flexibly</td>
+<td>有弹性地；灵活地</td>
+</tr>
+<tr>
+<td>latent</td>
+<td>adj.隐藏的，潜在的</td>
+</tr>
+<tr>
+<td>insufficient</td>
+<td>[ADJ 形容词] 不充分的;不足的;缺乏的</td>
+</tr>
+<tr>
+<td>retinal</td>
+<td>[ADJ 形容词] 视网膜的；</td>
+</tr>
+<tr>
+<td>variance</td>
+<td>[N-VAR 可变名词] 差异;不同；</td>
+</tr>
+<tr>
+<td>intensity</td>
+<td>高强度</td>
+</tr>
+<tr>
+<td>heterogeneous</td>
+<td>由不同成分组成的;成分混杂的；</td>
+</tr>
+<tr>
+<td>joint</td>
+<td>[ADJ 形容词] 联合的；共同的；共享的；</td>
+</tr>
+<tr>
+<td>inherent</td>
+<td>[ADJ 形容词] 内在的;固有的;生来就有的；</td>
+</tr>
+<tr>
+<td>decomposed</td>
+<td>[V-ERG 及物/不及物动词] (使) (死去的动植物)腐烂;使分解</td>
+</tr>
+<tr>
+<td>empirically</td>
+<td>adv. 以经验为主地</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>困难 &amp; 解决：</p>
+<ol>
+<li><p>数据集准备，文件的遍历</p>
+</li>
+<li><p>train_ELCFS 路径 dataset</p>
+</li>
+<li><pre><code class="hljs">dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True,  num_workers=1, pin_memory=True, worker_init_fn=worker_init_fn) # num_workers=0 不要子进程
+</code></pre></li>
+<li><p><img src="/images/FedDG.assets/image-20220126201535533.png" srcset="/img/loading.gif" lazyload alt="image-20220126201535533"></p>
+</li>
+<li><p>替换幅度谱，然后和相位谱重新生成图像，会不会出现根本就不可能有这种图像</p>
+</li>
+<li><p>训练中没有进行插值，是直接交换的幅度谱</p>
+</li>
+<li>留一域测试中并没有只用留的域测试，而是加载了所有的源域</li>
+<li>二进制掩码M在幅度谱交换时并没有用到</li>
+<li>并没有将所有插值后的图像用于meta-test</li>
+<li>第一个模块，连续频域插值算法，提出元学习范式，使用当前客户端数据进行meta-train，使用k-1个插值数据进行meta-test；第二个模块，边界介导的情景学习，第一步利用原MASK生成两个对比MASK，得到两个一维向量，然后构建基于对比学习的边界loss，结合dice loss一起构成meta test阶段的loss</li>
+</ol>
+<p>想法：</p>
+<ol>
+<li><p>用FATE开源框架实现联邦学习</p>
+<blockquote>
+<p><strong>开源平台</strong></p>
+<p> 微众银行FATE<br> 谷歌TensorFlow Federated<br> 百度PaddleFL<br> 腾讯AngelFL<br> CMU LEAF<br> 字节FedLearner<br> 矩阵元Rosetta</p>
+</blockquote>
+</li>
+<li><p>加密</p>
+</li>
+<li><p>恶意攻击（拜占庭问题</p>
+</li>
+</ol>
+<blockquote>
+<ol>
+<li><p>降低算法通信次数，用少量的通信达到收敛。数据是IID的，已经被研究比较透彻了。联邦学习的困难在于数据不是IID的。</p>
+</li>
+<li><p>研究联邦学习中的隐私问题。联邦学习其实不会保护隐私，很容易从梯度、模型参数中反推出用户数据。提出攻击和防御的方法都可以发表出论文。</p>
+</li>
+<li><p>研究联邦学习的鲁棒性。比如有节点恶意发送错误的梯度给服务器，让训练的模型变差。设计新的攻击方法和防御方法都可以发表出来论文。</p>
+</li>
+</ol>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI/" class="category-chain-item">AI</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/note/">#note</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>【论文翻译】FedDG</div>
+      <div>https://yuwxl.github.io/2021/12/02/FedDG/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年12月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/01/03/stepToblog/" title="Hexo + github 搭建个人博客">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Hexo + github 搭建个人博客</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/11/11/noteofc++/" title="C++基础算法">
+                        <span class="hidden-mobile">C++基础算法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

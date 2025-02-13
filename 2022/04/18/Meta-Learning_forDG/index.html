@@ -1,0 +1,772 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="【CVPR 2021 FedDG】元学习算法为 gradient-based meta-learning algorithm，来自Learning to Generalize: Meta-Learning for Domain Generalization（MLDG） 在FedDG中 在SMAL中 MLDG第一个提出将元学习用于DG, MLDG 描述的算法如下：  Meta-Train 阶段  划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Meta-Learning for Domain Generalization">
+<meta property="og:url" content="https://yuwxl.github.io/2022/04/18/Meta-Learning_forDG/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="【CVPR 2021 FedDG】元学习算法为 gradient-based meta-learning algorithm，来自Learning to Generalize: Meta-Learning for Domain Generalization（MLDG） 在FedDG中 在SMAL中 MLDG第一个提出将元学习用于DG, MLDG 描述的算法如下：  Meta-Train 阶段  划">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/Meta-Learning_forDG.assets/p3.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Meta-Learning_forDG.assets/p2.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Meta-Learning_forDG.assets/p4.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Meta-Learning_forDG.assets/p5.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Meta-Learning_forDG.assets/p6.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Meta-Learning_forDG.assets/p7.png">
+<meta property="article:published_time" content="2022-04-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-02-28T01:28:44.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/Meta-Learning_forDG.assets/p3.png">
+  
+  
+  
+  <title>Meta-Learning for Domain Generalization - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Meta-Learning for Domain Generalization"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-18 00:00" pubdate>
+          2022年4月18日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Meta-Learning for Domain Generalization</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="【CVPR-2021-FedDG】"><a href="#【CVPR-2021-FedDG】" class="headerlink" title="【CVPR 2021 FedDG】"></a>【<strong>CVPR 2021 FedDG</strong>】</h4><p>元学习算法为 gradient-based meta-learning algorithm，来自<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1710.03463"><strong>Learning to Generalize: Meta-Learning for Domain Generalization（MLDG）</strong></a></p>
+<h4 id="在FedDG中"><a href="#在FedDG中" class="headerlink" title="在FedDG中"></a>在<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.06030">FedDG</a>中</h4><p><img src="/images/Meta-Learning_forDG.assets/p3.png" srcset="/img/loading.gif" lazyload style="zoom:50%;"></p>
+<h4 id="在SMAL中"><a href="#在SMAL中" class="headerlink" title="在SMAL中"></a>在<a target="_blank" rel="noopener" href="https://link.springer.com/chapter/10.1007/978-3-030-59713-9_46">SMAL</a>中</h4><p><img src="/images/Meta-Learning_forDG.assets/p2.png" srcset="/img/loading.gif" lazyload style="zoom: 67%;"></p>
+<p><strong>MLDG</strong>第一个提出将元学习用于DG, <strong>MLDG</strong> 描述的算法如下：</p>
+<p><img src="/images/Meta-Learning_forDG.assets/p4.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><strong>Meta-Train</strong> 阶段</p>
+<blockquote>
+<p>划分 $S -&gt; \overline S 、 V$</p>
+<p> $\overline S$  用于元训练的域，$V$ 用于元测试的域</p>
+<p>$Θ$​  模型的参数</p>
+<p>$ \mathcal F$​  元训练的损失函数</p>
+<p>$∇Θ$​ 是  $Θ$​ 关于 $\mathcal F$​​的梯度,参数更新公式为 $Θ′=Θ−α∇Θ$​</p>
+</blockquote>
+<p><strong>Meta-Test​</strong> </p>
+<blockquote>
+<p>与<strong>$Meta-Train$</strong> 阶段步骤相同，但是数据用的是测试域数据 $V$</p>
+</blockquote>
+<p><strong>Summary</strong> </p>
+<blockquote>
+<p>$α$ 是元训练的步长</p>
+<p>$β$  是元训练和元测试之间的权重</p>
+<p>使用梯度下降算法求解下式就可以得到<strong>Algorithm 1</strong>的第9行</p>
+<p>$argminΘ \mathcal F(Θ)+β \mathcal G(Θ−αF′(Θ))$</p>
+<p>$F$是来自元训练域损失的综合，$G$是来自元测试域损失的综合</p>
+<p>$F′(⋅)$是训练损失 $F(Θ)$关于 $Θ$ 的梯度，即 $∇Θ$</p>
+<p>“模型需要优化以使得在更新元训练域之后，模型在元测试域上的性能也很好”。</p>
+</blockquote>
+<p><strong>Final-Test</strong> </p>
+<blockquote>
+<p>收敛后，得到最终模型 $Θ$​</p>
+</blockquote>
+<h5 id="关于元学习的理解"><a href="#关于元学习的理解" class="headerlink" title="关于元学习的理解"></a>关于元学习的理解</h5><p>元学习，学会一个知道怎样初始化模型参数最好的算法，Learning to initialize</p>
+<p><img src="/images/Meta-Learning_forDG.assets/p5.png" srcset="/img/loading.gif" lazyload style="zoom:50%;"></p>
+<p>Deep learning 总是在读数据 + 调参数 ，用很多GPU，看哪组参数效果好</p>
+<p>超参数、网络架构能不能自己学习到？</p>
+<h4 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a><strong>机器学习</strong></h4><ol>
+<li>找一个function（内有未知参数 f(θ)）</li>
+<li>定义loss函数L(θ) （将训练资料丢到f(θ)里面，将输出和正确lable算距离，所有距离总和为loss </li>
+<li>找一个θ,使得L(θ)最小(梯度下降)</li>
+</ol>
+<h4 id="元学习"><a href="#元学习" class="headerlink" title="元学习"></a><strong>元学习</strong></h4><blockquote>
+<p>步骤同机器学习，但是输出为一个function，比如输出一个分类器，我丢数据就能分类。</p>
+<p>找𝜙时，还是要调learning rate，也就是参数还是要调，但是调好一个可以用到很多，其实就是向上套娃，换一个效率高的方式暴调参数</p>
+</blockquote>
+<ol>
+<li><p>想让机器学什么，比如学 net architecture，initial parameters，learning rate 这些之前只能靠人工设定的，这些东西用𝜙表示，找 F(𝜙)</p>
+</li>
+<li><p>定义Loss function ，loss 是在训练集中的测试资料中跑出来的，所有的任务的loss加起来</p>
+<blockquote>
+<p>以任务为单位（每个任务分训练资料和测试资料）</p>
+</blockquote>
+</li>
+<li><p>找一个𝜙，使得L(𝜙)最小</p>
+<blockquote>
+<p><img src="/images/Meta-Learning_forDG.assets/p6.png" srcset="/img/loading.gif" lazyload style="zoom: 45%;"><img src="/images/Meta-Learning_forDG.assets/p7.png" srcset="/img/loading.gif" lazyload style="zoom: 45%;"></p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>In typical ML, you compute the loss based on training examples<br>In meta, you compute the loss based on testing examples of training tasks. （训练集中划分的测试集）</p>
+<p><a target="_blank" rel="noopener" href="https://speech.ee.ntu.edu.tw/~hylee/ml/ml2021-course-data/meta_v3.pdf">李宏毅元学习PPT</a></p>
+</blockquote>
+<p>以<strong>FedDG</strong>中的为例子分析：</p>
+<script type="math/tex; mode=display">
+\widehatθ^k= θ^k−β∇_{θ^k} \mathcal L_{seg}(x^k_i; θ^k), (4)</script><p>领域泛化综述：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1819333">https://cloud.tencent.com/developer/article/1819333</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/AI/" class="category-chain-item">AI</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/note/">#note</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Meta-Learning for Domain Generalization</div>
+      <div>https://yuwxl.github.io/2022/04/18/Meta-Learning_forDG/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年4月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/05/14/Differential%20Privacy/" title="差分隐私">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">差分隐私</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/15/contrastive%20learning/" title="对比学习">
+                        <span class="hidden-mobile">对比学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

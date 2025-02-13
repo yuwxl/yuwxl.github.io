@@ -1,0 +1,803 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="以太坊的树以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有——棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。状态树采用Merkel-Patrica(MPT)树，而交易树和收据树采用Merkel树。 账户存储树是保存与账户相关联数据的结构。该项只有合约账户才有，而在 EOA 中， storag">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ethereum">
+<meta property="og:url" content="https://yuwxl.github.io/2023/04/24/Ethereum/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="以太坊的树以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有——棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。状态树采用Merkel-Patrica(MPT)树，而交易树和收据树采用Merkel树。 账户存储树是保存与账户相关联数据的结构。该项只有合约账户才有，而在 EOA 中， storag">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/BC_datastructrue.png">
+<meta property="og:image" content="https://img.learnblockchain.cn/pics/20230302185957.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20231107102909599.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20231105205651566.png">
+<meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/image-20230430152206219.png">
+<meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/image-20230430151717120.png">
+<meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/image-20230716142041732.png">
+<meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/image-20230716142114469.png">
+<meta property="og:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/image-20230717153706606.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20230827203115042.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20230823151225071.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20230823165127227.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20230824095845585.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20230824095948635.png">
+<meta property="og:image" content="https://github.com/ethereumbook/ethereumbook/blob/develop/images/evm-architecture.png?raw=true">
+<meta property="og:image" content="https://yuwxl.github.io/images/Ethereum/image-20231030185756893.png">
+<meta property="article:published_time" content="2023-04-24T12:41:30.000Z">
+<meta property="article:modified_time" content="2023-12-19T09:02:28.000Z">
+<meta property="article:author" content="nayun">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/2023/04/24/Ethereum/images/Ethereum/BC_datastructrue.png">
+  
+  
+  
+  <title>Ethereum - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Ethereum"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-24 20:41" pubdate>
+          2023年4月24日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          97 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ethereum</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="以太坊的树"><a href="#以太坊的树" class="headerlink" title="以太坊的树"></a>以太坊的树</h2><p>以太坊区块数据有三棵树，分别为状态树，交易树和收据树。整个以太坊系统中只有—<strong>—</strong>棵状态树，记录整个以太坊系统的所有账户状态。每个区块保存着一棵交易树，记录该区块的交易情况，一棵收据树用来记录该区块的交易收据。<br><strong>状态树采用Merkel-Patrica(MPT)树，而交易树和收据树采用Merkel树。</strong></p>
+<p>账户存储树是保存与账户相关联数据的结构。该项只有合约账户才有，而在 EOA 中， storageRoot 留空、 codeHash 则是一串空字符串的哈希值。所有智能合约的数据都以 32 字节映射的形式保存在账户存储树中。</p>
+<p><a target="_blank" rel="noopener" href="https://learnblockchain.cn/article/472">https://learnblockchain.cn/article/472</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wxudong1991/article/details/109311822">https://blog.csdn.net/wxudong1991/article/details/109311822</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.bcskill.com/index.php/archives/1253.html">区块链架构</a></p>
+<p><img src="images/Ethereum/BC_datastructrue.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://img.learnblockchain.cn/pics/20230302185957.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="两个用户同时调用某一智能合约？-以太坊是顺序的"><a href="#两个用户同时调用某一智能合约？-以太坊是顺序的" class="headerlink" title="两个用户同时调用某一智能合约？- 以太坊是顺序的"></a>两个用户同时调用某一智能合约？- 以太坊是顺序的</h2><blockquote>
+<p><strong>区块链智能合约交易并行执行模型综述</strong></p>
+</blockquote>
+<p><strong>It is also worth noting that smart contracts are not executed “in parallel” in any sense—the Ethereum world computer can be considered to be a single-threaded machine.</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ethereumbook/ethereumbook/blob/develop/07smart-contracts-solidity.asciidoc#what-is-a-smart-contract">参考以太坊book</a></p>
+<h2 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h2><p><a target="_blank" rel="noopener" href="https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md">https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md</a></p>
+<p><a target="_blank" rel="noopener" href="https://solidity-cn.readthedocs.io/zh/develop/introduction-to-smart-contracts.html">智能合约概述solidity</a></p>
+<p>Internal transaction (also “message”)</p>
+<p>A transaction sent from a contract account to another contract account or an EOA.</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ethereumbook/ethereumbook/blob/c5ddebd3dbec804463c86d0ae2de9f28fbafb83a/glossary.asciidoc#L160">https://github.com/ethereumbook/ethereumbook/blob/c5ddebd3dbec804463c86d0ae2de9f28fbafb83a/glossary.asciidoc#L160</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.soliditylang.org/en/v0.8.22/abi-spec.html#function-selector"><strong>Function</strong> Selector and Argument Encoding</a></p>
+<blockquote>
+<p><img src="/images/Ethereum/image-20231107102909599.png" srcset="/img/loading.gif" lazyload alt="image-20231107102909599"></p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://goodgid.github.io/BlockChain-Transaction,-Message,-Call/">Transaction, Message, Call</a></p>
+<p>合约之间相互调用</p>
+<p><img src="/images/Ethereum/image-20231105205651566.png" srcset="/img/loading.gif" lazyload alt="image-20231105205651566"></p>
+<p><a target="_blank" rel="noopener" href="https://docs.chainmaker.org.cn/instructions/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E8%B7%A8%E5%90%88%E7%BA%A6%E8%B0%83%E7%94%A8.html">跨合约调用</a></p>
+<blockquote>
+<p><strong>动态调用示例</strong></p>
+<p>合约dynamic_call.sol。部署Caller合约后，可以调用任意solidity合约及其方法，不限定接口。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs solidity">// SPDX-License-Identifier: GPL-3.0<br><br>pragma solidity &gt;= 0.8.0;<br><br>contract Caller &#123;<br>    string[10] x;<br>    string[8] params;<br><br>    function cross_call(address callee, string calldata method, string calldata key, int256 value) public &#123;<br>			//注意，method必须为方法签名格式,且方法签名的参数间不能有空格，例如&quot;save(string,int256)&quot;<br>	    callee.call((abi.encodeWithSignature(method, key, value));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>如示例所示，调用者合约Caller可以调用任意合约的任意方法，只需要将被调用合约的地址、方法签名和参数传给调用者合约即可。</p>
+<p>注意，被调合约的方法必须是方法签名样式，且方法签名的参数间不能有空格，如示例中注释所示，否则无法编译为准确的ABI类型的calldata，evm将无法识别。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7219567168316063804">https://juejin.cn/post/7219567168316063804</a></p>
+<blockquote>
+<p>所谓动态调用，是指调用者合约不需要提前知道被调用合约的接口，只需要在调用时，告诉调用者被调合约的方法签名即可。调用者合约不需要事前绑定被调者的接口，可以在调用时，指定任意被调用合约及其方法，更加灵活。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs solidity">https://github.com/WeBankBlockchain/WeCross-BCOS2-Stub/blob/master/src/main/resources/WeCrossHub.sol<br>// internal call<br>    function callContract(address _contractAddress, string memory _sig, bytes memory _args) internal<br>    returns(bytes memory result)<br>    &#123;<br>        bytes memory sig = abi.encodeWithSignature(_sig);<br>        bool success;<br>        (success, result) = address(_contractAddress).call(abi.encodePacked(sig, _args));<br>        if(!success) &#123;<br>            revert(string(result));<br>        &#125;<br>    &#125;<br><br>    // internal call<br>    function callContract(address _contractAddress, bytes memory _argsWithMethodId) internal<br>    returns(bytes memory result)<br>    &#123;<br>        bool success;<br>        (success, result) = address(_contractAddress).call(_argsWithMethodId);<br>        if(!success) &#123;<br>            //(string memory error) = abi.decode(result, (string));<br>            revert(string(result));<br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+<h2 id="区块链事件"><a href="#区块链事件" class="headerlink" title="区块链事件"></a>区块链事件</h2><p><a target="_blank" rel="noopener" href="https://hackernoon.com/zh/solidity-%E4%BA%8B%E4%BB%B6%E5%85%A8%E9%9D%A2%E6%A6%82%E8%BF%B0"><strong>Solidity 事件：全面概述</strong></a></p>
+<blockquote>
+<p><strong>以太坊不提供一种机制来获取智能合约的所有交易，但它确实提供了一种机制来从智能合约中获取所有事件。</strong></p>
+</blockquote>
+<h2 id="区块链可扩展性的限制"><a href="#区块链可扩展性的限制" class="headerlink" title="区块链可扩展性的限制"></a>区块链可扩展性的限制</h2><p>（强推）<a target="_blank" rel="noopener" href="https://vitalik.ca/general/2021/05/23/scaling.html">https://vitalik.ca/general/2021/05/23/scaling.html</a></p>
+<p>以太坊扩容综述 <a target="_blank" rel="noopener" href="https://www.odaily.news/post/5182589">https://www.odaily.news/post/5182589</a></p>
+<h2 id="以太坊交易速度受哪些因素限制"><a href="#以太坊交易速度受哪些因素限制" class="headerlink" title="以太坊交易速度受哪些因素限制"></a>以太坊交易速度受哪些因素限制</h2><p>以太坊现状：网络拥堵、磁盘空间（运行一个全节点很困难）</p>
+<h3 id="scalability、security、decentralization"><a href="#scalability、security、decentralization" class="headerlink" title="scalability、security、decentralization"></a>scalability、security、decentralization</h3><p>Ethereum needs to be able to handle more transactions per second without increasing the size of the nodes in the network. </p>
+<p>不提高单个节点能力的情况下每秒处理更多交易</p>
+<p><strong>The main goal of scalability</strong> is to increase transaction speed (faster finality) and transaction throughput (higher transactions per second) without sacrificing decentralization or security.</p>
+<p>解决存储问题：无状态设计？快照同步</p>
+<p><strong>The only solution to storage size problems is <a target="_blank" rel="noopener" href="https://hackmd.io/@vbuterin/state_expiry_paths">statelessness and state expiry</a>. </strong> <strong>Statelessness</strong> allows for a class of nodes that verify the chain <em>without</em> maintaining permanent storage. <strong>State expiry</strong> pushes out state that has not been recently accessed, forcing users to manually provide proofs to renew it. Both of these paths have been worked at for a long time, and proof-of-concept implementation on statelessness has already started.</p>
+<p>快照同步</p>
+<blockquote>
+<p><img src="images/Ethereum/image-20230430152206219.png" srcset="/img/loading.gif" lazyload alt="image-20230430152206219"><img src="images/Ethereum/image-20230430151717120.png" srcset="/img/loading.gif" lazyload alt="image-20230430151717120"></p>
+</blockquote>
+<h2 id="以太坊上的DAPP"><a href="#以太坊上的DAPP" class="headerlink" title="以太坊上的DAPP"></a>以太坊上的DAPP</h2><blockquote>
+<p>一个分布式的App不用将所有状态都存储在区块链上，或者在链上进行所有计算（译者注：比如图形渲染），这样就太花gas了。所以一个分布式App把需要大家共同信任的状态存在区块链上就好了。许多的分布式应用使用后面提到的技术，如IPFS和Gelem，在链下进行分布式存储和计算。虽然没在以太坊上，但仍使用的是区块链技术。</p>
+</blockquote>
+<h2 id="资料"><a href="#资料" class="headerlink" title="资料"></a>资料</h2><p><a target="_blank" rel="noopener" href="https://www.echenshe.com/tut/bc/3-3.html">以太坊原理</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ethereumbook/ethereumbook/tree/develop">以太坊书</a></p>
+<h2 id="区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？"><a href="#区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？" class="headerlink" title="区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？"></a>区块链中balance和payouts，deposit具体是指什么操作？它们三个有什么关系？</h2><blockquote>
+<p>在区块链中，balance指的是一个地址（或账户）的当前余额，即该地址当前拥有的数字货币数量。这个余额可以通过各种操作进行更改，例如通过转账、挖矿、收到交易等等。</p>
+<p>Payouts是指向某个地址发送数字货币的过程，通常是由一个智能合约触发的。智能合约会从一个地址的余额中扣除一定数量的数字货币，并将这些数字货币发送到另一个地址。</p>
+<p>Deposit是指将数字货币存入一个地址的过程。这通常涉及将数字货币从一个地址发送到另一个地址，其中目标地址是正在存款的地址。在存款完成后，该地址的余额将增加相应的数量。</p>
+<p>这三个概念之间有密切的关系。当一个地址接收到一笔Payouts时，它的余额会增加。当一个地址发送一笔Deposit时，它的余额会减少。因此，一个地址的余额可以看作是从过去的Payouts和Deposit操作的结果。</p>
+</blockquote>
+<h2 id="区块链中withdrawals是啥意思"><a href="#区块链中withdrawals是啥意思" class="headerlink" title="区块链中withdrawals是啥意思?"></a>区块链中withdrawals是啥意思?</h2><blockquote>
+<p>在区块链中，withdrawals指的是从一个地址中取出数字货币的过程。这个过程通常是由持有该地址的用户发起的，用户可以通过发送一笔交易，将数字货币从该地址发送到另一个地址，从而完成取款的过程。</p>
+<p>Withdrawals和balance、payouts和deposit之间存在紧密的关系。一个地址的余额（balance）是由过去所有的收款（deposit）和支出（withdrawals）操作的结果计算得出的。当一个用户发起一笔withdrawals时，它会从该地址的余额中扣除相应的数字货币数量，并将这些数字货币发送到另一个地址。因此，withdrawals可以被视为支出（payouts）的一种形式，因为它是将数字货币从一个地址发送到另一个地址的过程。</p>
+</blockquote>
+<h2 id="区块链中的clogging攻击指的是什么？"><a href="#区块链中的clogging攻击指的是什么？" class="headerlink" title="区块链中的clogging攻击指的是什么？"></a>区块链中的clogging攻击指的是什么？</h2><blockquote>
+<p>Clogging攻击，又称拥塞攻击，是指在区块链网络中通过发送大量无效的交易来占用网络带宽和节点资源的攻击行为。攻击者会发送一些特意构造的无效交易，这些交易会在网络中传播和验证，占用大量的带宽和节点资源，从而导致网络拥堵，让正常的交易无法及时得到验证和处理。这种攻击可以导致交易的延迟和费用的增加，甚至可以完全阻塞网络，让区块链系统失去可用性。</p>
+<p>Clogging攻击是一种分布式拒绝服务（DDoS）攻击的变种，它的目的是通过消耗网络资源来影响区块链的性能和可用性。攻击者可能会利用这种攻击手段来进行勒索或者敲诈，向网络用户和矿工勒索比特币或其他加密货币。对于区块链网络而言，防范这种攻击需要提高网络的抗DDoS能力，采取一些技术措施来限制无效交易的传播和验证，以及加强节点的监管和管理。</p>
+</blockquote>
+<h2 id="无状态区块链"><a href="#无状态区块链" class="headerlink" title="无状态区块链"></a>无状态区块链</h2><p><a target="_blank" rel="noopener" href="https://ethereum.org/zh/roadmap/statelessness/">https://ethereum.org/zh/roadmap/statelessness/</a></p>
+<blockquote>
+<p><strong>In weak statelessness proposing blocks requires access to full state data but verifying blocks requires no state data</strong></p>
+<p>提议方需要存储完整状态，但是验证方反而不要储存，因为安全性是通过验证方确定的，但是不存储完整状态怎么验证提议方的提议？</p>
+</blockquote>
+<h2 id="以太坊3难困境"><a href="#以太坊3难困境" class="headerlink" title="以太坊3难困境"></a>以太坊3难困境</h2><p><a target="_blank" rel="noopener" href="https://www.ledger.com/academy/what-is-the-blockchain-trilemma">什么是以太坊3难困境？</a></p>
+<h2 id="OPTIMISTIC-ROLLUPS-如何与以太坊交互？"><a href="#OPTIMISTIC-ROLLUPS-如何与以太坊交互？" class="headerlink" title="OPTIMISTIC ROLLUPS 如何与以太坊交互？"></a>OPTIMISTIC ROLLUPS 如何与以太坊交互？</h2><p><a target="_blank" rel="noopener" href="https://ethereum.org/en/developers/docs/scaling/optimistic-rollups/">https://ethereum.org/en/developers/docs/scaling/optimistic-rollups/</a></p>
+<p>Optimistic rollups 是在以太坊之上运行的<a target="_blank" rel="noopener" href="https://ethereum.org/en/developers/docs/scaling/#off-chain-scaling">链下扩展解决方案。</a>每个 optimistic rollup 都由一组部署在以太坊网络上的智能合约管理。Optimistic rollups 处理主以太坊链外的交易，但将链下交易（批量）发布到链上 rollup 合约。和以太坊区块链一样，这个交易记录是不可变的，形成了“乐观汇总链”。</p>
+<p>optimistic rollup 的架构包括以下部分：</p>
+<p><strong>链上合约</strong>：optimistic rollups 的操作由运行在以太坊上的智能合约控制。这包括存储汇总块、监控汇总状态更新以及跟踪用户存款的合约。从这个意义上说，以太坊是 optimistic rollups 的基础层或“第 1 层”。</p>
+<p><strong>链下虚拟机（VM）</strong>：虽然管理 optimistic rollup 协议的合约在以太坊上运行，但 rollup 协议在与以太坊虚拟机分开的另一个虚拟机上执行计算和状态<a target="_blank" rel="noopener" href="https://ethereum.org/en/developers/docs/evm/">存储</a>。链下虚拟机是应用程序运行和执行状态更改的地方；它作为 optimistic rollup 的上层或“第 2 层”。</p>
+<p>由于 optimistic rollups 旨在运行为 EVM 编写或编译的程序，因此链下 VM 包含许多 EVM 设计规范。此外，在链上计算的欺诈证明允许以太坊网络强制执行在链下 VM 中计算的状态更改的有效性。</p>
+<p>Optimistic rollups 被描述为“混合扩展解决方案”，因为虽然它们作为单独的协议存在，但它们的安全属性源自以太坊。除其他事项外，以太坊保证汇总的链下计算的正确性以及计算背后数据的可用性。这使得 optimistic rollups 比不依赖以太坊安全的纯链下扩展协议（例如，<a target="_blank" rel="noopener" href="https://ethereum.org/en/developers/docs/scaling/sidechains/">侧链）更安全。</a></p>
+<h2 id="Trust-Zone"><a href="#Trust-Zone" class="headerlink" title="Trust Zone"></a>Trust Zone</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/guyongqiangx/article/details/78020257">什么是TrustZone</a></p>
+<h2 id="理解以太坊"><a href="#理解以太坊" class="headerlink" title="理解以太坊"></a>理解以太坊</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56151995">https://zhuanlan.zhihu.com/p/56151995</a></p>
+<h2 id="预言机-智能合约如何可信的与外部世界交互"><a href="#预言机-智能合约如何可信的与外部世界交互" class="headerlink" title="预言机,智能合约如何可信的与外部世界交互"></a>预言机,智能合约如何可信的与外部世界交互</h2><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sportshark/article/details/77477842">智能合约如何可信的与外部世界交互</a></p>
+<p><a target="_blank" rel="noopener" href="https://ethereum.org/zh/developers/docs/oracles/">预言机-以太坊</a></p>
+<p>因此如果智能合约从外部服务获取数据的话，这个数据获取过程是由各节点重复和独立完成的，假设这个区块链有100个节点，那么就会有100条获取数据的请求从每个节点发送到期货交易场所，但是因为这个数据来源于区块链外部，价格是实时波动的，由于网络延迟、节点处理速度等各种原因，每个节点获取的并不是同一时刻的价格，输入到智能合约的价格数据也就不同，因此对应的各节点智能合约输出也会不同，在这种情况下，整个区块链的信任基础就会崩溃，无法达成共识。</p>
+<p>预言机解决了这一问题，它从链下来源获取信息并存储在区块链上供智能合约使用。 由于存储在链上的信息是不可更改和公开可用的，以太坊节点可以安全地使用预言机导入的链下数据计算状态变化，且不会打破共识。</p>
+<p>为此，预言机通常由链上运行的智能合约和一些链下组件构成。 链上合约接收其他智能合约的数据请求，并将这些请求传送给链下组件（称为预言机节点）。 这类预言机节点可以查询数据源—例如使用应用程序接口 (API)—<strong>并发送交易将请求的数据存储在智能合约的存储中。</strong></p>
+</blockquote>
+<h2 id="双花攻击？50-算力？比特币白皮书第11章"><a href="#双花攻击？50-算力？比特币白皮书第11章" class="headerlink" title="双花攻击？50%算力？比特币白皮书第11章"></a>双花攻击？50%算力？比特币白皮书第11章</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzkzNjI5NDE0MA==&amp;mid=2247507730&amp;idx=3&amp;sn=59650e738ccf194c4ca1f95c050f02ce&amp;source=41#wechat_redirect">https://mp.weixin.qq.com/s?__biz=MzkzNjI5NDE0MA==&amp;mid=2247507730&amp;idx=3&amp;sn=59650e738ccf194c4ca1f95c050f02ce&amp;source=41#wechat_redirect</a></p>
+<h2 id="GHOST协议"><a href="#GHOST协议" class="headerlink" title="GHOST协议"></a>GHOST协议</h2><blockquote>
+<p>为了确定哪个路径才是最有效的以及防止多条链的产生，以太坊使用了一个叫做“GHOST协议(GHOST protocol.)”的数学机制。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/itchosen/article/details/78655903">以太坊详解</a></p>
+<h2 id="checkpoint-block"><a href="#checkpoint-block" class="headerlink" title="checkpoint block"></a>checkpoint block</h2><h2 id="矿工执行并验证交易需要什么？"><a href="#矿工执行并验证交易需要什么？" class="headerlink" title="矿工执行并验证交易需要什么？"></a>矿工执行并验证交易需要什么？</h2><p><a target="_blank" rel="noopener" href="https://ethereum.org/zh/roadmap/verkle-trees/">https://ethereum.org/zh/roadmap/verkle-trees/</a></p>
+<h3 id="Why-do-we-want-stateless-clients"><a href="#Why-do-we-want-stateless-clients" class="headerlink" title="Why do we want stateless clients?"></a>Why do we want stateless clients?</h3><p>Ethereum clients currently use a data structure known as a Patricia Merkle Trie to store its state data. Information about individual accounts are stored as leaves on the trie and pairs of leaves are hashed repeatedly until only a single hash remains. This final hash is known as the “root”. <strong>To verify blocks, Ethereum clients execute all the transactions in a block and update their local state trie. </strong>The block is considered valid if the root of the local tree is identical to the one provided by the block proposer, because any differences in the computation done by the block proposer and the validating node would cause the root hash to be completely different. <strong>The problem with this is that verifying the blockchain requires each client to store the whole state trie for the head block and several historical blocks (the default in Geth is to keep state data for 128 blocks behind the head).</strong> This requires clients to have access to a large amount of disk space, which is a barrier to running full nodes on cheap, low power hardware. A solution to this is to update the state trie to a more efficient structure (Verkle tree) that can be summarized using a small “witness” to the data that can be shared instead of the full state data. Reformatting the state data into a Verkle tree is a stepping stone for moving to stateless clients.</p>
+<h3 id="What-is-a-witness-and-why-do-we-need-them"><a href="#What-is-a-witness-and-why-do-we-need-them" class="headerlink" title="What is a witness and why do we need them?"></a>What is a witness and why do we need them?</h3><p>Verifying a block means re-executing the transactions contained in the block, applying the changes to Ethereum’s state trie, and calculating the new root hash.<strong>A verified block is one whose computed state root hash is the same as the one provided with the block (because this means the block proposer really did the computation they say they did).</strong> In today’s Ethereum clients, updating the state requires access to the entire state trie, which is a large data structure that must be stored locally. A witness only contains the fragments of the state data that are required to execute the transactions in the block. A validator can then only use those fragments to verify that the block proposer has executed the block transactions and updated the state correctly. However, this means that the witness needs to be transferred between peers on the Ethereum network rapidly enough to be received and processed by each node safely within a 12 second slot. If the witness is too large, it might take some nodes too long to download it and keep up with the chain. This is a centralizing force because it means only nodes with fast internet connections can participate in validating blocks. With Verkle trees there is no need to have the state stored on your hard drive; <em>everything</em> you need to verify a block is contained within the block itself. Unfortunately, the witnesses that can be produced from Merkle tries are too large to support stateless clients.</p>
+<h3 id="承诺向量"><a href="#承诺向量" class="headerlink" title="承诺向量"></a>承诺向量</h3><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=RGJOQHzg3UQ">https://www.youtube.com/watch?v=RGJOQHzg3UQ</a></p>
+<p><img src="images/Ethereum/image-20230716142041732.png" srcset="/img/loading.gif" lazyload alt="image-20230716142041732"></p>
+<p><img src="images/Ethereum/image-20230716142114469.png" srcset="/img/loading.gif" lazyload alt="image-20230716142114469"></p>
+<h2 id="无状态设计，不需要账本就能记账"><a href="#无状态设计，不需要账本就能记账" class="headerlink" title="无状态设计，不需要账本就能记账"></a>无状态设计，不需要账本就能记账</h2><p><a target="_blank" rel="noopener" href="http://www.tucaod.com/6696.html">http://www.tucaod.com/6696.html</a></p>
+<h2 id="学习资源"><a href="#学习资源" class="headerlink" title="学习资源"></a>学习资源</h2><p><a target="_blank" rel="noopener" href="https://learnblockchain.cn/article/2238">https://learnblockchain.cn/article/2238</a></p>
+<p>黄皮书：<a target="_blank" rel="noopener" href="https://github.com/ethereum/yellowpaper">https://github.com/ethereum/yellowpaper</a></p>
+<p>白皮书：<a target="_blank" rel="noopener" href="https://ethereum.org/zh/whitepaper/">https://ethereum.org/zh/whitepaper/</a></p>
+<h2 id="witness设计"><a href="#witness设计" class="headerlink" title="witness设计"></a>witness设计</h2><p>承诺方案</p>
+<p>witness</p>
+<p>verkle树</p>
+<blockquote>
+<p>将TEE想象成一个无状态的验证者，Instead of using their own local copy of Ethereum’s state to verify blocks, stateless clients use a “witness” to the state data that arrives with the block.无状态的验证者可以用 “witness”去验证与交易相关的账户状态。那反过来，TEE如果生成这种 “witness”，就可供其他人验证TEE在执行过程中涉及到的状态。</p>
+<p> “witness”是什么：A witness is a collection of individual pieces of the state data that are required to execute a particular set of transactions, and a cryptographic proof that the witness is really part of the full data. the witnesses need to be very small, so that they can be safely broadcast across the network in time for validators to process them within a 12 second slot. 如果用merkle树来描述，merkle树他验证某一个值是否在某个位置的方法是生成merkle proof，整个merkle proof就是一个“witness”，但是merkle proof太庞大了，它需要所有的兄弟节点的hash,需要有一种改进的数据结构来传递这种”witness”，要求是越小越好，但是能被高效验证。</p>
+<p>可以用多项式承诺</p>
+</blockquote>
+<p>KZG承诺实现verkle 树</p>
+<blockquote>
+<p>The <a target="_blank" rel="noopener" href="https://dankradfeist.de/ethereum/2020/06/16/kate-polynomial-commitments.html">KZG (Kate) polynomial commitment scheme</a> is a polynomial commitment scheme. Its primary functionality is the ability to commit to a polynomial f(x) via an elliptic curve group element C=[f(s)]1</p>
+</blockquote>
+<h5 id="通过椭圆曲线群元素-C-f-s-1-来承诺于多项式-f-x"><a href="#通过椭圆曲线群元素-C-f-s-1-来承诺于多项式-f-x" class="headerlink" title="通过椭圆曲线群元素 C = [f(s)]1 来承诺于多项式 f(x)"></a>通过椭圆曲线群元素 C = [f(s)]1 来承诺于多项式 f(x)</h5><blockquote>
+<p>这个表达式中，C = [f(s)]1 表示通过将多项式 f(x) 在特定点 s 处的求值结果 f(s) 进行椭圆曲线群操作，得到的椭圆曲线群元素 C。</p>
+<p>椭圆曲线群元素是椭圆曲线上的点，可以用于在密码学中进行各种操作和计算。在这种多项式承诺方案中，通过将多项式在特定点的求值结果转换为椭圆曲线群元素，实现对多项式的承诺。</p>
+<p>方括号 [ ] 表示椭圆曲线群操作，1 是群操作的指数。具体来说，[f(s)]1 表示将 f(s) 作为椭圆曲线群的元素进行群操作。</p>
+<p>这个承诺形式的好处是，它将多项式 f(x) 的信息转换为椭圆曲线群上的元素，使得对多项式的承诺具有密码学的安全性和验证的可行性。通过这种方式，可以实现对多项式的承诺和验证，同时保护了多项式的隐私和完整性。</p>
+<p><img src="images/Ethereum/image-20230717153706606.png" srcset="/img/loading.gif" lazyload alt="image-20230717153706606"></p>
+<p>这个描述中，我们引入了一个符号 ω 来表示一个复数，它具有特定的性质。在数学中，单位根是一个复数的幂，当这个复数的幂达到某个特定的值时，结果等于 1。</p>
+<p>在这种情况下，我们假设 ω 是一个复数，它的幂等于 1，即 ω^d = 1。这意味着 ω 是一个阶为 d 的单位根，其中 d 是一个正整数。换句话说，当我们将 ω 自乘 d 次时，结果等于 1。</p>
+<p>此外，我们还要求 ω 的幂在 0 到 d-1 的范围内都不等于 1，即 ω^i ≠ 1，其中 0 ≤ i &lt; d。这个条件确保了 ω 是一个原根，也就是说，它的幂覆盖了从 0 到 d-1 的所有可能值，并且不会重复。</p>
+<p>这个性质在许多数学和密码学的应用中很重要，尤其是在离散傅里叶变换、多项式插值、多项式承诺等领域。通过引入 ω 这样一个原根，我们可以利用它的性质来进行复杂的数学运算和密码学操作。</p>
+</blockquote>
+<h5 id="什么是原根"><a href="#什么是原根" class="headerlink" title="什么是原根"></a>什么是原根</h5><blockquote>
+<p>在数论中，给定一个正整数 n，如果存在一个整数 g，使得 g 的幂可以生成模 n的所有非零剩余类，则 g 被称为模 n的原根。</p>
+<p>具体来说，如果对于模 n，存在一个整数 g，使得 g^k ≡ 1 (mod n) 当且仅当 k 是 n-1 的倍数，那么 g 就是模 n的原根。</p>
+<p>原根具有以下性质：</p>
+<ol>
+<li>它的幂可以覆盖模 n的所有非零剩余类，即 {g^0, g^1, g^2, …, g^(n-2)} 对模 n取余的结果都不相同。</li>
+<li>它的幂可以生成模 n的所有非零剩余类，即 {g^0, g^1, g^2, …, g^(n-2)} 对模 n取余的结果包含了 1 到 n-1 之间的所有非零剩余类。</li>
+</ol>
+<p>原根在数论和密码学中具有广泛的应用。它们在离散对数问题、离散对数算法、加密算法（如Diffie-Hellman密钥交换）和其他相关领域中起着重要作用。通过利用原根的性质，我们可以进行模运算、生成随机数、构造密码学协议等操作。</p>
+</blockquote>
+<p><strong>In a Verkle tree, on the other hand, you do not need to provide sister nodes; instead, you just provide the path, with a little bit extra as a proof.</strong></p>
+<p>So <strong>what is this little extra that we need as a proof ? </strong>To understand that, we first need to circle back to one key detail: the hash function used to compute an inner node from its children is not a regular hash. Instead, it’s a <strong>vector commitment</strong>.</p>
+<p>KZG承诺</p>
+<p><a target="_blank" rel="noopener" href="https://foresightnews.pro/article/detail/17988">https://foresightnews.pro/article/detail/17988</a></p>
+<p><img src="/images/Ethereum/image-20230827203115042.png" srcset="/img/loading.gif" lazyload alt="image-20230827203115042"></p>
+<h2 id="智能合约执行模型"><a href="#智能合约执行模型" class="headerlink" title="智能合约执行模型"></a>智能合约执行模型</h2><p>来自 <a target="_blank" rel="noopener" href="https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md">https://github.com/chaseSpace/learn_blockchain/blob/main/smart_contract.md</a></p>
+<p>合约执行引擎还为合约执行提供上下文环境，包括账本数据的访问、外部数据的获取，最终将执行结果交由区块链共识模块进行全网一致性验证。</p>
+<blockquote>
+<p><img src="/images/Ethereum/image-20230823151225071.png" srcset="/img/loading.gif" lazyload alt="image-20230823151225071"></p>
+</blockquote>
+<p><img src="/images/Ethereum/image-20230823165127227.png" srcset="/img/loading.gif" lazyload alt="image-20230823165127227"></p>
+<p><img src="/images/Ethereum/image-20230824095845585.png" srcset="/img/loading.gif" lazyload alt="image-20230824095845585"></p>
+<blockquote>
+<p>EVM 可以获得完整世界状态，但看不见历史</p>
+</blockquote>
+<p><img src="/images/Ethereum/image-20230824095948635.png" srcset="/img/loading.gif" lazyload alt="image-20230824095948635"></p>
+<blockquote>
+<p>（重要，以太坊书）<a target="_blank" rel="noopener" href="https://github.com/ethereumbook/ethereumbook/tree/develop">https://github.com/ethereumbook/ethereumbook/tree/develop</a></p>
+</blockquote>
+<p><img src="https://github.com/ethereumbook/ethereumbook/blob/develop/images/evm-architecture.png?raw=true" srcset="/img/loading.gif" lazyload alt="evm-架构.png"></p>
+<h2 id="智能合约执行所需数据"><a href="#智能合约执行所需数据" class="headerlink" title="智能合约执行所需数据"></a>智能合约执行所需数据</h2><blockquote>
+<p><img src="/images/Ethereum/image-20231030185756893.png" srcset="/img/loading.gif" lazyload alt="image-20231030185756893"></p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Ethereum</div>
+      <div>https://yuwxl.github.io/2023/04/24/Ethereum/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月24日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/25/layer2-sum/" title="layer2_sum">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">layer2_sum</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/23/Phala-network/" title="Phala_network">
+                        <span class="hidden-mobile">Phala_network</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

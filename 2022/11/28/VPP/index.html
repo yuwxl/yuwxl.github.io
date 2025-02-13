@@ -1,0 +1,685 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="VPP概念日本东芝VPPhttps:&#x2F;&#x2F;www.global.toshiba&#x2F;ww&#x2F;products-solutions&#x2F;renewable-energy&#x2F;products-technical-services&#x2F;vpp.html  自东日本大地震以来，依赖大型发电厂的传统能源供应系统受到挑战，太阳能和风力等可再生能源等分布式能源的普及率不断提高。由于可再生能源的发电量在很大程度上取决于天气，因此随">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPP">
+<meta property="og:url" content="https://yuwxl.github.io/2022/11/28/VPP/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="VPP概念日本东芝VPPhttps:&#x2F;&#x2F;www.global.toshiba&#x2F;ww&#x2F;products-solutions&#x2F;renewable-energy&#x2F;products-technical-services&#x2F;vpp.html  自东日本大地震以来，依赖大型发电厂的传统能源供应系统受到挑战，太阳能和风力等可再生能源等分布式能源的普及率不断提高。由于可再生能源的发电量在很大程度上取决于天气，因此随">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/VPP.assets/image-20221215204829215.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/VPP.assets/image-20221215204943405.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/VPP.assets/image-20221215205008799.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/VPP.assets/image-20221216193150483.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/VPP.assets/image-20221216193449378.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/VPP.assets/image-20221216193623144.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/VPP/image-20230305153701256.png">
+<meta property="article:published_time" content="2022-11-28T06:20:49.000Z">
+<meta property="article:modified_time" content="2023-03-06T08:23:44.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/VPP.assets/image-20221215204829215.png">
+  
+  
+  
+  <title>VPP - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="VPP"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-28 14:20" pubdate>
+          2022年11月28日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">VPP</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="VPP概念"><a href="#VPP概念" class="headerlink" title="VPP概念"></a>VPP概念</h4><h5 id="日本东芝VPP"><a href="#日本东芝VPP" class="headerlink" title="日本东芝VPP"></a>日本东芝VPP</h5><p><a target="_blank" rel="noopener" href="https://www.global.toshiba/ww/products-solutions/renewable-energy/products-technical-services/vpp.html">https://www.global.toshiba/ww/products-solutions/renewable-energy/products-technical-services/vpp.html</a></p>
+<blockquote>
+<p>自东日本大地震以来，依赖大型发电厂的传统能源供应系统受到挑战，太阳能和风力等可再生能源等分布式能源的普及率不断提高。由于可再生能源的发电量在很大程度上取决于天气，因此随着其使用的扩大，能源供应将变得不稳定。能源服务的新概念作为维护电力供应稳定的解决方案而来。这意味着，例如，分布式电源和蓄电池等分散能源可以通过远程控制物联网设备和功能就好像它们是一个发电厂一样。</p>
+<p>因此，需要根据不断变化的供需情况，实时控制分布在多个地域的发电和储能设施。为此，需要有优秀的远程控制分散设备的技术和更准确地预测电力需求和太阳能发电的技术。通过调整供需平衡VPP，可再生能源电力可以稳定使用。VPP预计将促进可再生能源的引入和扩展，并为脱碳社会做出贡献。</p>
+</blockquote>
+<h5 id="一文读懂虚拟电厂"><a href="#一文读懂虚拟电厂" class="headerlink" title="一文读懂虚拟电厂"></a>一文读懂虚拟电厂</h5><p><a target="_blank" rel="noopener" href="https://m.in-en.com/article/html/energy-2315074.shtml">https://m.in-en.com/article/html/energy-2315074.shtml</a></p>
+<blockquote>
+<p>国内正处于新老电力系统的转型期，市场主体将从单一化向多元化转变，电力输送将从“发输配用”向“源网荷储”转变。尤其是双碳目标的确立后，分布式能源和储能的加入，让原有的电力系统变得更加复杂。而虚拟电厂就是一种相对省钱的解决思路。</p>
+</blockquote>
+<h5 id="Next-Kraftwerke-德国-大型的虚拟电厂运营商"><a href="#Next-Kraftwerke-德国-大型的虚拟电厂运营商" class="headerlink" title="Next Kraftwerke 德国-大型的虚拟电厂运营商"></a>Next Kraftwerke 德国-大型的虚拟电厂运营商</h5><p>虚拟电厂 (VPP) 是一个由分散式中型发电机组以及灵活的电力消费者和存储系统组成的网络。</p>
+<p><a target="_blank" rel="noopener" href="https://www.next-kraftwerke.com/knowledge/what-is-a-virtual-power-plant">https://www.next-kraftwerke.com/knowledge/what-is-a-virtual-power-plant</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.next-kraftwerke.com/vpp/virtual-power-plant">https://www.next-kraftwerke.com/vpp/virtual-power-plant</a></p>
+<blockquote>
+<p>根据特定的市场环境，VPP 可以完成一系列任务。一般而言，目标是将风电场、太阳能公园和热电联产 (CHP) 装置等分布式能源资源联网，以监控、预测、优化和交易它们的电力。这样，可再生能源发电的波动可以通过增加和减少可控单元的发电量和功耗来平衡。但 VPP 不仅有助于稳定电网。它还为将可再生能源纳入市场创造了先决条件。<strong>个别小型工厂通常无法提供平衡服务或在电力交换方面提供灵活性。这是因为他们的发电概况差异太大，或者他们根本不符合市场的最低出价规模。</strong></p>
+<p>该方案用中央控制系统来管理各方接入VPP</p>
+<p><img src="/images/VPP.assets/image-20221215204829215.png" srcset="/img/loading.gif" lazyload alt="image-20221215204829215"></p>
+<p>设备如何加入VPP？</p>
+<p><img src="/images/VPP.assets/image-20221215204943405.png" srcset="/img/loading.gif" lazyload alt="image-20221215204943405"></p>
+<p><img src="/images/VPP.assets/image-20221215205008799.png" srcset="/img/loading.gif" lazyload alt="image-20221215205008799"></p>
+</blockquote>
+<h4 id="VPP目的"><a href="#VPP目的" class="headerlink" title="VPP目的"></a>VPP目的</h4><ul>
+<li>小单位也能进入交易市场</li>
+<li>风力、太阳发电等不规则电能，平衡电力市场（新能源加入发电侧）</li>
+<li>保持整个电网，电流，电压的稳定，特别是日夜差异大（用电侧和发电侧均有波峰和波谷）</li>
+<li>供给侧：发电量预测； 需求侧：控制平台</li>
+</ul>
+<h4 id="关键技术"><a href="#关键技术" class="headerlink" title="关键技术"></a>关键技术</h4><p><img src="/images/VPP.assets/image-20221216193150483.png" srcset="/img/loading.gif" lazyload alt="image-20221216193150483"></p>
+<p><img src="/images/VPP.assets/image-20221216193449378.png" srcset="/img/loading.gif" lazyload alt="image-20221216193449378"></p>
+<p><img src="/images/VPP.assets/image-20221216193623144.png" srcset="/img/loading.gif" lazyload alt="image-20221216193623144"></p>
+<p><a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/pii/S0743731520303609">智能电网中基于区块链和ABE实现高效、隐私保护的能源交易</a> <strong>CCF B</strong></p>
+<p>On Holistic Multi-Step Cyberattack Detection via a Graph-based Correlation Approach<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2211.10971.pdf">https://arxiv.org/pdf/2211.10971.pdf</a></p>
+<p>上下文检测涉及聚合来自各种来源（例如 IDS、防火墙等）的数据（例如，日志和事件数据），将数据规范化为通用格式，最后同步相关事件字段（例如时间戳）以进行进一步的数据处理并用于执行警报关联 [18]、[19]。除了数据收集之外，攻击建模对于上下文检测也很重要。对多阶段攻击建模的一种常见方法是创建其攻击图表示。它能够通过对攻击相关数据的关联和推理来提取上下文信息，以分类或推断攻击中涉及的实体之间的特征和关系 [20]。</p>
+<p>国外VPP项目：<a target="_blank" rel="noopener" href="https://www.solarquotes.com.au/battery-storage/vpp-comparison/">https://www.solarquotes.com.au/battery-storage/vpp-comparison/</a></p>
+<h4 id="VPP-安全motivation"><a href="#VPP-安全motivation" class="headerlink" title="VPP 安全motivation"></a>VPP 安全motivation</h4><ol>
+<li>针对新型电力系统应用场景，缺乏满足虚拟电厂海量终端轻量化使用需求的国产自主安全可控加密芯片；安全防护装置方面，安全防护装置属于硬加密方式，安全性高，但是种类繁多，不能在众多厂家设备之间形成统一标准，无法大规模应用。《面向区域统一电力市场的超大城市虚拟电厂关键技术研究综述》</li>
+<li><p><img src="/images/VPP/image-20230305153701256.png" srcset="/img/loading.gif" lazyload alt="image-20230305153701256"></p>
+</li>
+<li><p>虚拟电厂终端接入方式多样且计算资源有限，实时安全接入认证技术难度大，解决办法是基于AI的终端软硬件指纹生成技术和基于加密算法指令集优化的高效身份认证技术。VPP多方电力交易海量用户数据实时采集，业务共享，在保护隐私的基础上不影响VPP电厂数据的可用性。</p>
+</li>
+<li>用户画像，数据脱敏，动态聚合</li>
+<li>虚拟电厂（VPP）是现代通信系统和智能技术的加持下微电网的一种变革形式。对于某些微电网，运营商必须应对DER问题[178]。VPP将所有DER集成到电网中，而不损失网络效率和弹性，为客户、生产商和电网运营商提供了许多新的优势和激励[179]。VPP是一个基于软件的智能电网网络，用于远程和自动发送和优化分布式能源（DER）。</li>
+<li>VPP 会聚合不同类型的分布式发电技术，可再生能源风能水能太阳能等不可调度，所以需要存储设施。存储技术在平衡供应方面发挥着至关重要的作用，液压抽水蓄能、超导磁能、飞轮蓄能。(削峰填谷) VPP 通信技术。《Energy Sustainability–Survey on Technology and<br>Control of Microgrid, Smart Grid and Virtual Power Plant》</li>
+</ol>
+<p>数据安全：交易数据，用户数据</p>
+<p>存储安全：数据共享，长期数据收集</p>
+<p>防攻击安全：</p>
+<p>访问安全：</p>
+<p>DERs管理安全：</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/note/">#note</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>VPP</div>
+      <div>https://yuwxl.github.io/2022/11/28/VPP/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/03/SE-note/" title="论文阅读笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">论文阅读笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/20/%E8%87%AA%E4%B9%A0%E5%AE%A4/" title="常驻学习">
+                        <span class="hidden-mobile">常驻学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

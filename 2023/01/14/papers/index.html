@@ -1,0 +1,880 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="[ ] Age-Critical and Secure Blockchain Sharding Scheme for Satellite-Based Internet of Things  面向卫星物联网的关键年龄安全区块链分片方案  [ ] An improved algorithm for practical byzantine fault tolerance to large-scale">
+<meta property="og:type" content="article">
+<meta property="og:title" content="papers">
+<meta property="og:url" content="https://yuwxl.github.io/2023/01/14/papers/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="[ ] Age-Critical and Secure Blockchain Sharding Scheme for Satellite-Based Internet of Things  面向卫星物联网的关键年龄安全区块链分片方案  [ ] An improved algorithm for practical byzantine fault tolerance to large-scale">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-14T02:43:23.000Z">
+<meta property="article:modified_time" content="2023-09-21T08:54:34.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="paper">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>papers - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="papers"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-14 10:43" pubdate>
+          2023年1月14日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          75 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">papers</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <hr>
+<ul>
+<li><p>[ ] Age-Critical and Secure Blockchain Sharding Scheme for Satellite-Based Internet of Things</p>
+<p> 面向卫星物联网的关键年龄安全区块链分片方案</p>
+</li>
+<li><p>[ ] An improved algorithm for practical byzantine fault tolerance to large-scale consortium chain</p>
+<p>面向大规模联盟链的实用拜占庭容错改进算法</p>
+</li>
+<li><p>[x] Authenticated Keyword Search in Scalable Hybrid-Storage Blockchains</p>
+<p>可扩展混合存储区块链中的认证关键字搜索</p>
+</li>
+<li><p>[ ] Authenticating Aggregate Queries over Set-Valued Data with Confidentiality</p>
+<p>对Set - value数据上的聚集查询进行机密性认证</p>
+</li>
+<li><p>[x] BAASH: Lightweight, Efficient, and Reliable Blockchain-As-A-Service for HPC Systems</p>
+<p>Baash：面向Hpc系统的轻量、高效、可靠的Blockchain - As - A -服务</p>
+</li>
+<li><p>[x] Blockchain Based Decentralized Replay Attack Detection for Large Scale Power Systems</p>
+<p>基于区块链的大规模电力系统去中心化重放攻击检测</p>
+</li>
+<li><p>[x] BLOCKCHAINS VS. DISTRIBUTED DATABASES: DICHOTOMY AND FUSION</p>
+<p>区块链VS .分布式数据库：二分法和融合法</p>
+</li>
+<li><p>[x] Blurring the Lines between Blockchains and Database Systems: the Case of Hyperledger Fabric</p>
+<p>区块链与数据库系统之间的界限模糊：Hyperledger Fabric案例</p>
+</li>
+<li><p>[x] Building High Throughput Permissioned Blockchain Fabrics: Challenges and Opportunities</p>
+<p>构建高吞吐量的许可区块链架构：挑战与机遇</p>
+</li>
+<li><p>[ ] CHChain: Secure and parallel crowdsourcing driven by hybrid blockchain</p>
+<p>CHChain：混合区块链驱动的安全并行众包</p>
+</li>
+<li><p>[ ] CloudChain: A Cloud Blockchain Using Shared Memory Consensus and RDMA</p>
+<p>云链：使用共享内存共识和Rdma的云区块链</p>
+</li>
+<li><p>[ ] Coding for Scalable Blockchains via Dynamic Distributed Storage</p>
+<p>通过动态分布式存储对可扩展区块链进行编码</p>
+</li>
+<li><p>[ ] Cumulus: A Secure BFT-based Sidechain for Off-chain Scaling</p>
+<p>Cumulus：一种安全的基于Bft的侧链用于链外缩放</p>
+</li>
+<li><p>[x] DCert: Towards Secure, Efficient, and Versatile Blockchain Light Clients</p>
+<p>Dcert：迈向安全、高效、多功能的区块链轻客户端</p>
+</li>
+<li><p>[x] Hawk: The Blockchain Model of Cryptography and Privacy-Preserving Smart Contracts</p>
+<p>Hawk：密码学和隐私保护智能合约的区块链模型</p>
+</li>
+<li><p>[ ] Kauri: Scalable BFT Consensus with Pipelined Tree-Based Dissemination and Aggregation</p>
+<p>Kauri：基于流水线树传播和聚合的可扩展Bft共识</p>
+</li>
+<li><p>[x] MITOSIS: Practically Scaling Permissioned Blockchains</p>
+<p>Mitosis：实际可伸缩的许可区块链</p>
+</li>
+<li><p>[ ] MVCom: Scheduling Most Valuable Committees for the Large-Scale Sharded Blockchain</p>
+<p>Mvcom：为大规模分片的区块链调度最有价值的委员会</p>
+</li>
+<li><p>[x] Occam: A Secure and Adaptive Scaling Scheme for Permissionless Blockchain</p>
+<p>Occam：一种针对无许可区块链的安全自适应扩展方案</p>
+</li>
+<li><p>[x] Permissioned Blockchains: Properties, Techniques and Applications</p>
+<p>许可区块链：属性、技术与应用</p>
+</li>
+<li><p>[x] Plumo: An Ultralight Blockchain Client</p>
+<p>Plumo：超轻区块链客户端</p>
+</li>
+<li><p>[ ] Practical Smart Contract Sharding with Ownership and Commutativity Analysis</p>
+<p>实用智能合约分拆与所有权和交换性分析</p>
+</li>
+<li><p>[ ] PriBank: Confidential Blockchain Scaling Using Short Commit-and-Proof NIZK Argument</p>
+<p>Pribank：使用短提交和证明Nizk参数的机密区块链扩展</p>
+</li>
+<li><p>[ ] Pyramid: A Layered Sharding Blockchain System</p>
+<p>金字塔：一种分层的Sharding区块链系统</p>
+</li>
+<li><p>[ ] Qanaat: A Scalable Multi-Enterprise Permissioned Blockchain System with Confidentiality Guarantees</p>
+<p>Qanaat：具有机密性保证的可扩展多企业授权区块链系统</p>
+</li>
+<li><p>[x] Red Belly: A Secure, Fair and Scalable Open Blockchain</p>
+<p>红肚皮：一个安全、公平、可扩展的开放区块链</p>
+</li>
+<li><p>[ ] Scaling Blockchains Using Pipelined Execution and Sparse Peers</p>
+<p>使用Pipelined执行和稀疏节点对区块链进行扩展</p>
+</li>
+<li><p>[ ] Scaling Blockchains Without Giving up Decentralization and Security</p>
+<p>在不放弃去中心化和安全性的前提下扩展区块链</p>
+</li>
+<li><p>[ ] Scaling Membership of Byzantine Consensus</p>
+<p>拜占庭共识成员规模</p>
+</li>
+<li><p>[ ] Scaling the Blockchain-based Access Control Framework for IoT via Sharding</p>
+<p>通过分片扩展基于区块链的物联网访问控制框架</p>
+</li>
+<li><p>[x] SChain: A Scalable Consortium Blockchain Exploiting Intra- and Inter-Block Concurrency</p>
+<p>Schain：利用块内和块间并发的可扩展联盟区块链</p>
+</li>
+<li><p>[ ] Sharding for Blockchain based Mobile Edge Computing System: A Deep Reinforcement Learning Approach</p>
+<p>基于区块链的移动边缘计算系统的切分：一种深度强化学习方法</p>
+</li>
+<li><p>[ ] Sharding Techniques in the Era of Blockchain</p>
+<p>区块链时代的分片技术</p>
+</li>
+<li><p>[x] Scaling Blockchain via Layered Sharding</p>
+<p> <a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/abstract/document/9926060">https://ieeexplore.ieee.org/abstract/document/9926060</a></p>
+</li>
+<li><p>[x] SlimChain: Scaling Blockchain Transactions through Off-Chain Storage and Parallel Processing</p>
+<p>Slimchain：通过链外存储和并行处理实现区块链交易的规模化</p>
+</li>
+<li><p>[ ] The design, architecture and performance of the Tendermint Blockchain Network</p>
+<p>腾德明区块链网络的设计、架构和性能</p>
+</li>
+<li><p>[ ] Toward Next Generation of Blockchain Using Improvized Bitcoin-NG</p>
+<p>面向下一代区块链的即兴比特币</p>
+</li>
+<li><p>[ ] Towards a Blockchain Database for Massive IoT Workloads</p>
+<p>面向海量物联网工作负载的区块链数据库</p>
+</li>
+<li><p>[ ] Towards a Scalable and Trustworthy Blockchain: IoT Use Case</p>
+<p>迈向可扩展和可信的区块链：物联网用例</p>
+</li>
+<li><p>[x] TrustChain: A Sybil-resistant scalable blockchain</p>
+<p>TrustChain：一种抗Sybil攻击的可扩展区块链</p>
+</li>
+<li><p>[ ] Vericom: A Verification and Communication Architecture for IoT-based Blockchain</p>
+<p>Vericom：一种面向物联网区块链的验证和通信架构</p>
+</li>
+<li><p>[ ] NeuChain: A Fast Permissioned Blockchain System with Deterministic Ordering(slimchain方向类似)</p>
+</li>
+</ul>
+<ul>
+<li>[ ] Untangling Blockchain: A Data Processing View of Blockchain Systems</li>
+<li>[x] Off-chaining Models and Approaches to Off-chain Computations（链下执行系统模型设计）</li>
+<li>[ ] TEE+区块链应用：Extending On-chain Trust to Off-chain Trustworthy Blockchain Data Collection using Trusted Execution Environment (TEE)</li>
+<li>[x] Giving State to the Stateless: Augmenting Trustworthy Computation with Ledgers</li>
+<li>[ ] Challenges for Combining Smart Contracts with Trusted Computing</li>
+<li>[ ] SoK: TEE-assisted Confidential Smart Contract.</li>
+<li>[ ] Understanding Ethereum via Graph Analysis</li>
+<li>[ ] <strong>HyperMaze: Towards Privacy-Preserving and Scalable Permissioned Blockchain</strong></li>
+<li>[ ] 边缘计算+外包计算 Blockchain for achieving accountable outsourcing computations in edge computing  <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/pii/S0140366422004807">https://www.sciencedirect.com/science/article/pii/S0140366422004807</a></li>
+<li>[ ] 2023CCFA通道技术 Transaction transmission model for blockchain channels based on non-cooperative games</li>
+<li>[ ] <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/23ad9d1b2853">IoT security: Review, blockchain solutions, and open challenges</a></li>
+<li>[ ] Blockchain at the edge: performance of resource-constrained IoT networks</li>
+<li>[ ] Password-Authenticated Decentralized Identities</li>
+<li>[ ]  <a target="_blank" rel="noopener" href="https://scholars.hkbu.edu.hk/ws/portalfiles/portal/72274038/G23THFL-023762T.pdf">Towards Secure, Efficient and Versatile Blockchain Light Clients</a></li>
+<li>[ ]  IOTA</li>
+<li>[ ]  Ghostor: Toward a Secure Data-Sharing System from Decentralized Trust Ghostor：从去中心化信任走向安全数据共享系统</li>
+<li>[ ]  MAGE: Mutual Attestation for a Group of Enclaves without Trusted Third Parties</li>
+<li>[ ]  L2chain: Towards High-performance, Confidential and Secure Layer-2 Blockchain Solution for Decentralized Applications</li>
+<li>[ ]  Town Crier: An authenticated data feed for smart contracts(数据馈送系统)</li>
+<li>[ ]  <a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/pii/S0167739X22003326">TEBDS: A Trusted Execution Environment-and-Blockchain-supported IoT data sharing system</a></li>
+<li>[ ]  <a target="_blank" rel="noopener" href="https://link.springer.com/chapter/10.1007/978-3-031-30637-2_33">Efficient Execution of Blockchain Transactions Through Deterministic Concurrency Control</a><strong>CCFB 确定性排序 2023</strong></li>
+<li>[x]  L2DART: A Trust Management System Integrating Blockchain and Off-Chain Computation</li>
+<li>[x]  MeHLDT: A multielement hash lock data transfer mechanism for on‑chain and off‑chain</li>
+</ul>
+<p>待看论文</p>
+<ul>
+<li>[ ] Scaling Blockchain Consensus via a Robust Shared Mempool</li>
+<li>[ ] <a target="_blank" rel="noopener" href="https://ietresearch.onlinelibrary.wiley.com/doi/abs/10.1049/ise2.12124">Solving blockchain trilemma using off‐chain storage protocol</a>(双链？)</li>
+<li>[ ] An Overview of Blockchain Scalability for Storage</li>
+<li>[ ] <a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1007/s12083-023-01491-z">MeHLDT: A multielement hash lock data transfer mechanism for on-chain and off-chain</a></li>
+</ul>
+<ul>
+<li>[ ] Scaling Blockchains Using Pipelined Execution and Sparse Peers</li>
+<li>[ ] SChain: Scalable Concurrency over Flexible Permissioned Blockchain（2023）</li>
+<li>[ ] （看）GriDB: Scaling Blockchain Database via Sharding and Off-Chain Cross-Shard Mechanism（vldb2023）</li>
+<li>[ ] CanDID: Can-Do Decentralized Identity with Legacy Compatibility, Sybil-Resistance,and Accountability <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/N_OIGgC4t1T1JZf4fImxlw">https://mp.weixin.qq.com/s/N_OIGgC4t1T1JZf4fImxlw</a></li>
+<li><p>[ ] ZeeStar: Private Smart Contracts by Homomorphic Encryption and Zero-knowledge Proofs <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/nSv8l-jNFAsjMlLkoLaRvw">https://mp.weixin.qq.com/s/nSv8l-jNFAsjMlLkoLaRvw</a></p>
+<p>DID <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/SeJqlDuFdDrIrnJM0Z9WCw">https://mp.weixin.qq.com/s/SeJqlDuFdDrIrnJM0Z9WCw</a></p>
+</li>
+<li><p>[ ] 匿名身份zk-creds: Flexible Anonymous Credentials from zkSNARKs and Existing Identity Infrastructure</p>
+</li>
+<li>[ ] （看）<a target="_blank" rel="noopener" href="https://ietresearch.onlinelibrary.wiley.com/doi/abs/10.1049/ise2.12124">Solving blockchain trilemma using off‐chain storage protocol</a></li>
+</ul>
+<p>向量承诺</p>
+<ul>
+<li>[ ] Succinct Vector, Polynomial, and Functional Commitments from Lattices</li>
+<li>[ ] Aggregatable Subvector Commitments for Stateless Cryptocurrencies</li>
+<li>[ ] Pointproofs: Aggregating Proofs for Multiple Vector Commitments</li>
+</ul>
+<p>研究账本和TEE混合协议设计的论文：</p>
+<ul>
+<li>[x] PISTIS: Issuing Trusted and Authorized Certificates With Distributed Ledger and TEE</li>
+</ul>
+<p>隐私智能合约：</p>
+<ul>
+<li>[x] Giving state to the stateless: Augmenting trustworthy computation with ledgers</li>
+</ul>
+<p>2022区块链论文分析：</p>
+<p>区块链轻客户端设计学习链上状态转移：</p>
+<ul>
+<li>[ ] Towards Privacy-assured and Lightweight On-chain Auditing of Decentralized Storage</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://xintelligence.pro/archives/898">http://xintelligence.pro/archives/898</a></p>
+<p>零知识</p>
+<p>Concise Mercurial Vector Commitments and Independent Zero-Knowledge Sets with Short Proofs.</p>
+<p>Zero-knowledge sets with short proofs.</p>
+<p>Universal Accumulators with Efficient Nonmembership Proofs</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148920420">https://zhuanlan.zhihu.com/p/148920420</a></p>
+<p>Batching Techniques for Accumulators with Applications to IOPs and Stateless Blockchains</p>
+<h2 id="各个研究领域适合投稿的A类会议总结"><a href="#各个研究领域适合投稿的A类会议总结" class="headerlink" title="各个研究领域适合投稿的A类会议总结"></a>各个研究领域适合投稿的A类会议总结</h2><ul>
+<li>\1. “智能合约”方向接收论文较多的A类会议为：ISSTA、CCS</li>
+<li>\2. “区块链性能优化”方向接收论文较多的A/B类会议为：INFOCOM、CCS、NDSS</li>
+<li>\3. “区块链分析”方向接收论文较多的A/B类会议为：CCS、ICDCS</li>
+<li>\4. “区块链安全”方向接收论文较多的A类会议为：ICDE、S&amp;P</li>
+<li>\5. “区块链应用”方向接收论文在A类会议接收较少，分布比较零散</li>
+<li>\6. “共识协议”方向接收论文较多的A类会议为：CCS、S&amp;P</li>
+</ul>
+<h4 id="layer2-方向投稿会议-期刊总结"><a href="#layer2-方向投稿会议-期刊总结" class="headerlink" title="layer2 方向投稿会议/期刊总结"></a>layer2 方向投稿会议/期刊总结</h4><h4 id="USENIX-Security"><a href="#USENIX-Security" class="headerlink" title="USENIX Security"></a>USENIX Security</h4><blockquote>
+<p> Das P, Eckey L, Frassetto T, et al. {FastKitten}: Practical smart contracts on bitcoin[C]//28th USENIX Security Symposium (USENIX Security 19). 2019: 801-818.</p>
+<p>Kalodner H, Goldfeder S, Chen X, et al. Arbitrum: Scalable, private smart contracts[C]//27th USENIX Security Symposium (USENIX Security 18). 2018: 1353-1370.</p>
+</blockquote>
+<h4 id="NDSS"><a href="#NDSS" class="headerlink" title="NDSS"></a>NDSS</h4><blockquote>
+<p> Frassetto T, Jauernig P, Koisser D, et al. POSE: Practical off-chain smart contract execution[J]. arXiv preprint arXiv:2210.07110, 2022.</p>
+<p>Kaptchuk G, Miers I, Green M. Giving state to the stateless: Augmenting trustworthy computation with ledgers[J]. Cryptology ePrint Archive, 2017.</p>
+</blockquote>
+<h4 id="ACM-SIGSAC"><a href="#ACM-SIGSAC" class="headerlink" title="ACM SIGSAC"></a>ACM SIGSAC</h4><blockquote>
+<p>Wüst K, Matetic S, Egli S, et al. ACE: Asynchronous and concurrent execution of complex smart contracts[C]//Proceedings of the 2020 ACM SIGSAC Conference on Computer and Communications Security. 2020: 587-600.</p>
+</blockquote>
+<h4 id="Euro-S-amp-P"><a href="#Euro-S-amp-P" class="headerlink" title="Euro S&amp;P"></a>Euro S&amp;P</h4><blockquote>
+<p>Cheng R, Zhang F, Kos J, et al. Ekiden: A platform for confidentiality-preserving, trustworthy, and performant smart contracts[C]//2019 IEEE European Symposium on Security and Privacy (EuroS&amp;P). IEEE, 2019: 185-200.</p>
+</blockquote>
+<h4 id="VLDB"><a href="#VLDB" class="headerlink" title="VLDB"></a>VLDB</h4><blockquote>
+<p>Xu C, Zhang C, Xu J, et al. SlimChain: Scaling blockchain transactions through off-chain storage and parallel processing[J]. Proceedings of the VLDB Endowment, 2021, 14(11): 2314-2326.</p>
+<p>Xu Z, Chen L. L2chain: Towards High-performance, Confidential and Secure Layer-2 Blockchain Solution for Decentralized Applications[J]. Proceedings of the VLDB Endowment, 2022, 16(4): 986-999.</p>
+</blockquote>
+<h4 id="TIFS"><a href="#TIFS" class="headerlink" title="TIFS"></a>TIFS</h4><blockquote>
+<p>Wang L, Guan Z, Chen Z, et al. sChain: An Efficient and Secure Solution for Improving Blockchain Storage[J]. IEEE Transactions on Information Forensics and Security, 2023.</p>
+</blockquote>
+<h4 id="ACM-IFIP"><a href="#ACM-IFIP" class="headerlink" title="ACM/IFIP"></a>ACM/IFIP</h4><blockquote>
+<p>Ji Y, Xu C, Zhang C, et al. DCert: towards secure, efficient, and versatile blockchain light clients[C]//Proceedings of the 23rd ACM/IFIP International Middleware Conference. 2022: 269-280.</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/blockchain/" class="category-chain-item">blockchain</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/paper/">#paper</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>papers</div>
+      <div>https://yuwxl.github.io/2023/01/14/papers/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/01/14/vscodecplusplus/" title="vscode配置C++环境">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">vscode配置C++环境</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/13/Hawk/" title="Hawk">
+                        <span class="hidden-mobile">Hawk</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

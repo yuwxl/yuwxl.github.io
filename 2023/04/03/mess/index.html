@@ -1,0 +1,686 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="分布式共识协议  http:&#x2F;&#x2F;www.calvinneo.com&#x2F;2017&#x2F;09&#x2F;20&#x2F;distributed-system-consistency-and-consensus&#x2F;      分布式共识https:&#x2F;&#x2F;yeasy.gitbook.io&#x2F;blockchain_guide&#x2F;04_distributed_system&#x2F;algorithms 共识算法共识（Consensus）这个术语很">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mess">
+<meta property="og:url" content="https://yuwxl.github.io/2023/04/03/mess/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="分布式共识协议  http:&#x2F;&#x2F;www.calvinneo.com&#x2F;2017&#x2F;09&#x2F;20&#x2F;distributed-system-consistency-and-consensus&#x2F;      分布式共识https:&#x2F;&#x2F;yeasy.gitbook.io&#x2F;blockchain_guide&#x2F;04_distributed_system&#x2F;algorithms 共识算法共识（Consensus）这个术语很">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/mess/image-20230403212321366.png">
+<meta property="og:image" content="https://github.com/WeMobileDev/article/raw/master/assets/soter/SoterFramework.png">
+<meta property="og:image" content="https://github.com/WeMobileDev/article/raw/master/assets/soter/%E5%87%86%E5%A4%87%E6%A0%B9%E5%AF%86%E9%92%A5.gif">
+<meta property="og:image" content="https://github.com/WeMobileDev/article/raw/master/assets/soter/%E5%87%86%E5%A4%87%E5%BA%94%E7%94%A8%E5%AF%86%E9%92%A5.gif">
+<meta property="og:image" content="https://github.com/WeMobileDev/article/raw/master/assets/soter/%E5%87%86%E5%A4%87%E4%B8%9A%E5%8A%A1%E5%AF%86%E9%92%A5.gif">
+<meta property="og:image" content="https://github.com/WeMobileDev/article/raw/master/assets/soter/%E8%AE%A4%E8%AF%81%E6%88%96%E5%BC%80%E9%80%9A.gif">
+<meta property="article:published_time" content="2023-04-03T13:21:43.000Z">
+<meta property="article:modified_time" content="2023-08-11T07:05:06.000Z">
+<meta property="article:author" content="nayun">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/mess/image-20230403212321366.png">
+  
+  
+  
+  <title>mess - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="mess"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-03 21:21" pubdate>
+          2023年4月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">mess</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <hr>
+<ul>
+<li><p>分布式共识协议 </p>
+<p><a target="_blank" rel="noopener" href="http://www.calvinneo.com/2017/09/20/distributed-system-consistency-and-consensus/">http://www.calvinneo.com/2017/09/20/distributed-system-consistency-and-consensus/</a></p>
+<blockquote>
+<p><img src="/images/mess/image-20230403212321366.png" srcset="/img/loading.gif" lazyload alt="image-20230403212321366"></p>
+</blockquote>
+</li>
+</ul>
+<h4 id="分布式共识"><a href="#分布式共识" class="headerlink" title="分布式共识"></a>分布式共识</h4><p><a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/blockchain_guide/04_distributed_system/algorithms">https://yeasy.gitbook.io/blockchain_guide/04_distributed_system/algorithms</a></p>
+<h1 id="共识算法"><a href="#共识算法" class="headerlink" title="共识算法"></a>共识算法</h1><p>共识（Consensus）这个术语很多时候会与一致性（Consistency）术语放在一起讨论。严谨地讲，两者的含义并不完全相同。</p>
+<p>一致性的含义比共识宽泛，在不同场景（基于事务的数据库、分布式系统等）下意义不同。具体到分布式系统场景下，一致性指的是多个副本对外呈现的状态。如前面提到的顺序一致性、线性一致性，描述了多节点对数据状态的共同维护能力。而共识，则特指在分布式系统中多个节点之间对某个事情（例如多个事务请求，先执行谁？）达成一致看法的过程。因此，达成某种共识并不意味着就保障了一致性。</p>
+<p>实践中，要保障系统满足不同程度的一致性，往往需要通过共识算法来达成。</p>
+<p>共识算法解决的是分布式系统对某个提案（Proposal），大部分节点达成一致意见的过程。提案的含义在分布式系统中十分宽泛，如多个事件发生的顺序、某个键对应的值、谁是主节点……等等。可以认为任何可以达成一致的信息都是一个提案。</p>
+<p>对于分布式系统来讲，各个节点通常都是相同的确定性状态机模型（又称为状态机复制问题，State-Machine Replication），从相同初始状态开始接收相同顺序的指令，则可以保证相同的结果状态。因此，系统中多个节点最关键的是对多个事件的顺序进行共识，即排序。</p>
+<p><em>注：计算机世界里采用的是典型的“多数人暴政”，足够简单、高效。</em></p>
+<h2 id="问题与挑战"><a href="#问题与挑战" class="headerlink" title="问题与挑战"></a>问题与挑战</h2><p>无论是在现实生活中，还是计算机世界里，达成共识都要解决两个基本的问题：</p>
+<ul>
+<li><p>首先，如何提出一个待共识的提案？如通过令牌传递、随机选取、权重比较、求解难题等；</p>
+</li>
+<li><p>其次，如何让多个节点对该提案达成共识（同意或拒绝），如投票、规则验证等。</p>
+</li>
+</ul>
+<p>理论上，如果分布式系统中各节点都能以十分“理想”的性能（瞬间响应、超高吞吐）稳定运行，节点之间通信瞬时送达（如量子纠缠），则实现共识过程并不十分困难，简单地通过广播进行瞬时投票和应答即可。</p>
+<p>可惜的是，现实中这样的“理想”系统并不存在。不同节点之间通信存在延迟（光速物理限制、通信处理延迟），并且任意环节都可能存在故障（系统规模越大，发生故障可能性越高）。如通信网络会发生中断、节点会发生故障、甚至存在被入侵的节点故意伪造消息，破坏正常的共识过程。</p>
+<p>一般地，把出现故障（Crash 或 Fail-stop，即不响应）但不会伪造信息的情况称为“非拜占庭错误（Non-Byzantine Fault）”或“故障错误（Crash Fault）”；伪造信息恶意响应的情况称为“拜占庭错误”（Byzantine Fault），对应节点为拜占庭节点。显然，后者场景中因为存在“捣乱者”更难达成共识。</p>
+<p>此外，任何处理都需要成本，共识也是如此。当存在一定信任前提（如接入节点都经过验证、节点性能稳定、安全保障很高）时，达成共识相对容易，共识性能也较高；反之在不可信的场景下，达成共识很难，需要付出较大成本（如时间、经济、安全等），而且性能往往较差（如工作量证明算法）。</p>
+<p><em>注：非拜占庭场景的典型例子是通过报数来统计人数，即便偶有冲突（如两人同时报一个数）也能很快解决；拜占庭场景的一个常见例子是“杀人游戏”，当参与者众多时很难快速达成共识。</em></p>
+<h2 id="常见算法"><a href="#常见算法" class="headerlink" title="常见算法"></a>常见算法</h2><p>根据解决的场景是否允许拜占庭错误情况，共识算法可以分为 Crash Fault Tolerance (CFT) 和 Byzantine Fault Tolerance（BFT）两类。</p>
+<p>对于非拜占庭错误的情况，已经存在不少经典的算法，包括 Paxos（1990 年）、Raft（2014 年）及其变种等。这类容错算法往往性能比较好，处理较快，容忍不超过一半的故障节点。</p>
+<p>对于要能容忍拜占庭错误的情况，包括 PBFT（Practical Byzantine Fault Tolerance，1999 年）为代表的确定性系列算法、PoW（1997 年）为代表的概率算法等。确定性算法一旦达成共识就不可逆转，即共识是最终结果；而概率类算法的共识结果则是临时的，随着时间推移或某种强化，共识结果被推翻的概率越来越小，最终成为事实上结果。拜占庭类容错算法往往性能较差，容忍不超过 1/3 的故障节点。</p>
+<p>此外，XFT（Cross Fault Tolerance，2015 年）等最近提出的改进算法可以提供类似 CFT 的处理响应速度，并能在大多数节点正常工作时提供 BFT 保障。</p>
+<p>Algorand 算法（2017 年）基于 PBFT 进行改进，通过引入可验证随机函数解决了提案选择的问题，理论上可以在容忍拜占庭错误的前提下实现更好的性能（1000+ TPS）。</p>
+<p><em>注：实践中，对客户端来说要拿到共识结果需要自行验证，典型地，可访问足够多个服务节点来比对结果，确保获取结果的准确性。</em></p>
+<h2 id="理论界限"><a href="#理论界限" class="headerlink" title="理论界限"></a>理论界限</h2><p>科学家都喜欢探寻问题最坏情况的理论界限。那么，共识问题的最坏界限在哪里呢？很不幸，在推广到任意情况时，分布式系统的共识问题无通用解。</p>
+<p>这似乎很容易理解，当多个节点之间的通信网络自身不可靠情况下，很显然，无法确保实现共识（例如，所有涉及共识的消息都丢失）。那么，对于一个设计得当，可以大概率保证消息正确送达的网络，是不是一定能获得共识呢？</p>
+<p>理论证明告诉我们，<strong>即便在网络通信可靠情况下，一个可扩展的分布式系统的共识问题通用解法的下限是——没有下限（无解）。</strong></p>
+<p>这个结论，被称为“FLP 不可能原理”。该原理极其重要，可以看做是分布式领域里的“测不准原理”。</p>
+<p><em>注：不光分布式系统领域，实际上很多领域都存在类似测不准原理的约束，或许说明世界本源就存在限制。</em></p>
+<h2 id="raft-paxos动画演示"><a href="#raft-paxos动画演示" class="headerlink" title="raft/paxos动画演示"></a>raft/paxos动画演示</h2><p><a target="_blank" rel="noopener" href="http://thesecretlivesofdata.com/raft/">http://thesecretlivesofdata.com/raft/</a></p>
+<p><a target="_blank" rel="noopener" href="http://harry.me/blog/2014/12/27/neat-algorithms-paxos/">http://harry.me/blog/2014/12/27/neat-algorithms-paxos/</a></p>
+<h2 id="TEE"><a href="#TEE" class="headerlink" title="TEE"></a>TEE</h2><p><a target="_blank" rel="noopener" href="https://github.com/Tencent/soter/wiki/%E5%8E%9F%E7%90%86">https://github.com/Tencent/soter/wiki/%E5%8E%9F%E7%90%86</a></p>
+<p>TENCENT SOTER之所以能实现支付级别的指纹授权安全性，主要原因有三：</p>
+<ul>
+<li>所有关键数据存储与操作均根本依赖TEE</li>
+<li>厂商在设备出厂之前安全环境会专门生成TENCENT SOTER设备根密钥</li>
+<li>生物授权的实质是密钥签名，TEE级别保证“无授权，不签名”。</li>
+</ul>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><p><img src="https://github.com/WeMobileDev/article/raw/master/assets/soter/SoterFramework.png" srcset="/img/loading.gif" lazyload alt="FD5DC4F4-B49B-4502-B2DE-836BB33B5627" style="zoom:50%;"></p>
+<p>TENCENT SOTER中，一共有三个级别的密钥：ATTK，App Secure Key(ASK)以及AuthKey。这些密钥都是RSA-2048的非对称密钥。</p>
+<p>所有的密钥都由<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Trusted_execution_environment">TEE</a>（一个独立于Android系统的安全环境，这也是TENCENT SOTER能解决root下手机认证的关键所在）保护安全保存。这也就意味着除了数据所有者之外，没有人可以使用私钥。更重要的是，如果密钥是在TEE中生成的，所有人——包括微信、厂商等——都无法得到密钥私钥。一句话总结，TENCENT SOTER中所有非对称密钥均是在TEE内部生成的，即使设备被root，私钥也不会泄露。</p>
+<p>除了密钥之外，TENCENT SOTER所有关键流程，如签名等，均在TEE中进行，这也保证了核心流程不会被恶意应用篡改。</p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ul>
+<li>ATTK（设备密钥）私钥在设备出厂之前就已经在TEE中生成，公钥被被厂商安全得传输到腾讯的TAM服务器，私钥则在TEE中安全存储。 <img src="https://github.com/WeMobileDev/article/raw/master/assets/soter/%E5%87%86%E5%A4%87%E6%A0%B9%E5%AF%86%E9%92%A5.gif" srcset="/img/loading.gif" lazyload alt="prepare_attk"></li>
+<li>第三方应用能且只能在TEE中生成唯一ASK（应用密钥）。一旦ASK被成功生成，私钥被存储在TEE中（或者更加准确地说，被TEE中安全密钥加密存储在手机sfs中，等同于存储在TEE中，即使手机被root了也是安全的）。公钥结构体（包含公钥信息以及其他辅助信息）导出的时候会自动带上ATTK对公钥数据的签名。应用开发者将公钥结构体以及ATTK对该结构体的签名通过微信开放平台接口（见接口文档）发送到TAM服务器认证公钥结构体合法性。如果合法，则第三方保存该结构体备用。 <img src="https://github.com/WeMobileDev/article/raw/master/assets/soter/%E5%87%86%E5%A4%87%E5%BA%94%E7%94%A8%E5%AF%86%E9%92%A5.gif" srcset="/img/loading.gif" lazyload alt="prepare_ask"></li>
+<li>对于每一个业务场景，你应该生成一对AuthKey（业务密钥）用于该场景指纹认证。AuthKey的生成过程与ASK类似——在TEE中生成，私钥在TEE中保存，公钥上传到服务器。不同的是，第三方应用应该自己检查AuthKey的合法性（实际上，我们真的不想知道你们的用户做了多少笔支付）。同时，生成AuthKey的时候，需要标记私钥只有在用户指纹授权之后才可以使用（正如Google在标准接口中定义的那样）。 <img src="https://github.com/WeMobileDev/article/raw/master/assets/soter/%E5%87%86%E5%A4%87%E4%B8%9A%E5%8A%A1%E5%AF%86%E9%92%A5.gif" srcset="/img/loading.gif" lazyload alt="prepare_authkey"></li>
+<li>在认证之前，应用需要先向自己的服务器请求一个挑战因子（通常是一个随机串）作为用于签名的对象。用户指纹授权之后，你将可以导出一个JSON结果，其中包含了你刚刚请求的挑战因子、用户使用了哪个手指（fid）以及其他设备信息，和这个JSON结果对应AuthKey的签名。之后，将他们发送到自己的服务器，自己使用之前存储的AuthKey公钥验签就好。其中，fid也是在TEE中自动读取并连同结果一起被签名的，也就是说，黑客是无法伪造。 <img src="https://github.com/WeMobileDev/article/raw/master/assets/soter/%E8%AE%A4%E8%AF%81%E6%88%96%E5%BC%80%E9%80%9A.gif" srcset="/img/loading.gif" lazyload alt="auth"></li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>mess</div>
+      <div>https://yuwxl.github.io/2023/04/03/mess/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/10/Ekiden/" title="Ekiden">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ekiden</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/25/op-git/" title="op_git">
+                        <span class="hidden-mobile">op_git</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

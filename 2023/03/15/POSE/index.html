@@ -1,0 +1,919 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="POSE: Practical Off-chain Smart Contract Execution 传统链上智能合约执行代价高，限制了区块链的性能。 A prominent solution to address this problem is to execute code off-chain and only use the blockchain as a trust anchor.  mo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="POSE">
+<meta property="og:url" content="https://yuwxl.github.io/2023/03/15/POSE/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="POSE: Practical Off-chain Smart Contract Execution 传统链上智能合约执行代价高，限制了区块链的性能。 A prominent solution to address this problem is to execute code off-chain and only use the blockchain as a trust anchor.  mo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/POSE/image-20230317101317721.png">
+<meta property="article:published_time" content="2023-03-15T01:29:07.000Z">
+<meta property="article:modified_time" content="2023-05-27T07:14:32.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="paper">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/POSE/image-20230317101317721.png">
+  
+  
+  
+  <title>POSE - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="POSE"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-15 09:29" pubdate>
+          2023年3月15日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          69 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">POSE</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="POSE-Practical-Off-chain-Smart-Contract-Execution"><a href="#POSE-Practical-Off-chain-Smart-Contract-Execution" class="headerlink" title="POSE: Practical Off-chain Smart Contract Execution"></a>POSE: Practical Off-chain Smart Contract Execution</h4><blockquote>
+<p>传统链上智能合约执行代价高，限制了区块链的性能。</p>
+<p>A prominent solution to address this problem is to <strong>execute code off-chain and only use the blockchain as a trust anchor</strong>.</p>
+</blockquote>
+<p>motivation</p>
+<blockquote>
+<p>链下系统迅速发展，但是目前的链下系统有以下缺点：costly blockchain interactions, lack of data privacy, huge capital costs from locked collateral, or supporting only a restricted set of applications.</p>
+</blockquote>
+<p>提出POSE——a practical off-chain protocol for smart contracts that addresses the aforementioned shortcomings of existing solutions.</p>
+<p>POSE——面向permissionless区块链的新型的链下智能合约执行框架。每个智能合约都在注册后的TEE池中随机选取TEE来执行。</p>
+<p>假设：</p>
+<ol>
+<li>TEE是安全的，论文中提到了TEE侧信道攻击的缓解措施。</li>
+<li>TEE能够提供安全的远程认证技术</li>
+</ol>
+<p>POSE协议包括：</p>
+<ol>
+<li>users:提供输入，与智能合约交互，获得输出</li>
+<li>operators:拥有并管理基于TEE的系统，通过使用TEE向POSE网络提供计算能力，飞地中来执行用户所触发的状态转换</li>
+<li>manager——a simple on-chain smart contract ：管理链下的飞地执行单元</li>
+</ol>
+<p><strong>本文不限制TEE具体实现，但用ARM TrustZone做本文的实验</strong></p>
+<p>workflow:</p>
+<blockquote>
+<p> 在智能合约创建之前，TEE已经利用manager进行了注册 ——详细见V-E1</p>
+<p><img src="/images/POSE/image-20230317101317721.png" srcset="/img/loading.gif" lazyload alt="image-20230317101317721"></p>
+<ol>
+<li>用户调用manager 初始化合约创建，以创建POSE合约，该过程包括在注册集合中选择飞地，执行之后创建的链下合约</li>
+<li>选择好的creator飞地将对给定的智能合约建立execution pool(pool size is set to 3)</li>
+<li>creator 随机选择已经在系统中注册好的3个飞地</li>
+<li>creator  将提交最终的智能合约信息给manager，信息包括：选择出的负责执行POSE合约的飞地的信息，watchdog 保证可用性</li>
+<li>其他用户可以调用这个新的合约，调用方式是直接联系executor</li>
+<li>executor 将执行用户的智能合约，调用并广播最终结果的状态给watchdog enclaves(确定状态更新) V-E3</li>
+</ol>
+<p>在这个过程中，如果某个飞地崩溃了，依赖方可以在 the dependent parties can challenge the enclave on the blockchain（不懂，见V-E4），依赖方可以是等待执行者响应的用户，也可以是等待看门狗确认的执行者。</p>
+<p>举个:hamburger:：如果executor停止执行合约，该executor将受到用户的质询，这种及时的响应A timely response constitutes a successful state transition as requested by the user.（这句在说啥）。否则，如果当前的executor不响应，watchdog将填补executor的位置。这种机制让POSE具有高可用性，前提是至少有一个watchdog是可靠的。</p>
+<p>; thus, avoiding the need for collateral to incentivize correct behavior. Further, POSE supports private state, as the state is only securely shared with other enclaves.</p>
+</blockquote>
+<p>安全挑战</p>
+<p>恶意操作：执行器，看门狗，飞地都能被硬件操作者恶意攻击，比如提供恶意输入，修改用户信息，重入攻击，阻止消息进入等。其中恶意输入和修改用户信息可以用安全签名等标准的措施来防范。</p>
+<p>强可用性：让依赖方可以通过区块链质询无反应的操作者，受到质询的操作者要么立刻提供有效的回应让依赖方可以完成状态转移，要么将被从执行池中删除</p>
+<p>与区块链同步：</p>
+<p>参考：飞地执行智能合约，但飞地不能直接获取区块链的数据，需要通过operator,但operator可修改数据或者延迟提供数据（不提供最新数据），要保证飞地能够拿到正确的最新的数据而不用存储整条链，而设计一种同步机制。</p>
+<p>降低与区块链的交互：减少链上计算。在乐观的情况下，唯一必要的链上交易是合约创建和代币转移。（？？）</p>
+<p>支持私有状态：状态只输出给所有执行池都承认的状态</p>
+<p>POSE设计：</p>
+<p>The POSE protocol considers four different roles: <strong>a manager smart contract deployed to the blockchain, operators that run TEEs, enclaves that are installed within TEEs, and users that create and interact with POSE contracts.</strong></p>
+<p>尝试找出workflow:</p>
+<p>每次调用飞地时，它将自己与区块链网络同步并获取最新的数据。</p>
+<p>运行POSE程序的飞地只接收已签名的消息作为输入</p>
+<p>POSE 支持任意智能合约但必须实现特定接口</p>
+<p>我们设计了一种同步机制，允许 E注册过的飞地同步自身而无需验证整个块。、</p>
+<p>1）飞地注册</p>
+<blockquote>
+<p>某个operator拥有一些TEE单元可用于POSE系统。为了构建适用于POSE系统的飞地，这些TEE首先要被POSE程序初始化。</p>
+<p>初始化过程中：生成不对称密钥对（PK，SK），SK保存在飞地内部，仅可被飞地内的POSE程序获得。PK作为输出传递给operator,operator用TEE生成远程证明，表面已经生成了适用于POSE系统的飞地并控制了相应的密钥PK，最后operator将最新的$\gamma + 1$ 个区块头以及相关的区块数据发送给POSE飞地，飞地将验证区块完整性并返回区块证明（包含块hash以及飞地所知道的最新区块信息的签名的元组）</p>
+<p>operator 创建了新的飞地后，将发送消息m给manager,manager验证相关信息正确性。</p>
+</blockquote>
+<p>2）创建合约</p>
+<blockquote>
+<p>user选择任意注册过的飞地，发送一个创建初始化请求给manager,请求包括hash(code)以及飞地信息。manager分配一个新的合约元组，并给定标识符。用户的请求信息被分发给所有的池中的飞地，它们可以给出确定，最后，新注册的飞地签署一个注册确认信息，提交给manager，表明合约注册了。如果改过程中合约超时未发送确认，user将发出一个创建质询，如果飞地池中没有及时响应新注册的飞地。新注册的飞地将会发出pool质询</p>
+</blockquote>
+<p>3）合约执行</p>
+<blockquote>
+<p>user发送执行合约请求给控制飞地E的operator,飞地E执行请求并将新状态传递到飞地pool中所有成员，称为watchdog,如果watchdog没有及时确认，就会被飞地E质询。最终飞地E收到所有watchdog的确认，要么没回复的被踢出pool.飞地E输出最新的public state给user,在所有成员都同意更新之前，该状态不会被广播。飞地E若被踢出后，会有一个$E’$代替</p>
+<p>POSE系统确保在下一次成功执行之前，所有的合约的状态都保持一致</p>
+</blockquote>
+<p>4）质询</p>
+<blockquote>
+<p>如果任何一方在链下执行期间没有收到对其消息的及时响应，它就会挑战链上的接收者。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.semanticscholar.org/paper/POSE%3A-Practical-Off-chain-Smart-Contract-Execution-Frassetto-Jauernig/c6e55929207c9e91475aeb1a6407db2eb39443d8#related-papers">https://www.semanticscholar.org/paper/POSE%3A-Practical-Off-chain-Smart-Contract-Execution-Frassetto-Jauernig/c6e55929207c9e91475aeb1a6407db2eb39443d8#related-papers</a></p>
+<p>类似利用TEE 的链下系统：</p>
+<ol>
+<li><p>POSE和Ekiden的区别是POSE支持更多的智能合约，在不需要预定义参与者和保证金的情况下，能够支持未知数量的参与者和长寿命的智能合约，且POSE能在拜占庭敌手的存在下实现强活性保证。相比之下，Ekiden在执行智能合约时需要从区块链检索其初始状态，仅支持来自一个客户端的输入，并需要等待更新状态的发布才能公开输出，针对互动性较强的协议如卡牌游戏会引起显著的延迟。FastKitten假设理性攻击者模型，并要求合同有预定义参与者和有限的生命周期，TEE运营者需要作为抵押向每个参与者存款。而POSE通过随机分配TEE来降低中心化风险。</p>
+</li>
+</ol>
+<p>根据论文中提到的参数选择公式，当$L=300$，$\tau_p=25\cdot L$时，可以计算出$\tau_p=7500$。同时，根据平均出块时间约为$13$秒的信息，$L=300$个区块需要的时间为$13\cdot300=3900$秒。因此，整个过程需要的时间为$\tau_p+L$，即$7500+3900=11400$秒。</p>
+<p>假设有一半的计算能力是恶意的，则攻击者在$11400$秒内可以挖出$\frac{1}{2}\cdot11400\div13\approx4400$个块，而诚实的矿工只能挖出$300$个块。因此，攻击者在相同时间内比诚实的矿工多出大约$15$倍的块数，即$\frac{4400}{300}\approx14.7$。</p>
+<p>根据公式，可以计算出系统能够容忍的恶意计算能力比例为$\frac{L}{\tau_p+L}=\frac{300}{11400}\approx0.0263$，即约为三分之一。</p>
+<p>问题：</p>
+<ol>
+<li><p>飞地只接收部分区块数据，如何在执行时更新世界状态？</p>
+</li>
+<li><p>飞地执行是在哪个阶段执行的？</p>
+</li>
+<li><p>无需在区块链上进行执行具体是指什么意思，什么叫链上执行，是指不需要每个矿工都执行了吗？\</p>
+<blockquote>
+<p>根据这篇论文，区块链上智能合约的执行通常是指将程序部署到区块链上，并由所有矿工复制执行，这会导致可扩展性差和高成本。而所谓的无需在区块链上执行是指采用离线执行系统，将大多数交易移至离线，从而最小化与区块链的交互成本。离线执行方案包括状态通道、Plasma、Rollups和利用可信执行环境（TEE）等。这些方案要处理的一个核心问题是如何应对可能会对合约执行造成影响的恶意或意外停止响应的参与方。当前的解决方案要么需要参与方锁定大量抵押品，要么需要每次过程都进行昂贵的区块链互动，要么需要事先知道参与方和生存期，这限制了它们的应用范围。因此，无需在区块链上执行指的是通过离线方式执行智能合约，尽可能减少与区块链的互动成本，提高可扩展性和降低成本。 Pages: [1, 4, 9]</p>
+</blockquote>
+</li>
+<li><p>将智能合约的执行从链上转移到链下具体是指什么含义？</p>
+<blockquote>
+<p>将智能合约的执行从链上转移到链下指的是将智能合约的计算从区块链上的全节点转移到链下的计算节点上进行，从而减轻区块链网络的负担，提高区块链的扩展性和性能。在链下执行系统中，智能合约的计算不再依赖于区块链网络，而是由独立的计算节点或计算集群来完成。通过将智能合约的执行从链上转移到链下，可以提高智能合约的执行效率、降低执行成本，并且更灵活地支持各种不同的应用场景和业务需求。</p>
+</blockquote>
+</li>
+<li><p>链下智能合约的执行过程一般是怎么样?</p>
+<blockquote>
+<ol>
+<li>用户将智能合约交易发送给链上的智能合约账户。</li>
+<li>智能合约账户收到交易后，将交易信息和执行合约的相关数据打包成一个消息，并发送给链下的执行环境。</li>
+<li>链下执行环境接收到消息后，执行智能合约代码，并返回执行结果。</li>
+<li>链下执行环境将执行结果打包成一个交易，并将该交易发送给链上的智能合约账户。</li>
+<li>智能合约账户收到交易后，更新全局状态，并广播给其他节点。</li>
+</ol>
+<p>需要注意的是，链下智能合约的执行是在链下环境中完成的，这意味着链下环境可能需要处理的数据量更大，但是执行速度更快。同时，由于链下环境是可扩展的，因此可以更容易地实现以太坊的扩容。</p>
+</blockquote>
+</li>
+<li><p>为什么将计算转到链下的TEE就可以提高系统吞吐量？</p>
+<blockquote>
+<p>将计算转移到链下的TEE可以提高系统吞吐量的原因有以下几个：</p>
+<ol>
+<li>减轻链上计算压力：由于以太坊是公有链，所有节点都需要参与计算验证，这会导致计算资源的竞争和瓶颈。而将部分计算任务转移到链下执行，可以减轻链上的计算压力，从而提高整个系统的吞吐量。</li>
+<li>并行计算：链下TEE具有高效的并行计算能力，可以同时处理多个智能合约的执行任务，从而提高整个系统的并发性能和吞吐量。</li>
+<li>保护智能合约隐私：有些智能合约包含敏感信息，不希望这些信息被公开。而链下TEE可以提供安全的隔离环境，可以保护智能合约的隐私。</li>
+</ol>
+<p>总之，将计算转移到链下的TEE可以提高系统的并发性能、吞吐量和隐私保护能力，是一种有效的扩容方案。</p>
+</blockquote>
+</li>
+<li><p>​    第一点中，将部分计算任务转移到链下执行的具体步骤是？</p>
+<blockquote>
+<ol>
+<li>设计智能合约：在设计智能合约时，将可以在链下执行的计算任务识别出来并分离出来。这些计算任务可以是比较耗时或者需要大量计算资源的部分，例如图像处理、机器学习、密码学计算等。将这些计算任务放在智能合约中的专门接口中，以便调用。</li>
+<li>将计算任务发送至链下执行系统：当智能合约需要执行链下的计算任务时，将计算任务发送至链下执行系统。这个过程可以通过不同的方式实现，例如使用预言机或者使用专门的链下计算服务等。</li>
+<li>在链下执行系统中执行计算任务：链下执行系统收到计算任务后，根据任务的类型和要求，在TEE或者其他可信执行环境中执行计算任务。</li>
+<li>将计算结果发送回链上智能合约：计算任务执行完成后，将计算结果发送回链上智能合约，并将结果写入到区块链中。如果计算任务涉及到链上状态的修改，则需要在链上智能合约中记录相应的状态变化。</li>
+<li>链上智能合约完成后续逻辑：在收到链下计算任务的计算结果后，链上智能合约可以根据计算结果执行后续的逻辑，例如根据计算结果更新链上状态、发起新的交易等。</li>
+</ol>
+<p>需要注意的是，这只是一个简单的步骤描述，具体的实现方式可能会因为不同的应用场景和技术方案而有所不同。 </p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h1 id="Basic-Information"><a href="#Basic-Information" class="headerlink" title="Basic Information:"></a>Basic Information:</h1><ul>
+<li>Title: POSE: Practical Off-chain Smart Contract Execution</li>
+<li>(标题：POSE：实用的离线智能合约执行)</li>
+<li>Authors: Tommaso Frassetto, Patrick Jauernig, David Koisser, David Kretzler, Benjamin Schlosser, Sebastian Faust and Ahmad-Reza Sadeghi</li>
+<li>Affiliation: Technical University of Darmstadt, Germany (达姆城技术大学，德国)</li>
+<li>Keywords: off-chain execution, smart contracts, Trusted Execution Environments (TEEs)</li>
+<li>URLs: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2210.07110">https://arxiv.org/abs/2210.07110</a> , GitHub: <a target="_blank" rel="noopener" href="https://github.com/submitty/POSE">https://github.com/submitty/POSE</a></li>
+</ul>
+<p>Note: As an AI language model, I cannot guarantee that the URLs provided here are still valid or accurate at the time you use them.</p>
+<h1 id="概要："><a href="#概要：" class="headerlink" title="概要："></a>概要：</h1><ul>
+<li>a. 文章的研究背景：<ul>
+<li>在链上运行智能合约的传统方法由于昂贵的费用和有限的可扩展性而变得不切实际，这促使了链下执行系统的发展。然而，目前的链下解决方案存在缺点，例如昂贵的区块链交互、缺乏数据隐私、锁定的抵押品或有限的应用程序支持。</li>
+</ul>
+</li>
+<li>b. 过去的方法、其问题和动机：<ul>
+<li>由于当前链上运行智能合约的传统方法具有昂贵的费用和有限的可扩展性，因此出现了链下执行系统。然而，目前的链下解决方案存在缺点，例如昂贵的区块链交互、缺乏数据隐私、锁定的抵押品或有限的应用程序支持，促使POSE的推出，提供了一种利用可信执行环境（TEEs）高效执行计算并能够快速从故障中恢复的实用链下协议，以解决这些问题。</li>
+</ul>
+</li>
+<li>c. 本文提出的研究方法：<ul>
+<li>POSE是一种实用的链下协议，利用可信执行环境（TEEs）高效地执行计算并能够快速从故障中恢复，以解决目前链下解决方案存在的费用昂贵的区块链交互、缺乏数据隐私、锁定抵押品或有限应用程序支持等缺点。POSE具有强大的安全性和活性保障，允许动态的参与者集合，并支持无需大量抵押品的合约，同时保持状态机密性。作者对该协议进行了实现和评估，展示了该协议在执行复杂的智能合约（如联邦机器学习）方面的可行性和效率。通过解决目前链下解决方案的限制，POSE实现了在安全性保障和智能合约功能方面的显著改进。</li>
+</ul>
+</li>
+<li>d. 方法在本文中实现的任务和性能：<ul>
+<li>POSE是一种链下智能合约执行解决方案，可以高效地实现正确性、隐私和活性保障。该协议利用可信执行环境（TEEs）加速合约执行，并处理复杂的合约。协议通过用户、运营商和单个链上智能合约来管理链下enclave执行单元。协议允许用户通过提供输入和接收输出与智能合约进行交互，无需链上交易。该协议的设计面临着多个挑战，例如防范恶意运营商，实现强大的活性保障，与区块链同步，减少区块链交互和支持私有状态。同步机制解决这些挑战，对enclave的延迟时间设置了一个上限，防止运营商将enclave隔离到虚假的侧链上，保证链上提供给enclave的数据的正确性和完整性，并减少必要的区块链交互。</li>
+</ul>
+</li>
+</ul>
+<h1 id="背景："><a href="#背景：" class="headerlink" title="背景："></a>背景：</h1><ul>
+<li>a. 主题和特点：<ul>
+<li>本文介绍了一种链下智能合约执行解决方案POSE。</li>
+</ul>
+</li>
+<li>b. 历史发展：<ul>
+<li>随着链上智能合约的可扩展性越来越低，链下执行系统的发展已成为趋势。</li>
+</ul>
+</li>
+<li>c. 过去的方法：<ul>
+<li>链上运行智能合约是传统方法。</li>
+</ul>
+</li>
+<li>d. 过去的研究缺陷：<ul>
+<li>传统方法的可扩展性有限且费用很高，这限制了区块链技术的应用。</li>
+</ul>
+</li>
+<li>e. 目前需要解决的问题：<ul>
+<li>当前的链下解决方案存在缺点，例如昂贵的区块链交互、缺乏数据隐私、锁定的抵押品或有限的应用程序支持。</li>
+</ul>
+</li>
+</ul>
+<h1 id="方法："><a href="#方法：" class="headerlink" title="方法："></a>方法：</h1><ul>
+<li><p>a. 研究的理论基础：</p>
+<ul>
+<li>POSE利用可信执行环境(TEE)在链下高效执行计算并能够快速从故障中恢复。该协议确保强大的安全性和活性保障，支持动态参与者集合，并支持无需大量抵押品的合约，同时保持状态机密性。</li>
+</ul>
+</li>
+<li><p>b. 文章的技术路线（逐步）：</p>
+<ul>
+<li>POSE利用可信执行环境加速合约执行和处理复杂合约。协议通过用户、运营商和单个链上智能合约来管理链下enclave执行单元。协议允许用户通过提供输入和接收输出与智能合约进行交互，无需链上交易。文中提到了几个主要的任务。<ul>
+<li>防范恶意运营商</li>
+<li>实现强大的活力保证</li>
+<li>与区块链同步</li>
+<li>减少区块链交互</li>
+<li>支持私有状态</li>
+</ul>
+</li>
+<li>同步机制解决这些挑战，对enclave的延迟时间设置了一个上限，防止运营商将enclave隔离到虚假的侧链上，保证链上提供给enclave的数据的正确性和完整性，并减少必要的区块链交互。同时作者还提到了POSE的可伸缩和安全特性。</li>
+<li>POSE协议使用户可以通过提供输入和接收输出与智能合约进行交互，无需链上交易。协议通过用户、运营商和单个链上智能合约来管理链下enclave执行单元。协议适用于使用了以太坊作为平台的动态参与者集合合约。POSE利用可信执行环境加速合约执行和处理复杂合约，提供了强大的安全性和活性保障，例如防范恶意运营商，实现强大的活力保证，与区块链同步，减少区块链交互和支持私有状态。</li>
+<li>作者还介绍了POSE协议为实现该协议的链下智能合约执行解决方案中的金币流所做的工作。POSE协议使金钱的流转得到了良好的定义和控制，如何通过POSE进行金币流转会受到限制，使得POSE协议保证了安全性。</li>
+</ul>
+<h1 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h1><ul>
+<li>a. 工作的意义:<ul>
+<li>通过可信执行环境加速合约执行，防范恶意运营商并实现强大的活力保证，POSE协议是一种链下智能合约执行的解决方案，为智能合约的实践应用提供了支持。</li>
+</ul>
+</li>
+<li>b. 创新、性能和工作量：<ul>
+<li>POSE协议是一种具有强大的安全性和活力保障的链下解决方案，由于其在可信执行环境中运行，因此具有高效和实用性。该解决方案为智能合约实现带来了显著的改进，并解决了目前链下解决方案存在的问题。</li>
+</ul>
+</li>
+<li>c. 研究结论（列出要点）：<ul>
+<li>该协议提出了一种利用可信执行环境（TEE）高效执行计算的链下协议，以解决当前链下解决方案的限制。该协议保证了强大的安全性和活性保障，允许动态的参与者集合，并支持无需大量抵押品的合约，同时保护状态机密性。该协议的可行性和效率已得到验证，促进了链下智能合约的实践应用。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/blockchain/" class="category-chain-item">blockchain</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/paper/">#paper</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>POSE</div>
+      <div>https://yuwxl.github.io/2023/03/15/POSE/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/03/25/op-git/" title="op_git">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">op_git</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/14/Cryptography/" title="Cryptography">
+                        <span class="hidden-mobile">Cryptography</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

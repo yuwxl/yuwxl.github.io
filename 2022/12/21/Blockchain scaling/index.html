@@ -1,0 +1,809 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="区块链扩展调研Rolluprollup是区块链layer2扩容方案之一，rollup本质上是指一个单独的区块链，用以太坊为例，rollup受以太坊智能合约管理，rollup执行交易并处理数据，以太坊接收数据并存储结果，相当于以太坊的草稿纸。rollup计算快的原因在于它产生新区块的方式并不像传统区块链那么复杂，但以太坊可以审查其处理结果，所以可以保证安全性。「将智能合约计算移到链下，同时仅在链上存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blockchain scaling">
+<meta property="og:url" content="https://yuwxl.github.io/2022/12/21/Blockchain%20scaling/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="区块链扩展调研Rolluprollup是区块链layer2扩容方案之一，rollup本质上是指一个单独的区块链，用以太坊为例，rollup受以太坊智能合约管理，rollup执行交易并处理数据，以太坊接收数据并存储结果，相当于以太坊的草稿纸。rollup计算快的原因在于它产生新区块的方式并不像传统区块链那么复杂，但以太坊可以审查其处理结果，所以可以保证安全性。「将智能合约计算移到链下，同时仅在链上存">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221221164441931.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221222210944185.png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/UrYDA9tqpqWaXuRChBz3Wec4l1ZyOjlg6nW4agPJ4o6RNJJkL2Kqs6fj0CxAlTPtQEynMO1CD35aMrqwS4mumg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
+<meta property="og:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221223152831558.png">
+<meta property="og:image" content="https://miro.medium.com/max/1050/0*kLYhO4auKt0hpKSf">
+<meta property="article:published_time" content="2022-12-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-04-10T06:28:32.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/Blockchain%20scaling.assets/image-20221221164441931.png">
+  
+  
+  
+  <title>Blockchain scaling - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Blockchain scaling"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-21 00:00" pubdate>
+          2022年12月21日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          41 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Blockchain scaling</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h4 id="区块链扩展调研"><a href="#区块链扩展调研" class="headerlink" title="区块链扩展调研"></a>区块链扩展调研</h4><h5 id="Rollup"><a href="#Rollup" class="headerlink" title="Rollup"></a>Rollup</h5><p>rollup是区块链layer2扩容方案之一，rollup本质上是指一个单独的区块链，用以太坊为例，rollup受以太坊智能合约管理，rollup执行交易并处理数据，以太坊接收数据并存储结果，相当于以太坊的草稿纸。rollup计算快的原因在于它产生新区块的方式并不像传统区块链那么复杂，但以太坊可以<strong>审查</strong>其处理结果，所以可以保证安全性。「将智能合约计算移到链下，同时仅在链上存储尽可能少的交易数据。」在 Rollup 中，只有计算（数据处理）处于链下状态。Rollup 处理的每笔交易仍将其输入数据（正式名称为「调用数据」）存储在以太坊上。「审查过程」究竟如何运作取决于 Rollup 是 Optimistic 机制还是零知识机制。在rollup中，以太坊共识才是最终结果的仲裁者，rollup不需要共识机制，与之对比，侧链解决方案中侧链的交易可以是最终的。</p>
+<p><a target="_blank" rel="noopener" href="https://learnblockchain.cn/article/2392">https://learnblockchain.cn/article/2392</a></p>
+<p>区块链性能提升方案</p>
+<p>区块链1层网络：是指区块链基础网络，比特币、以太坊。</p>
+<p>Layer 1 区块链旨在提供区块链的基本功能。任何区块链的主要目标都是优化去<em>中心化、安全性</em>和<em>可扩展性</em>。然而，这种平衡很难达到，这就是为什么将同时实现这三者的概念称为<strong>区块链三难困境</strong>。</p>
+<p>早期的 L1 链（即比特币和以太坊）优先考虑去中心化和安全性，代价是网络随着采用率的提高<strong>而扩展</strong>的能力。这启发了 L1 开发人员要么修改他们的设计以优先考虑扩展，要么在“链下”开发其他解决方案。</p>
+<p>L1 链可以通过调整其原生架构来提高扩展性的方式有限。这些包括：</p>
+<ul>
+<li><p><strong>增加块大小：</strong>块越大，每个块中可以“容纳”更多交易，从而提高网络速度。缺点是保护网络（<strong><a target="_blank" rel="noopener" href="https://www.bitstamp.net/learn/crypto-101/what-are-bitcoin-blockchain-nodes/">节点</a></strong>）的计算机必须增加其硬件要求，这有集中化的风险。</p>
+</li>
+<li><p><strong>改变共识机制</strong>：依赖于权益证明 (PoS) 共识机制的区块链通常比基于工作量证明 (PoW) 的链更快且资源密集度更低。然而，一些人认为这是以低安全性和中心化为代价的。</p>
+</li>
+<li><p><strong>分片</strong>：第 1 层链可以将其数据<em>拆分</em>为预先指定数量的不同数据组件（称为<strong><a target="_blank" rel="noopener" href="https://www.bitstamp.net/learn/blockchain/what-is-sharding-on-ethereum/">分片</a>）</strong>，从而帮助缓解网络拥塞并提高交易速度。然而，分片链之间的通信可能很复杂，导致区块链的安全性较差。</p>
+</li>
+</ul>
+<p>第 1 层要素</p>
+<ul>
+<li>第 1 层指的是基础区块链，在该区块链上生成区块、完成交易，并使用原生加密货币硬币支付交易费用并奖励网络安全人员。最受欢迎的 L1 链是比特币和以太坊。</li>
+<li>区块链三难困境指出，L1 链通常无法同时实现去中心化、安全性和可扩展性。因此，即使通过调整它们的架构，L1 也有很大的局限性。</li>
+<li>像第 2 层解决方案这样的扩展解决方案旨在解决一些 L1 无法适应增加使用的问题。同时，第 0 层区块链为特定于应用程序的 L1 链提供平台，第 3 层指的是支持区块链互操作性的协议。</li>
+</ul>
+<p>2层综述：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/syovS0br4dMB9Ryf0EeFaQ">https://mp.weixin.qq.com/s/syovS0br4dMB9Ryf0EeFaQ</a></p>
+<p>区块链扩展有很多角度可以考虑，大致分为以下几种</p>
+<p><img src="/images/Blockchain scaling.assets/image-20221221164441931.png" srcset="/img/loading.gif" lazyload alt="image-20221221164441931"></p>
+<h5 id="1-Scalable-blockchains-—-A-systematic-review-综述"><a href="#1-Scalable-blockchains-—-A-systematic-review-综述" class="headerlink" title="1 Scalable blockchains — A systematic review 综述"></a>1 Scalable blockchains — A systematic review 综述</h5><p>将区块链扩展分为水平和垂直</p>
+<p>horizontal (node and client scalability)<br>vertical (throughput, block generation rate, latency, and storage)scalability</p>
+<p><img src="/images/Blockchain scaling.assets/image-20221222210944185.png" srcset="/img/loading.gif" lazyload alt="image-20221222210944185" style="zoom:50%;"></p>
+<p>被许可的区块链通常有三个主要特征，即治理结构、私有交易和认证过程。</p>
+<p>不可能三角</p>
+<blockquote>
+<p>无限扩展：系统的输出能够随着节点数量的增加而增加。<br>去中心：所有节点的地位都是一致的，不假设某个或者某些节点比其他节点更有能力或者更为可信。<br>安全：对于中本聪共识，能够有1/2的容错；对于BFT共识，能有1/3的容错</p>
+</blockquote>
+<p>实际上，“诚实大多数”并不是天然成立的。但究竟诚实大多数的假设成立的条件是什么，<strong>怎样的激励机制才能在非许可的网络里保证诚实大多数</strong>，这个问题时至今日仍旧是共识算法研究的一个未解之谜。</p>
+<h5 id="区块链分片（上中下）"><a href="#区块链分片（上中下）" class="headerlink" title="区块链分片（上中下）"></a>区块链分片（上中下）</h5><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/5s_2JqOAol00t1MzPh_O7g">https://mp.weixin.qq.com/s/5s_2JqOAol00t1MzPh_O7g</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/ujV18k14nP7sNxPJbJ1z_w">https://mp.weixin.qq.com/s/ujV18k14nP7sNxPJbJ1z_w</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Fs4cbZeegHtogPzozFYN8A">https://mp.weixin.qq.com/s/Fs4cbZeegHtogPzozFYN8A</a></p>
+<p>根据网络分片，随机分片，根据应用分片，最后都会变成同样的问题，美国的节点可以不相信中国分片的验证结果。趋于中心化，这种自上而下的思路与区块链思想有悖。</p>
+<p>打包者负责：其他分片算法中，小红只管将交易提交给矿工，矿工负责进行后续的步骤，包括在本分片达成共识，在跨片账本达成共识，并将共识的结果作为证据发给目标分片的验证节点，在目标分片达成共识。</p>
+<p>交易者负责：这笔交易的发起者，也就是小红，<strong>有义务提供这个智能合约里面规定的证据来完成这笔交易</strong> （Chainspace）</p>
+<p>在分片中如果只有提交的矿工（下图小刚）能够获得交易费，那么跨分片矿工（小兰，Bob）为啥要配合工作。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/UrYDA9tqpqWaXuRChBz3Wec4l1ZyOjlg6nW4agPJ4o6RNJJkL2Kqs6fj0CxAlTPtQEynMO1CD35aMrqwS4mumg/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="Layer2-扩容方案对比"><a href="#Layer2-扩容方案对比" class="headerlink" title="Layer2 扩容方案对比"></a>Layer2 扩容方案对比</h4><ol>
+<li><p>区块链去中心化的特性,使得存储和计算性能受限,需要进行扩容(Scaling)</p>
+</li>
+<li><p>扩容可以分为</p>
+<ol>
+<li><p>On- chain, Layer1。对区块链本身的性能提升.</p>
+<ol>
+<li><p>共识。中心化换性能。 Avalanche、 Solana。</p>
+<blockquote>
+<p>修改共识共识不像以太坊那样去中心化，雪崩协议</p>
+</blockquote>
+</li>
+<li><p>Sharding. 分库分表、并行计算。ETH2.0、Near</p>
+</li>
+</ol>
+</li>
+<li><p>Off-chain, Layer2。链下计算，结果上链；离线批处理</p>
+</li>
+</ol>
+</li>
+<li><p>各种 Layer2扩容方案的区别主要在于其保证 State Validity(SV)和Data Availablility(DA)的方式不同</p>
+<ol>
+<li><p>SV，作恶</p>
+<ol>
+<li><p>如何保证 Layer2 State的正确:</p>
+<blockquote>
+<p>ZK Proof?？Fraud Proof？PoA多签？Light Cilent?</p>
+</blockquote>
+</li>
+<li><p>防止Layer2的无效状态回传到主链</p>
+</li>
+<li><p>举例：Solana Wormhole Bridge漏洞，导致Solana上 WHETH被凭空增发,最终将 Ethereum上质押的ETH提走</p>
+</li>
+</ol>
+</li>
+<li><p>DA，跑路</p>
+<ol>
+<li><p>跑路如何保证 Layer2 State的持久化:存去中心化的 Layer1？存中心化的 Layer2？</p>
+</li>
+<li><p>防止Layer2停止维护数据丢失导致资产锁死</p>
+</li>
+<li><p>举例：StarkEx为State的存储方式提供多种选择</p>
+<p><img src="/images/Blockchain scaling.assets/image-20221223152831558.png" srcset="/img/loading.gif" lazyload alt="image-20221223152831558"></p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h5 id="StateChannel"><a href="#StateChannel" class="headerlink" title="StateChannel"></a>StateChannel</h5><blockquote>
+<p>安全性高，TPS一般，不支持智能合约，目前用的少</p>
+<p><a target="_blank" rel="noopener" href="https://www.nichanank.com/blog/2018/9/27/scalability-pt-2-state-channels-counterfactual-instantiation">https://www.nichanank.com/blog/2018/9/27/scalability-pt-2-state-channels-counterfactual-instantiation</a></p>
+</blockquote>
+<h5 id="Sidechain"><a href="#Sidechain" class="headerlink" title="Sidechain"></a>Sidechain</h5><ol>
+<li><p>原理:Two-way- pegged Cross— chain bridge,主链质押 Token,侧链生成 Wrapped Token。主链Lock侧链Mint,侧链Bun主链 Withdraw。</p>
+</li>
+<li><p>DA &amp; SV</p>
+<ol>
+<li>DA:数据存在 Layer2,由侧链的 Validators保证DA</li>
+<li>SV(多种方案安全性由强到弱)<ol>
+<li>Light Client Bridge(例如Near的 Rainbow bridge):任何人可以将侧链的 State Root同步到主链,主链合约实现侧链的轻客户端，验证 State root保证SV</li>
+<li>Plasma Bridge(例如 Polygon的):侧链 Validators定期将State root同步到主链,主链通过 Fraud proof保证SV</li>
+<li>Multi- signature Bridge(大多数):桥的 Validators定期将State root 或Burn Event 同步到主链，主链检查多签保证SV</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>假设了Two-way-pegged Cross-chain Bridge的都可以视作侧链，用于通过Wrapped Token扩容主链的处理能力</p>
+<p>侧链可以支持智能合约，TPS高</p>
+</blockquote>
+<h5 id="Rollup-1"><a href="#Rollup-1" class="headerlink" title="Rollup"></a>Rollup</h5><p><a target="_blank" rel="noopener" href="https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf">https://blog.matter-labs.io/zkporter-a-breakthrough-in-l2-scaling-ed5e48842fbf</a></p>
+<ol>
+<li><p>原理&amp;DA&amp;SV</p>
+<ol>
+<li><p>DA</p>
+<ol>
+<li><p>Rollup: Layer2的数据压缩后上传到 Layer1,由 Layer1保证DA</p>
+<ol>
+<li>Address用树上的序号表示</li>
+<li>value用科学计数法表示</li>
+<li>ZK  rollup省去前面，Optimistic Rollup 不省略</li>
+</ol>
+</li>
+<li><p>Validium:数据不上传到 Layer1，由多个 Validator托管(其实属于 Sidechain类别,但由于是Rollup衍生出来的方案，所以大家更愿意与Rollup一起讨论比较)</p>
+</li>
+<li><p>Volition&amp; zkPorter:用户可以选择数据是否上传到 Layer1（比较贵）（上传以太坊或者自己维护的侧链）</p>
+<p><img src="https://miro.medium.com/max/1050/0*kLYhO4auKt0hpKSf" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+</ol>
+</li>
+<li><p>SV</p>
+<ol>
+<li>ZK Rollup:定期同步 State Root及其 Validity Proof(zK证明)到 Layer1, Layer1用合约验证 Proof保证SV</li>
+<li>Optimistic Rollup:定期同步 State Root到 Layer1, Layer1通过 Fraud proof保证SV</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>项目：<a target="_blank" rel="noopener" href="https://l2beat.com/">https://l2beat.com/</a></p>
+</li>
+</ol>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><ol>
+<li>侧链是性能和兼容性最好的。虽然桥的安全性依赖于PoA,但是Validate通常大量持币,从经济角度保证了安全性。</li>
+<li>Rollup因为其安全性高,成为了后起之秀。性能和兼容性尚可,需要继续开发以进一步优化。<ol>
+<li>zkSync的 ZKEVM(兼容)</li>
+<li>Ethereum社区的 ZKEVM(兼容),V神主导的 Sharding+ Rollup(性能</li>
+<li>Stark Ware的caio(兼容)、 Starnet(性能)</li>
+</ol>
+</li>
+<li>市场对扩容抱有很大的期待,可以预期还将继续诞生新的方案和项目,已有的项目会因为落地而迎来市场(比如开发中的这些)。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://blog.chain.link/blockchain-scalability-approaches-zh/">https://blog.chain.link/blockchain-scalability-approaches-zh/</a></p>
+<h4 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h4><p>以太坊上的游戏使得以太坊交易速度变慢</p>
+<blockquote>
+<p>One prominent example is the <strong>CryptoKitties</strong> game, which allows users to purchase, collect, breed, and sell virtual cats. The craze around the game was so intense that it has once managed to significantly slow down all transaction processing on Ethereum.</p>
+<p> <a target="_blank" rel="noopener" href="https://www.bbc.com/news/technology-42237162">https://www.bbc.com/news/technology-42237162</a>.</p>
+</blockquote>
+<p>研究以太坊智能合约的论文：<a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1007/s10664-019-09796-5">https://link.springer.com/article/10.1007/s10664-019-09796-5</a></p>
+<p>谷歌big query上的以太坊数据集Ethereum dataset in Google BigQuery</p>
+<p>以太坊浏览器：<a target="_blank" rel="noopener" href="https://etherscan.io/">https://etherscan.io/</a></p>
+<p>Dapp状态：<a target="_blank" rel="noopener" href="https://www.dappt.io/">https://www.dappt.io/</a></p>
+<p>代币市值：<a target="_blank" rel="noopener" href="https://coinmarketcap.com/">https://coinmarketcap.com/</a></p>
+<p>以太坊虚拟机：<a target="_blank" rel="noopener" href="https://ethereum.org/zh/developers/docs/evm/">https://ethereum.org/zh/developers/docs/evm/</a></p>
+<p>DAPP</p>
+<blockquote>
+<p>任何依赖一个或多个智能合约作为其后端的应用程序都被称为<em>去中心化应用程序</em>（ÐApp）。因此，ÐApps 与后端代码在中央服务器上运行的更传统的应用程序形成对比。ÐApps 的前端可以用任何编程语言实现。通常，它是结合 HTML5、CSS 和web3.js（以太坊的 Javascript API）来实现的。</p>
+</blockquote>
+<p>合约活跃性不平衡，每个合约对以太坊的影响不一样，比如CryptoKitties在某一时间吸引大量以太坊交易</p>
+<blockquote>
+<p>blockchain utilization fairness (e.g., preventing a single contract from utilizing most of the processing power of the blockchain).</p>
+</blockquote>
+<p>论文：Off-chaining Models and Approaches to Off-chain Computations</p>
+<p>链下模型和链下计算方法</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/note/">#note</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Blockchain scaling</div>
+      <div>https://yuwxl.github.io/2022/12/21/Blockchain scaling/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/01/04/fabric/" title="fabric相关">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">fabric相关</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/03/SE-note/" title="论文阅读笔记">
+                        <span class="hidden-mobile">论文阅读笔记</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1160 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="2022&#x2F;8&#x2F;10 CCS论文讲座-HTTPS上下文混淆攻击《Talking with Familiar Strangers: An Empirical Study on HTTPS Context Confusion Attacks》 主要对HTTPS上下文混淆攻击进行了研究。 问题本质：中间人攻击，中间人对客户端和服务器端分别伪装 使用https的场景已经足够安全，会有证书过期提示、风险提示等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lectures">
+<meta property="og:url" content="https://yuwxl.github.io/2023/01/04/lectures/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="2022&#x2F;8&#x2F;10 CCS论文讲座-HTTPS上下文混淆攻击《Talking with Familiar Strangers: An Empirical Study on HTTPS Context Confusion Attacks》 主要对HTTPS上下文混淆攻击进行了研究。 问题本质：中间人攻击，中间人对客户端和服务器端分别伪装 使用https的场景已经足够安全，会有证书过期提示、风险提示等">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220810093038425.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220810094054184.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220810094523119.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811091657360.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811092350902.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811092536739.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811092834369.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811092929818.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811093102569.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811093217670.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811093346189.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811093516641.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811093652476.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811093838680.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811094305341.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811094404233.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811095648125.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811100534135.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811100728615.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811101149252.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811103700493.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811104657842.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811104828458.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811105242969.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811105914018.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811105933322.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811110416647.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811110727719.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811111006252.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811111105151.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811111120377.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811111144341.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811111227418.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811111255597.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811111322802.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811112630657.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811112734287.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811112758761.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811112833773.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811113058449.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811113248533.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811113549137.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811114443638.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811115740496.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811133444070.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811133759476.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811134136459.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811134146414.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811134353658.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811134722036.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811134827119.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811135639844.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220811140439492.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814091029706.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814091140415.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814091231271.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814091308286.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814100255229.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814100510913.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814100738068.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814100845110.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814100959583.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814101150273.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814101226171.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814101327807.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814101710919.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814101743166.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814101844544.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814101921163.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814102024996.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814102217754.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814102341163.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814102625627.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814102710271.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814102734358.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814103133867.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814103335278.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814103505987.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814104734504.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814104438094.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814105144350.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814105223290.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814105434545.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814105651523.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814105941676.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814110448925.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814110951785.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814111030105.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814111521792.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814135102203.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814135239631.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814135447475.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814135659046.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814140947894.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814141935671.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814142136025.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814142359887.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814142736268.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814143021008.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814143235139.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814143702661.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814143757009.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814144018671.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814144312682.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814144513694.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814144723948.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814144846002.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814144920337.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814144932022.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814145211099.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814145354611.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814145739323.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814150446521.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814150555640.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814150629240.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814150702591.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814151105078.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814151055896.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814153431520.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814153554860.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814153705745.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814153828611.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814153902941.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814154103414.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814154242011.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814154339757.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814154430670.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814160154587.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814160653977.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814161045225.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814161055867.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814161153408.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814164049392.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220814164157158.png">
+<meta property="article:published_time" content="2023-01-04T02:55:58.000Z">
+<meta property="article:modified_time" content="2023-06-29T02:13:54.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="讲座">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/lectures.assets/image-20220810093038425.png">
+  
+  
+  
+  <title>lectures - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="lectures"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-04 10:55" pubdate>
+          2023年1月4日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">lectures</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="2022-8-10-CCS论文讲座-HTTPS上下文混淆攻击"><a href="#2022-8-10-CCS论文讲座-HTTPS上下文混淆攻击" class="headerlink" title="2022/8/10 CCS论文讲座-HTTPS上下文混淆攻击"></a>2022/8/10 CCS论文讲座-HTTPS上下文混淆攻击</h3><p>《Talking with Familiar Strangers: An Empirical Study on HTTPS Context Confusion Attacks》</p>
+<p>主要对HTTPS上下文混淆攻击进行了研究。</p>
+<p>问题本质：中间人攻击，中间人对客户端和服务器端分别伪装</p>
+<p>使用https的场景已经足够安全，会有证书过期提示、风险提示等，但这并非真的安全。</p>
+<p>例子：支付劫持</p>
+<p>预备知识</p>
+<p>证书共享</p>
+<ul>
+<li>[ ] 一张证书在多个场景都有效</li>
+<li>[ ] 多个服务器共享同一张证书</li>
+</ul>
+<p>在加密过程中，客户端依赖证书来判断服务器的合法性。</p>
+<p>但是共享TLS证书会导致安全依赖，攻击<strong>比较弱势的服务器</strong>来劫持安全部署过的网站，这些共享证书的网站即为最熟悉的陌生人，其安全性由最弱的决定（木桶效应）</p>
+<p><img src="/images/lectures.assets/image-20220810093038425.png" srcset="/img/loading.gif" lazyload alt="image-20220810093038425" style="zoom:50%;"></p>
+<p>攻击模型</p>
+<p>http降级攻击，将信息降级为明文</p>
+<p>http绕过攻击</p>
+<p><img src="/images/lectures.assets/image-20220810094054184.png" srcset="/img/loading.gif" lazyload alt="image-20220810094054184" style="zoom:50%;"></p>
+<p>攻击的根源和解决方法</p>
+<p>证书的共享会带来很多隐藏的问题</p>
+<p><img src="/images/lectures.assets/image-20220810094523119.png" srcset="/img/loading.gif" lazyload alt="image-20220810094523119" style="zoom:50%;"></p>
+<h3 id="2022-8-11-论文讲座-跨异构区块链的互操作性和可编程性"><a href="#2022-8-11-论文讲座-跨异构区块链的互操作性和可编程性" class="headerlink" title="2022/8/11 论文讲座-跨异构区块链的互操作性和可编程性"></a>2022/8/11 论文讲座-跨异构区块链的互操作性和可编程性</h3><p>（未看完[北邮向阳曦：HyperService: Interoperability and Programmability Across Heterogeneous Blockchains]</p>
+<p>跨异构区块链的互操作性和可编程性</p>
+<p>预备知识</p>
+<p>区块链成果</p>
+<p>交易网络：分布式账本，交易记录存储在分布式账本上（比特币</p>
+<p>智能合约平台：利用防篡改特性</p>
+<p>区块链1.0</p>
+<p>以太坊</p>
+<p>智能合约</p>
+<h3 id="2022-8-11-InForSec-网络空间安全讲座"><a href="#2022-8-11-InForSec-网络空间安全讲座" class="headerlink" title="2022/8/11 InForSec 网络空间安全讲座"></a>2022/8/11 InForSec 网络空间安全讲座</h3><h4 id="1-结合软件安全工作谈有价值研究"><a href="#1-结合软件安全工作谈有价值研究" class="headerlink" title="1-结合软件安全工作谈有价值研究"></a>1-结合软件安全工作谈有价值研究</h4><p>（邹德清  华中科技大学网络空间安全学院副院长、教授）</p>
+<p><strong>开源软件</strong>成为软件产业主流开发模式，商业软件 含有开源组件和开源代码</p>
+<p>开源时代大量开源组件让软件供应链变得更复杂</p>
+<p>针对软件供应链的攻击，大部分由于开源组件导致，例如liunx内核脏牛漏洞，导致其下各种发行版和软件收到影响</p>
+<p>软件源代码漏洞智能检测：将深度学习用于源代码检测（细粒度，某个函数</p>
+<p><img src="/images/lectures.assets/image-20220811091657360.png" srcset="/img/loading.gif" lazyload alt="image-20220811091657360" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811092350902.png" srcset="/img/loading.gif" lazyload alt="image-20220811092350902" style="zoom:50%;"></p>
+<p>1.将代码输入到模型去学习—-确定哪里有漏洞</p>
+<p><img src="/images/lectures.assets/image-20220811092536739.png" srcset="/img/loading.gif" lazyload alt="image-20220811092536739" style="zoom:50%;"></p>
+<p>2.如何确定漏洞类型</p>
+<p><img src="/images/lectures.assets/image-20220811092834369.png" srcset="/img/loading.gif" lazyload alt="image-20220811092834369" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811092929818.png" srcset="/img/loading.gif" lazyload alt="image-20220811092929818" style="zoom:50%;"></p>
+<p>3.不局限在库函数，提取所有漏洞相关的特征（漏洞扫描规则）</p>
+<p><img src="/images/lectures.assets/image-20220811093102569.png" srcset="/img/loading.gif" lazyload alt="image-20220811093102569" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811093217670.png" srcset="/img/loading.gif" lazyload alt="image-20220811093217670" style="zoom:50%;"></p>
+<p>4.精准定位到漏洞代码的某行</p>
+<p><img src="/images/lectures.assets/image-20220811093346189.png" srcset="/img/loading.gif" lazyload alt="image-20220811093346189" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811093516641.png" srcset="/img/loading.gif" lazyload alt="image-20220811093516641" style="zoom:50%;"></p>
+<p>5.深度学习模型是黑盒，试图解释到底是哪些特征会被识别出漏洞？</p>
+<p><img src="/images/lectures.assets/image-20220811093652476.png" srcset="/img/loading.gif" lazyload alt="image-20220811093652476" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811093838680.png" srcset="/img/loading.gif" lazyload alt="image-20220811093838680" style="zoom:50%;"></p>
+<p>final.总结</p>
+<p>很多国产软件用的都是国外开源组件</p>
+<p><img src="/images/lectures.assets/image-20220811094305341.png" srcset="/img/loading.gif" lazyload alt="image-20220811094305341" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811094404233.png" srcset="/img/loading.gif" lazyload alt="image-20220811094404233" style="zoom:50%;"></p>
+<h4 id="2-漫谈漏洞研究"><a href="#2-漫谈漏洞研究" class="headerlink" title="2-漫谈漏洞研究"></a>2-漫谈漏洞研究</h4><p>钱志云 加州大学河滨分校教授</p>
+<p>漏洞研究是什么？——作为黑客怎么利用人工规则的漏洞</p>
+<p>1.漏洞建模</p>
+<p>2.漏洞挖掘，自动化分析，写一些工具</p>
+<p>3.漏洞评估</p>
+<p>4.漏洞防范（检测or补丁or系统重建）</p>
+<p><img src="/images/lectures.assets/image-20220811095648125.png" srcset="/img/loading.gif" lazyload alt="image-20220811095648125" style="zoom:50%;"></p>
+<p>侧信道漏洞建模</p>
+<p>（小时候偷玩游戏机，老爸回家摸到电视机发烫，被发现）</p>
+<p>攻击者通过感知共享资源来获取信息</p>
+<p><img src="/images/lectures.assets/image-20220811100534135.png" srcset="/img/loading.gif" lazyload alt="image-20220811100534135" style="zoom:50%;"></p>
+<p>网络协议中</p>
+<p>有没有通信？用DNS查询</p>
+<p>攻击者：off-path ,IP spoofing</p>
+<p>获取源端口号</p>
+<p><img src="/images/lectures.assets/image-20220811100728615.png" srcset="/img/loading.gif" lazyload alt="image-20220811100728615" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811101149252.png" srcset="/img/loading.gif" lazyload alt="image-20220811101149252" style="zoom:50%;"></p>
+<p>作为攻击者，利用某种共享资源</p>
+<h4 id="3-国际网络空间安全顶级学术会议介绍与数据分析"><a href="#3-国际网络空间安全顶级学术会议介绍与数据分析" class="headerlink" title="3-国际网络空间安全顶级学术会议介绍与数据分析"></a>3-国际网络空间安全顶级学术会议介绍与数据分析</h4><p>张玉清  中国科学院大学</p>
+<p>什么是网安顶会？</p>
+<p><img src="/images/lectures.assets/image-20220811103700493.png" srcset="/img/loading.gif" lazyload alt="image-20220811103700493" style="zoom:50%;"></p>
+<p>1980-2021年顶会数据分析</p>
+<p><img src="/images/lectures.assets/image-20220811104657842.png" srcset="/img/loading.gif" lazyload alt="image-20220811104657842" style="zoom:50%;"></p>
+<p>中国大陆学者与单位的表现</p>
+<p><img src="/images/lectures.assets/image-20220811104828458.png" srcset="/img/loading.gif" lazyload alt="image-20220811104828458" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811105242969.png" srcset="/img/loading.gif" lazyload alt="image-20220811105242969" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811105914018.png" srcset="/img/loading.gif" lazyload alt="image-20220811105914018" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811105933322.png" srcset="/img/loading.gif" lazyload alt="image-20220811105933322" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811110416647.png" srcset="/img/loading.gif" lazyload alt="image-20220811110416647" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811110727719.png" srcset="/img/loading.gif" lazyload alt="image-20220811110727719" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811111006252.png" srcset="/img/loading.gif" lazyload alt="image-20220811111006252" style="zoom:50%;"></p>
+<p>顶会研究方向：网络安全 + 软件与系统安全 + 漏洞分析和利用 + 密码学</p>
+<p><img src="/images/lectures.assets/image-20220811111105151.png" srcset="/img/loading.gif" lazyload alt="image-20220811111105151"></p>
+<p>国际顶会新兴研究方向： 模糊测试 + 机器学习 + 区块链 + 安全计算</p>
+<p><img src="/images/lectures.assets/image-20220811111120377.png" srcset="/img/loading.gif" lazyload alt="image-20220811111120377" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811111144341.png" srcset="/img/loading.gif" lazyload alt="image-20220811111144341" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811111227418.png" srcset="/img/loading.gif" lazyload alt="image-20220811111227418"></p>
+<p><img src="/images/lectures.assets/image-20220811111255597.png" srcset="/img/loading.gif" lazyload alt="image-20220811111255597"></p>
+<p><img src="/images/lectures.assets/image-20220811111322802.png" srcset="/img/loading.gif" lazyload alt="image-20220811111322802"></p>
+<p>趋势和启发</p>
+<h4 id="4-AI系统安全风险与测试评估"><a href="#4-AI系统安全风险与测试评估" class="headerlink" title="4-AI系统安全风险与测试评估"></a>4-<strong>AI系统安全风险与测试评估</strong></h4><p>蔺琛皓 西安交通大学研究员、博士生导师</p>
+<p>AI系统安全风险</p>
+<p>性别人种歧视，自动驾驶安全，伪造视频</p>
+<p><img src="/images/lectures.assets/image-20220811112630657.png" srcset="/img/loading.gif" lazyload alt="image-20220811112630657" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811112734287.png" srcset="/img/loading.gif" lazyload alt="image-20220811112734287" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811112758761.png" srcset="/img/loading.gif" lazyload alt="image-20220811112758761" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811112833773.png" srcset="/img/loading.gif" lazyload alt="image-20220811112833773" style="zoom:50%;"></p>
+<p>对AI系统全生命周期进行保护</p>
+<ol>
+<li><p>输入阶段（数据污染）：虚假数据、恶意数据（例如推荐视频投毒）</p>
+<p><img src="/images/lectures.assets/image-20220811113058449.png" srcset="/img/loading.gif" lazyload alt="image-20220811113058449" style="zoom:50%;"></p>
+</li>
+<li><p>传感器欺骗：对汽车传感器造成干扰</p>
+</li>
+</ol>
+<p><img src="/images/lectures.assets/image-20220811113248533.png" srcset="/img/loading.gif" lazyload alt="image-20220811113248533" style="zoom:50%;"></p>
+<p>防止人类歧视的放大</p>
+<p><img src="/images/lectures.assets/image-20220811113549137.png" srcset="/img/loading.gif" lazyload alt="image-20220811113549137" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220811114443638.png" srcset="/img/loading.gif" lazyload alt="image-20220811114443638" style="zoom:50%;"></p>
+<p>机器学习框架存在大量问题</p>
+<p><img src="/images/lectures.assets/image-20220811115740496.png" srcset="/img/loading.gif" lazyload alt="image-20220811115740496" style="zoom:50%;"></p>
+<h4 id="5-打造机密计算的安全底座"><a href="#5-打造机密计算的安全底座" class="headerlink" title="5-打造机密计算的安全底座"></a>5-打造机密计算的安全底座</h4><p>张殷乾 南方科技大学教授</p>
+<p>可信执行环境（TEE）</p>
+<p><img src="/images/lectures.assets/image-20220811133444070.png" srcset="/img/loading.gif" lazyload alt="image-20220811133444070" style="zoom: 67%;"></p>
+<p>TEE 安全原理</p>
+<p><img src="/images/lectures.assets/image-20220811133759476.png" srcset="/img/loading.gif" lazyload alt="image-20220811133759476" style="zoom: 67%;"></p>
+<p>机密计算：利用可信执行环境的硬件，保护使用中的数据和代码</p>
+<p>TEE机密计算场景</p>
+<p><img src="/images/lectures.assets/image-20220811134136459.png" srcset="/img/loading.gif" lazyload alt="image-20220811134136459" style="zoom: 67%;"></p>
+<p><img src="/images/lectures.assets/image-20220811134146414.png" srcset="/img/loading.gif" lazyload alt="image-20220811134146414" style="zoom: 67%;"></p>
+<p>机密计算面临的问题</p>
+<p>瞬态执行漏洞 （intel SGX 内存泄露</p>
+<p><img src="/images/lectures.assets/image-20220811134353658.png" srcset="/img/loading.gif" lazyload alt="image-20220811134353658" style="zoom: 67%;"></p>
+<p><img src="/images/lectures.assets/image-20220811134722036.png" srcset="/img/loading.gif" lazyload alt="image-20220811134722036" style="zoom:50%;"></p>
+<p>侧信道漏洞</p>
+<p><img src="/images/lectures.assets/image-20220811134827119.png" srcset="/img/loading.gif" lazyload alt="image-20220811134827119"></p>
+<p>线程并发漏洞</p>
+<p>如何保证机密计算</p>
+<p><img src="/images/lectures.assets/image-20220811135639844.png" srcset="/img/loading.gif" lazyload alt="image-20220811135639844"></p>
+<p><img src="/images/lectures.assets/image-20220811140439492.png" srcset="/img/loading.gif" lazyload alt="image-20220811140439492"></p>
+<p>分布式机密计算或是未来前沿</p>
+<h3 id="2022-8-14-CCF-区块链安全与隐私论坛"><a href="#2022-8-14-CCF-区块链安全与隐私论坛" class="headerlink" title="2022/8/14 CCF 区块链安全与隐私论坛"></a>2022/8/14 CCF 区块链安全与隐私论坛</h3><h4 id="1-当安全计算碰上区块链（？没听懂）"><a href="#1-当安全计算碰上区块链（？没听懂）" class="headerlink" title="1-当安全计算碰上区块链（？没听懂）"></a>1-当安全计算碰上区块链（？没听懂）</h4><p>When Secure Computing Meets Blockchain</p>
+<p><img src="/images/lectures.assets/image-20220814091029706.png" srcset="/img/loading.gif" lazyload alt="image-20220814091029706"></p>
+<p>可证明安全</p>
+<ol>
+<li><p>定义一个目标</p>
+</li>
+<li><p>合适的工具</p>
+</li>
+<li>构造一个协议、方案</li>
+<li>证明方案的安全</li>
+</ol>
+<p><img src="/images/lectures.assets/image-20220814091140415.png" srcset="/img/loading.gif" lazyload alt="image-20220814091140415"></p>
+<p><img src="/images/lectures.assets/image-20220814091231271.png" srcset="/img/loading.gif" lazyload alt="image-20220814091231271"></p>
+<p><img src="/images/lectures.assets/image-20220814091308286.png" srcset="/img/loading.gif" lazyload alt="image-20220814091308286"></p>
+<p>什么是安全计算</p>
+<ol>
+<li>找到共同的朋友</li>
+<li>一组互相不信任的可以计算</li>
+</ol>
+<h4 id="2-多密钥的数字签名及在区块链中的应用"><a href="#2-多密钥的数字签名及在区块链中的应用" class="headerlink" title="2-多密钥的数字签名及在区块链中的应用"></a>2-多密钥的数字签名及在区块链中的应用</h4><p>Tsz Hon Yuen, Assistant Professor, Hongkong University</p>
+<p><img src="/images/lectures.assets/image-20220814100255229.png" srcset="/img/loading.gif" lazyload alt="image-20220814100255229" style="zoom:50%;"></p>
+<h5 id="门限签名-区块链中的密钥托管"><a href="#门限签名-区块链中的密钥托管" class="headerlink" title="门限签名 - 区块链中的密钥托管"></a>门限签名 - 区块链中的密钥托管</h5><p>为啥密钥这么重要？</p>
+<blockquote>
+<p>比特币交易平台，私钥被盗，损失money</p>
+</blockquote>
+<p><img src="/images/lectures.assets/image-20220814100510913.png" srcset="/img/loading.gif" lazyload alt="image-20220814100510913" style="zoom:50%;"></p>
+<p>密钥怎么管理？</p>
+<p>单一密钥-&gt;单点故障</p>
+<p>多密钥的数字签名-&gt;门限签名</p>
+<p><img src="/images/lectures.assets/image-20220814100738068.png" srcset="/img/loading.gif" lazyload alt="image-20220814100738068" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814100845110.png" srcset="/img/loading.gif" lazyload alt="image-20220814100845110" style="zoom:50%;"></p>
+<p>举例，门限密钥分为两个部分，两边分别不能拿到对方的私钥</p>
+<p><img src="/images/lectures.assets/image-20220814100959583.png" srcset="/img/loading.gif" lazyload alt="image-20220814100959583" style="zoom:50%;"></p>
+<p>ECDSA的难题是</p>
+<p><img src="/images/lectures.assets/image-20220814101150273.png" srcset="/img/loading.gif" lazyload alt="image-20220814101150273" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814101226171.png" srcset="/img/loading.gif" lazyload alt="image-20220814101226171" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814101327807.png" srcset="/img/loading.gif" lazyload alt="image-20220814101327807" style="zoom:50%;"></p>
+<p>两方ECDSA的研究</p>
+<p>老方法</p>
+<p><img src="/images/lectures.assets/image-20220814101710919.png" srcset="/img/loading.gif" lazyload alt="image-20220814101710919" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814101743166.png" srcset="/img/loading.gif" lazyload alt="image-20220814101743166" style="zoom:50%;"></p>
+<p>我们的设计</p>
+<p><img src="/images/lectures.assets/image-20220814101844544.png" srcset="/img/loading.gif" lazyload alt="image-20220814101844544" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814101921163.png" srcset="/img/loading.gif" lazyload alt="image-20220814101921163" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814102024996.png" srcset="/img/loading.gif" lazyload alt="image-20220814102024996"></p>
+<h5 id="多重签名－多重UTXO输入交易"><a href="#多重签名－多重UTXO输入交易" class="headerlink" title="多重签名－多重UTXO输入交易"></a>多重签名－多重UTXO输入交易</h5><p>多个钱包才够支付，但是每次交易都有交易费用</p>
+<p><img src="/images/lectures.assets/image-20220814102217754.png" srcset="/img/loading.gif" lazyload alt="image-20220814102217754" style="zoom:50%;"></p>
+<p>我们的工作，怎么用多重签名就代表多个地址提交的签名</p>
+<p>Alice只需要传一个签名</p>
+<p><img src="/images/lectures.assets/image-20220814102341163.png" srcset="/img/loading.gif" lazyload alt="image-20220814102341163" style="zoom:50%;"></p>
+<p>Schnorr多重签名</p>
+<p>ECDSA多重签名</p>
+<p><img src="/images/lectures.assets/image-20220814102625627.png" srcset="/img/loading.gif" lazyload alt="image-20220814102625627" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814102710271.png" srcset="/img/loading.gif" lazyload alt="image-20220814102710271" style="zoom:50%;"></p>
+<p>通过的办法</p>
+<p><img src="/images/lectures.assets/image-20220814102734358.png" srcset="/img/loading.gif" lazyload alt="image-20220814102734358"></p>
+<h5 id="环签名-匿名交易"><a href="#环签名-匿名交易" class="headerlink" title="环签名-匿名交易"></a>环签名-匿名交易</h5><p>区块链咋用</p>
+<p><img src="/images/lectures.assets/image-20220814103133867.png" srcset="/img/loading.gif" lazyload alt="image-20220814103133867"></p>
+<p><img src="/images/lectures.assets/image-20220814103335278.png" srcset="/img/loading.gif" lazyload alt="image-20220814103335278" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814103505987.png" srcset="/img/loading.gif" lazyload alt="image-20220814103505987" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814104734504.png" srcset="/img/loading.gif" lazyload alt="image-20220814104734504" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814104438094.png" srcset="/img/loading.gif" lazyload alt="image-20220814104438094" style="zoom:50%;"></p>
+<blockquote>
+<p>感觉说的还不错，但是很多基础知识我不懂所以还是不太明白，稍后补一下基础概念</p>
+</blockquote>
+<h4 id="3-去中心化金融中的智能合约安全"><a href="#3-去中心化金融中的智能合约安全" class="headerlink" title="3-去中心化金融中的智能合约安全"></a>3-去中心化金融中的智能合约安全</h4><p>周亚金博士，BlockSec联合创始人</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814105144350.png" srcset="/img/loading.gif" lazyload alt="image-20220814105144350"></p>
+<p><img src="/images/lectures.assets/image-20220814105223290.png" srcset="/img/loading.gif" lazyload alt="image-20220814105223290"></p>
+<p>去中心化金融</p>
+<p>将金融活动放到区块链场景，基于以太坊</p>
+<p><strong>稳定币</strong></p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814105434545.png" srcset="/img/loading.gif" lazyload alt="image-20220814105434545"></p>
+<p>通过价值绑定实现稳定币</p>
+<p>USDC，比特币换成美元时，先销毁，找USDC，兑换成美元（大概这个意思？</p>
+<p><img src="/images/lectures.assets/image-20220814105651523.png" srcset="/img/loading.gif" lazyload alt="image-20220814105651523"></p>
+<p><img src="/images/lectures.assets/image-20220814105941676.png" srcset="/img/loading.gif" lazyload alt="image-20220814105941676"></p>
+</blockquote>
+<p><strong>借贷平台</strong></p>
+<p>无抵押借贷</p>
+<p><img src="/images/lectures.assets/image-20220814110448925.png" srcset="/img/loading.gif" lazyload alt="image-20220814110448925"></p>
+<p>区块链交易安全</p>
+<p><img src="/images/lectures.assets/image-20220814110951785.png" srcset="/img/loading.gif" lazyload alt="image-20220814110951785"></p>
+<p>三明治攻击</p>
+<blockquote>
+<p>一笔交易发出时，会在区块链网络进行广播（p2p网络），记账权的矿工将交易进行打包。金融交易会被其他节点知道</p>
+</blockquote>
+<p><img src="/images/lectures.assets/image-20220814111030105.png" srcset="/img/loading.gif" lazyload alt="image-20220814111030105"></p>
+<blockquote>
+<p>交易信息提前被别人知道，会收到三明治攻击</p>
+<p>买家想买Y，攻击者预先购买Y，付出更高手续费，矿工打包时按照手续费排序，攻击者的交易会先上链，然后卖掉？？（没听懂</p>
+</blockquote>
+<p><img src="/images/lectures.assets/image-20220814111521792.png" srcset="/img/loading.gif" lazyload alt="image-20220814111521792"></p>
+<p>智能合约，检测不安全的价格依赖</p>
+</blockquote>
+<h4 id="4-基于区块链的数据安全共享机制"><a href="#4-基于区块链的数据安全共享机制" class="headerlink" title="4-基于区块链的数据安全共享机制"></a>4-基于区块链的数据安全共享机制</h4><p>沈蒙，北京理工大学教授</p>
+<p>数据共享面临这隐私和安全问题</p>
+<p>现有的解决方案：安全多方计算  联邦学习  <strong>区块链</strong></p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814135102203.png" srcset="/img/loading.gif" lazyload alt="image-20220814135102203" style="zoom: 33%;"></p>
+<p><img src="/images/lectures.assets/image-20220814135239631.png" srcset="/img/loading.gif" lazyload alt="image-20220814135239631" style="zoom:33%;"></p>
+</blockquote>
+<p>区块链数据安全共享架构-借助区块链提出数据共享平台</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814135447475.png" srcset="/img/loading.gif" lazyload alt="image-20220814135447475" style="zoom:33%;"></p>
+<p>同构数据共享</p>
+<p><img src="/images/lectures.assets/image-20220814135659046.png" srcset="/img/loading.gif" lazyload alt="image-20220814135659046" style="zoom:33%;"></p>
+<p>数据同态加密后记录在链上</p>
+<p><img src="/images/lectures.assets/image-20220814140947894.png" srcset="/img/loading.gif" lazyload alt="image-20220814140947894" style="zoom:33%;"></p>
+</blockquote>
+<p>Q：请教沈老师：物联网设备接入安全如何保证？物联网设备数据共享标志性场景有哪些？</p>
+<p>Q：沈老师好，我想问两个问题，一个是区块链引入，是基于什么共识机制，区块链[表情]svm实现的是什么共享呢？<br>Q：第二个问题是区块链和人工智能底层主要基于不同的编程语言和库，您是自己搭建了自己的代码，还是用了什么方式进行不同编程语言的协同呢？</p>
+<p>A：网络上的工具搭建的区块链工具，主要是智能合约部分的编写。</p>
+<p>Q：沈老师好，基于同态加密真的能做基于密文的机器模型训练？用同态加密外包给第三方做一次密文计算问题不大（机器学习预测），但深度学习设计多层，尤其是后向传播，密文训练模型目前有什么进展？</p>
+<p>A：难，没啥进展。</p>
+<h4 id="5-BlockMaze-面向账户模型区块链的高效隐私保护机制"><a href="#5-BlockMaze-面向账户模型区块链的高效隐私保护机制" class="headerlink" title="5-BlockMaze: 面向账户模型区块链的高效隐私保护机制"></a>5-BlockMaze: 面向账户模型区块链的高效隐私保护机制</h4><p>万志国，之江实验室研究员</p>
+<h5 id="motivation"><a href="#motivation" class="headerlink" title="motivation"></a>motivation</h5><blockquote>
+<p>区块链分为两个模型 ： UTXO 模型 、银行账户余额模型</p>
+<p><img src="/images/lectures.assets/image-20220814141935671.png" srcset="/img/loading.gif" lazyload alt="image-20220814141935671" style="zoom: 50%;"></p>
+<p><strong>UTXO模型</strong></p>
+<p>在隐私保护方面更好，但是问题是难以和智能合约（区块链2.0）进行协同工作</p>
+<p><strong>银行账户模型</strong></p>
+<p>可以和智能合约协同工作，但是隐私保护成为问题，因为每次交易都会更新余额，但是这区块链上，交易是所有人都知道的</p>
+<p><img src="/images/lectures.assets/image-20220814142136025.png" srcset="/img/loading.gif" lazyload alt="image-20220814142136025"></p>
+<p>UTXO模型的电子货币有隐私保护的解决方案（如下），但是基于账户余额模型却没有对应的隐私保护方案</p>
+<p><img src="/images/lectures.assets/image-20220814142359887.png" srcset="/img/loading.gif" lazyload alt></p>
+</blockquote>
+<h5 id="Preliminaries"><a href="#Preliminaries" class="headerlink" title="Preliminaries"></a>Preliminaries</h5><blockquote>
+<p>零知识证明</p>
+<p>验证者没有办法伪装</p>
+<p>最著名的是schnorr</p>
+<p><img src="/images/lectures.assets/image-20220814142736268.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>我们的方案，使用特殊的零知识证明，zk-snark</p>
+<p><img src="/images/lectures.assets/image-20220814143021008.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>最早的zk的使用</p>
+<p>《commitment的方案》啥意思？？</p>
+<p>cm存在链上，黄色变量存在钱包</p>
+<p><img src="/images/lectures.assets/image-20220814143235139.png" srcset="/img/loading.gif" lazyload alt="image-20220814143235139" style="zoom:50%;"></p>
+<p>把cm放进迷宫黑盒，我知道其中的cm的面额，然后转账出去</p>
+<p>我们的BlockMaze</p>
+<p>通过零知识证明保护的余额+以太坊的余额</p>
+<p>两步转账的过程保证发送和接收方</p>
+<p>发送方发送账户余额，金额是多少不知道，金额，默克尔树，证明在树上某一节点的主人就是发送方，接收方也从树中，通过零知识证明，接收货币</p>
+<p>进去出去都是通过零知识证明来保护</p>
+<p><img src="/images/lectures.assets/image-20220814143702661.png" srcset="/img/loading.gif" lazyload alt></p>
+<p><img src="/images/lectures.assets/image-20220814143757009.png" srcset="/img/loading.gif" lazyload alt="image-20220814143757009"></p>
+</blockquote>
+<h5 id="BlockMaze数据结构"><a href="#BlockMaze数据结构" class="headerlink" title="BlockMaze数据结构"></a>BlockMaze数据结构</h5><p>对以太坊进行改造</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814144018671.png" srcset="/img/loading.gif" lazyload alt></p>
+<p>每一个账户都有两类余额，明文 + 零知识状态的承诺值，承诺值计算参考图底部等式</p>
+</blockquote>
+<h5 id="BlockMaze-转账过程"><a href="#BlockMaze-转账过程" class="headerlink" title="BlockMaze 转账过程"></a>BlockMaze 转账过程</h5><p>先将500比特币转换为零知识状态，再从承诺状态转成300，多个交易的承诺状态的货币组成默克尔树，</p>
+<p>接收方接收零知识状态的货币</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814144312682.png" srcset="/img/loading.gif" lazyload alt="image-20220814144312682"></p>
+<p>步骤总结</p>
+<p><img src="/images/lectures.assets/image-20220814144513694.png" srcset="/img/loading.gif" lazyload alt="image-20220814144513694"></p>
+<p>Mint是怎么做的</p>
+<p>把明文余额转换成零知识状态的余额</p>
+<p><img src="/images/lectures.assets/image-20220814144723948.png" srcset="/img/loading.gif" lazyload alt="image-20220814144723948" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814144846002.png" srcset="/img/loading.gif" lazyload alt="image-20220814144846002" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814144920337.png" srcset="/img/loading.gif" lazyload alt="image-20220814144920337" style="zoom:50%;"></p>
+<p><img src="/images/lectures.assets/image-20220814144932022.png" srcset="/img/loading.gif" lazyload alt="image-20220814144932022" style="zoom:50%;"></p>
+</blockquote>
+<h5 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h5><p>目前零知识证明有很多现有的工具</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814145211099.png" srcset="/img/loading.gif" lazyload alt="image-20220814145211099"></p>
+<p><img src="/images/lectures.assets/image-20220814145354611.png" srcset="/img/loading.gif" lazyload alt="image-20220814145354611"></p>
+<p><img src="/images/lectures.assets/image-20220814145739323.png" srcset="/img/loading.gif" lazyload alt="image-20220814145739323"></p>
+</blockquote>
+<h5 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h5><blockquote>
+<p>初秋<br>请问一下，方案存在监管机制或者说追溯不合法用户身份的机制吗</p>
+<p>A：没有</p>
+<p>孙玉红<br>请问万老师，send跟deposit需要保证一个转账的原子性吗？如何保证的，谢谢</p>
+<p>A :没有</p>
+</blockquote>
+<h4 id="6-VOProof-Efficient-zkSNARKs-from-Vector-Oracle-Compilers-CCS-2022"><a href="#6-VOProof-Efficient-zkSNARKs-from-Vector-Oracle-Compilers-CCS-2022" class="headerlink" title="6-VOProof: Efficient zkSNARKs from Vector Oracle Compilers, CCS 2022"></a>6-VOProof: Efficient zkSNARKs from Vector Oracle Compilers, CCS 2022</h4><p>张云聪，上海交通大学博士生（没听懂啊啊）</p>
+<p>zk-snarks 的</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814150446521.png" srcset="/img/loading.gif" lazyload alt="image-20220814150446521"></p>
+</blockquote>
+<p>常见的snark</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814150555640.png" srcset="/img/loading.gif" lazyload alt="image-20220814150555640"></p>
+</blockquote>
+<p>最近的工作</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814150629240.png" srcset="/img/loading.gif" lazyload alt="image-20220814150629240"></p>
+</blockquote>
+<p>snark的设计的基本步骤</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814150702591.png" srcset="/img/loading.gif" lazyload alt="image-20220814150702591"></p>
+<p>目前对snark的研究大部分是在第二部分，以及设计第三部分协议的设计</p>
+<p>constraint system有 ：RICS、HPR、PLONK</p>
+<p>本文思路：在2、3部分中间引入VOP</p>
+<p><img src="/images/lectures.assets/image-20220814151105078.png" srcset="/img/loading.gif" lazyload alt="image-20220814151105078"></p>
+<p><img src="/images/lectures.assets/image-20220814151055896.png" srcset="/img/loading.gif" lazyload alt="image-20220814151055896"></p>
+</blockquote>
+<h4 id="7-Speeding-Dumbo-Pushing-Asynchronous-BFT-Closer-to-Practice-NDSS-2022"><a href="#7-Speeding-Dumbo-Pushing-Asynchronous-BFT-Closer-to-Practice-NDSS-2022" class="headerlink" title="7-Speeding Dumbo: Pushing Asynchronous BFT Closer to Practice, NDSS 2022"></a>7-Speeding Dumbo: Pushing Asynchronous BFT Closer to Practice, NDSS 2022</h4><p>路远，中科院软件所副研究员</p>
+<p>区块链很神奇</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814153431520.png" srcset="/img/loading.gif" lazyload alt="image-20220814153431520" style="zoom:50%;"></p>
+</blockquote>
+<p>打开区块链的黑盒子</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814153554860.png" srcset="/img/loading.gif" lazyload alt="image-20220814153554860"></p>
+<p>分布式交易的协议BA的变体</p>
+<p><img src="/images/lectures.assets/image-20220814153705745.png" srcset="/img/loading.gif" lazyload alt="image-20220814153705745"></p>
+</blockquote>
+<p>容忍错误BFT很重要</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814153828611.png" srcset="/img/loading.gif" lazyload alt="image-20220814153828611"></p>
+<p><img src="/images/lectures.assets/image-20220814153902941.png" srcset="/img/loading.gif" lazyload alt="image-20220814153902941"></p>
+<p><img src="/images/lectures.assets/image-20220814154103414.png" srcset="/img/loading.gif" lazyload alt="image-20220814154103414"></p>
+<p><img src="/images/lectures.assets/image-20220814154242011.png" srcset="/img/loading.gif" lazyload alt="image-20220814154242011"></p>
+<p><img src="/images/lectures.assets/image-20220814154339757.png" srcset="/img/loading.gif" lazyload alt="image-20220814154339757"></p>
+<p><img src="/images/lectures.assets/image-20220814154430670.png" srcset="/img/loading.gif" lazyload alt="image-20220814154430670"></p>
+<p>最近有了突破性的进展</p>
+<p>。。。省略很多</p>
+<p><img src="/images/lectures.assets/image-20220814160154587.png" srcset="/img/loading.gif" lazyload alt="image-20220814160154587"></p>
+<p>共识机制</p>
+</blockquote>
+<h4 id="8-基于区块链的数字孪生中同步的可证数据持有-TIFS-2022"><a href="#8-基于区块链的数字孪生中同步的可证数据持有-TIFS-2022" class="headerlink" title="8-基于区块链的数字孪生中同步的可证数据持有,TIFS 2022"></a>8-基于区块链的数字孪生中同步的可证数据持有,TIFS 2022</h4><p>李甜，南京邮电大学博士生(没听懂)</p>
+<p>数字孪生</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814160653977.png" srcset="/img/loading.gif" lazyload alt="image-20220814160653977"></p>
+<p><img src="/images/lectures.assets/image-20220814161045225.png" srcset="/img/loading.gif" lazyload alt="image-20220814161045225"></p>
+<p><img src="/images/lectures.assets/image-20220814161055867.png" srcset="/img/loading.gif" lazyload alt="image-20220814161055867"></p>
+<p><img src="/images/lectures.assets/image-20220814161153408.png" srcset="/img/loading.gif" lazyload alt="image-20220814161153408"></p>
+</blockquote>
+<h4 id="9-SPDL-A-Blockchain-enabled-Secure-and-Privacy-preserving-Decentralized-Learning-System-TC-2022"><a href="#9-SPDL-A-Blockchain-enabled-Secure-and-Privacy-preserving-Decentralized-Learning-System-TC-2022" class="headerlink" title="9-SPDL: A Blockchain-enabled Secure and Privacy-preserving Decentralized Learning System, TC 2022"></a>9-SPDL: A Blockchain-enabled Secure and Privacy-preserving Decentralized Learning System, TC 2022</h4><p>徐明辉，山东大学助理教授</p>
+<p>nature`21 去中心化学习</p>
+<blockquote>
+<p><img src="/images/lectures.assets/image-20220814164049392.png" srcset="/img/loading.gif" lazyload alt="image-20220814164049392"></p>
+<p>又提到了环签名</p>
+<p><img src="/images/lectures.assets/image-20220814164157158.png" srcset="/img/loading.gif" lazyload alt="image-20220814164157158"></p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS/" class="category-chain-item">CS</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%B2%E5%BA%A7/">#讲座</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>lectures</div>
+      <div>https://yuwxl.github.io/2023/01/04/lectures/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/01/04/Blockchain-basics/" title="Blockchain-basics">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Blockchain-basics</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/04/fabric/" title="fabric相关">
+                        <span class="hidden-mobile">fabric相关</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

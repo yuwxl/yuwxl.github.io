@@ -1,0 +1,723 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Arbitrum: Scalable, private smart contractsArbitrum官方写的Rollup_basics  从白宫到Web3：扒一扒Arbitrum创始人Ed Felten的过往 [研究摘要：Arbitrum：快速、可扩展、私有的智能合约  在两个互不信任的个体之间处理事务，借助VM（其上运行智能合约），智能合约是该系统中的最主要的执行手段    以太坊有严重的不可">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arbitrum">
+<meta property="og:url" content="https://yuwxl.github.io/2023/04/21/Arbitrum/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="Arbitrum: Scalable, private smart contractsArbitrum官方写的Rollup_basics  从白宫到Web3：扒一扒Arbitrum创始人Ed Felten的过往 [研究摘要：Arbitrum：快速、可扩展、私有的智能合约  在两个互不信任的个体之间处理事务，借助VM（其上运行智能合约），智能合约是该系统中的最主要的执行手段    以太坊有严重的不可">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423195431956.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423200020687.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423200343624.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423201147818.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423201329793.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423201628883.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423203110774.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423204403811.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423205019413.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423210733179.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423211004547.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423211141348.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423211235876.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423211838112.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423211944994.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423212040551.png">
+<meta property="article:published_time" content="2023-04-21T05:25:16.000Z">
+<meta property="article:modified_time" content="2024-01-18T06:53:04.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="paper">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/Arbitrum/image-20230423195431956.png">
+  
+  
+  
+  <title>Arbitrum - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Arbitrum"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-21 13:25" pubdate>
+          2023年4月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Arbitrum</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Arbitrum-Scalable-private-smart-contracts"><a href="#Arbitrum-Scalable-private-smart-contracts" class="headerlink" title="Arbitrum: Scalable, private smart contracts"></a>Arbitrum: Scalable, private smart contracts</h1><p>Arbitrum官方写的<a target="_blank" rel="noopener" href="https://github.com/OffchainLabs/arbitrum/blob/master/docs/Rollup_basics.md">Rollup_basics </a></p>
+<p><a target="_blank" rel="noopener" href="https://www.theblockbeats.info/news/36157">从白宫到Web3：扒一扒Arbitrum创始人Ed Felten的过往</a></p>
+<p>[<a target="_blank" rel="noopener" href="https://www.smartcontractresearch.org/t/research-summary-arbitrum-fast-scalable-private-smart-contracts/885">研究摘要：Arbitrum：快速、可扩展、私有的智能合约</a></p>
+<h5 id><a href="#" class="headerlink" title></a><img src="/images/Arbitrum/image-20230423195431956.png" srcset="/img/loading.gif" lazyload alt="image-20230423195431956" style="zoom:50%;"></h5><blockquote>
+<p>在两个互不信任的个体之间处理事务，借助VM（其上运行智能合约），智能合约是该系统中的最主要的执行手段</p>
+</blockquote>
+<p><img src="/images/Arbitrum/image-20230423200020687.png" srcset="/img/loading.gif" lazyload alt="image-20230423200020687" style="zoom:50%;"></p>
+<blockquote>
+<p>以太坊有严重的不可扩展性</p>
+</blockquote>
+<h3 id="Can-we-scale-smart-contracts"><a href="#Can-we-scale-smart-contracts" class="headerlink" title="Can we  scale smart contracts?"></a>Can we  scale smart contracts?</h3><blockquote>
+<p>不在共识层，而是在智能合约层扩展</p>
+</blockquote>
+<p><img src="/images/Arbitrum/image-20230423200343624.png" srcset="/img/loading.gif" lazyload alt="image-20230423200343624" style="zoom:50%;"></p>
+<blockquote>
+<p> 已有的解决的方案</p>
+<p>snarks: 减少链上验证合约的cost</p>
+</blockquote>
+<p><img src="/images/Arbitrum/image-20230423201147818.png" srcset="/img/loading.gif" lazyload alt="image-20230423201147818" style="zoom:50%;"></p>
+<blockquote>
+<p>Arbitrum 中两类角色 verifier /  Mangers</p>
+<p>Verifier : 能取得共识的参与者统称为验证者，比如挖矿节点、中心可信方、BFT共识协议</p>
+</blockquote>
+<p><img src="/images/Arbitrum/image-20230423201329793.png" srcset="/img/loading.gif" lazyload alt="image-20230423201329793" style="zoom:50%;"></p>
+<p><img src="/images/Arbitrum/image-20230423201628883.png" srcset="/img/loading.gif" lazyload alt="image-20230423201628883" style="zoom:50%;"></p>
+<blockquote>
+<p>举例子，两方下棋，Alice 和 Bob 都信任合约里设置好的关于棋局的规则代码。VM的任务是接收每一方的输入然后验证获胜的一方是谁，输出对局结果。这个例子中，底层区块链节点是verifier,参与者是Alice 和 Bob，manager也是 Alice 和 Bob，他们自己要负责跟踪这个合约是否正确执行以及决定之后要怎么进行下一步行动。如果他们俩不想当manager也可以找一个信任的第三方来当这个合约的管理者。</p>
+</blockquote>
+<h4 id="Manager到底对VM进行了哪些操作？"><a href="#Manager到底对VM进行了哪些操作？" class="headerlink" title="Manager到底对VM进行了哪些操作？"></a>Manager到底对VM进行了哪些操作？</h4><p><img src="/images/Arbitrum/image-20230423203110774.png" srcset="/img/loading.gif" lazyload alt="image-20230423203110774" style="zoom:50%;"></p>
+<h4 id="unanimous-assertion-一致性断言"><a href="#unanimous-assertion-一致性断言" class="headerlink" title="unanimous  assertion 一致性断言"></a>unanimous  assertion 一致性断言</h4><blockquote>
+<ul>
+<li>当前机器的状态</li>
+<li>执行的步骤</li>
+<li>执行后的结果的状态</li>
+</ul>
+<p>assertion 只知道外部执行结果但是不知道执行细节。执行完成后将其传递给blockchain,所有的manager对其进行签名，如果任务所有的先决条件正确，则该次状态改变将会被接受。</p>
+</blockquote>
+<p><img src="/images/Arbitrum/image-20230423204403811.png" srcset="/img/loading.gif" lazyload alt="image-20230423204403811" style="zoom:50%;"></p>
+<h4 id="disputable-assertion"><a href="#disputable-assertion" class="headerlink" title="disputable assertion"></a>disputable assertion</h4><blockquote>
+<p>每个manager对VM都可以对做出自己的assertion。但是要存入资金？？？？、</p>
+<p>如果有个manager 的结果被其他manager质询，如果确实该manager是错误的，他将会失去他的资金。</p>
+</blockquote>
+<p><img src="/images/Arbitrum/image-20230423205019413.png" srcset="/img/loading.gif" lazyload alt="image-20230423205019413" style="zoom:50%;"></p>
+<blockquote>
+<p>一开始，某个断言仅仅被单个manager签名然后广播到区块链系统，开始质询阶段。其他所有的manager都能提供质询。</p>
+<p>如果出现了质询，说明这个assertion出现了错误。最初的创建这个assertion的manager将会把这个断言分为两个部分，第一部分包含断言的第一步到结束阶段，二分法找错误（没有细看）</p>
+</blockquote>
+<p><img src="/images/Arbitrum/image-20230423210733179.png" srcset="/img/loading.gif" lazyload alt="image-20230423210733179" style="zoom:50%;"></p>
+<p><img src="/images/Arbitrum/image-20230423211004547.png" srcset="/img/loading.gif" lazyload alt="image-20230423211004547" style="zoom:50%;"></p>
+<blockquote>
+<p>没看懂</p>
+</blockquote>
+<p><img src="/images/Arbitrum/image-20230423211141348.png" srcset="/img/loading.gif" lazyload alt="image-20230423211141348" style="zoom:50%;"></p>
+<p><img src="/images/Arbitrum/image-20230423211235876.png" srcset="/img/loading.gif" lazyload alt="image-20230423211235876" style="zoom:50%;"></p>
+<p>中间一段构建树没有听懂…..</p>
+<p><img src="/images/Arbitrum/image-20230423211838112.png" srcset="/img/loading.gif" lazyload alt="image-20230423211838112" style="zoom:50%;"></p>
+<p><img src="/images/Arbitrum/image-20230423211944994.png" srcset="/img/loading.gif" lazyload alt="image-20230423211944994" style="zoom:50%;"></p>
+<p><img src="/images/Arbitrum/image-20230423212040551.png" srcset="/img/loading.gif" lazyload alt="image-20230423212040551" style="zoom:50%;"></p>
+<h2 id="其他论文的评价："><a href="#其他论文的评价：" class="headerlink" title="其他论文的评价："></a>其他论文的评价：</h2><ol>
+<li><p>来自fastkitten</p>
+<blockquote>
+<p>Arbitrum The disadvantage of state channels, i.e., the potentially heavy on-chain execution in case of dispute, is being addressed by the work Arbitrum [34]. Every smart contract, which Arbitrum models as a virtual machine (VM), to be executed off-chain has a set of “manager” parties responsible for correct VM execution. As long as managers reach consensus on the VM state transitions, execution progresses off-chain similarly as in state channels. In case of dispute, managers do not perform the VM state transition on-chain as in state channel. Instead, one manager can propose the next VM state which other managers can challenge. If the newly posted state is challenged, the proposer and the challenger run an interactive protocol via the blockchain, so-called “bisection” protocol, in which one disputable computation step is eventually identified and whose correct execution is verified on-chain. Hence, instead of executing the entire state transition on-chain (which might potentially require a lot of time/space), only one computation step of the state transition has to be performed on-chain in addition to the bisection protocol (which might require O(log(s)) blockchain transactions, where s is the number of computations steps in the state transition). The Arbitrum protocol works under the assumption that at least one manager of the VM is honest and challenges false states if they are posted by other managers. Since the blockchain interaction during the bisection protocol is rather expensive, Arbitrum uses monetary incentives to motivate managers to behave honestly and follow the protocol.</p>
+<p>Arbitrum 工作 Arbitrum [34] 正在解决状态通道的缺点，即在发生争议时可能会在链上执行大量任务。 Arbitrum 将其建模为虚拟机 (VM) 并在链下执行的每个智能合约都有一组“管理”方负责正确执行 VM。只要管理人员就 VM 状态转换达成共识，执行就会像在状态通道中一样在链外进行。在有争议的情况下，管理者不会像在状态通道中那样在链上执行 VM 状态转换。相反，一个管理器可以提议其他管理器可以挑战的下一个 VM 状态。如果新发布的状态受到挑战，提议者和挑战者通过区块链运行一个交互协议，即所谓的“二分法”协议，其中一个有争议的计算步骤最终被识别出来，并在链上验证其正确执行。因此，不是在链上执行整个状态转换（这可能需要大量的时间/空间），除了二分协议（这可能需要O(log(s)) 区块链事务，其中 s 是状态转换中的计算步骤数）。 Arbitrum 协议的工作假设是，至少有一名 VM 管理员是诚实的，如果其他管理员发布错误状态，则挑战这些错误状态。由于二分协议期间的区块链交互相当昂贵，Arbitrum 使用货币激励来激励管理者诚实行事并遵守协议。</p>
+</blockquote>
+</li>
+<li><p>来自ACE</p>
+<blockquote>
+<p>Arbitrum [17] suggests a model where the contract creator appoints a small set of verifiers who should check execution integrity off-chain. Thus, Arbitrum replaces the sequential and globally-replicated execution model of Ethereum with one where different contracts can be executed (and thus verified) asynchronously by only few parties who may have an interest in the contract’s integrity.</p>
+<p>Arbitrum [17]提出了一种模型，其中合约创建者指定一小组验证者，他们应该检查链下执行的完整性。因此，Arbitrum 取代了以太坊的顺序和全局复制的执行模型，其中不同的合约可以由可能对合约完整性感兴趣的少数方异步执行（从而验证）。</p>
+</blockquote>
+</li>
+</ol>
+<p>3.来自sok</p>
+<blockquote>
+<p>Arbitrum [44] takes this approach further by introducing a new virtual machine and a state channel. This lets a distributed set of parties execute a program in a custom virtual machine and unanimously agree to a commitment (i.e. state assertion) of the program’s new state. If co-operation in the state channel breaks down, then any party in the channel can compute a state transition and post a commitment to the new state to the blockchain (i.e. a disputable assertion). This triggers a similar dispute process to that used in Truebit, where any other party can challenge the assertion and participate in a bi-section protocol.</p>
+<p>Arbitrum [44] 通过引入新的虚拟机和状态通道进一步采用了这种方法。这使得分布式各方可以在自定义虚拟机中执行程序，并一致同意程序新状态的承诺（即状态断言）。如果状态通道中的合作失败，则通道中的任何一方都可以计算状态转换并向区块链发布对新状态的承诺（即有争议的断言）。这会引发与 Truebit 中使用的类似争议流程，任何其他方都可以质疑该主张并参与二分协议。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/paper/">#paper</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Arbitrum</div>
+      <div>https://yuwxl.github.io/2023/04/21/Arbitrum/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/23/Phala-network/" title="Phala_network">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Phala_network</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/12/fastkitten/" title="fastkitten">
+                        <span class="hidden-mobile">fastkitten</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,844 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/dog.jpg">
+  <link rel="icon" href="/img/dog.jpg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="nayun">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="[论文阅读笔记]VAL: Volume and Access Pattern Leakage-Abuse Attack with Leaked Documents(ESORICS’22）[5] 论文题目：利用泄露文档进行基于访问和体积模式的推理攻击  [TOC] 1 研究背景可搜索加密（Searchable Encryption, SE）​        在云计算时代下，海量数据的存储和计算都能够">
+<meta property="og:type" content="article">
+<meta property="og:title" content="论文阅读笔记">
+<meta property="og:url" content="https://yuwxl.github.io/2022/12/03/SE-note/index.html">
+<meta property="og:site_name" content="yu&#39;s blog">
+<meta property="og:description" content="[论文阅读笔记]VAL: Volume and Access Pattern Leakage-Abuse Attack with Leaked Documents(ESORICS’22）[5] 论文题目：利用泄露文档进行基于访问和体积模式的推理攻击  [TOC] 1 研究背景可搜索加密（Searchable Encryption, SE）​        在云计算时代下，海量数据的存储和计算都能够">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221203164759260.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221204113913812.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/fig1.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/fig2.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/fig3.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/fig4.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/fig5.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/fig6.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221208142713198.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/fig7.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/fig8.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221208151156960.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221208151219848.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221208162407516.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221208162428503.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221208162850548.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221216213758042.png">
+<meta property="og:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221208202313623.png">
+<meta property="article:published_time" content="2022-12-03T08:43:12.000Z">
+<meta property="article:modified_time" content="2023-02-27T12:04:36.000Z">
+<meta property="article:author" content="nayun">
+<meta property="article:tag" content="note">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://yuwxl.github.io/images/SE-note.assets/image-20221203164759260.png">
+  
+  
+  
+  <title>论文阅读笔记 - yu&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"yuwxl.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>nana</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/tina.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="论文阅读笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-03 16:43" pubdate>
+          2022年12月3日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">论文阅读笔记</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h3 id="论文阅读笔记-VAL-Volume-and-Access-Pattern-Leakage-Abuse-Attack-with-Leaked-Documents-ESORICS’22）-5"><a href="#论文阅读笔记-VAL-Volume-and-Access-Pattern-Leakage-Abuse-Attack-with-Leaked-Documents-ESORICS’22）-5" class="headerlink" title="[论文阅读笔记]VAL: Volume and Access Pattern Leakage-Abuse Attack with Leaked Documents(ESORICS’22）[5]"></a>[论文阅读笔记]VAL: Volume and Access Pattern Leakage-Abuse Attack with Leaked Documents(ESORICS’22）[5]</h3><blockquote>
+<p>论文题目：利用泄露文档进行基于访问和体积模式的推理攻击</p>
+</blockquote>
+<p>[TOC]</p>
+<h3 id="1-研究背景"><a href="#1-研究背景" class="headerlink" title="1 研究背景"></a>1 研究背景</h3><h4 id="可搜索加密（Searchable-Encryption-SE）"><a href="#可搜索加密（Searchable-Encryption-SE）" class="headerlink" title="可搜索加密（Searchable Encryption, SE）"></a><strong>可搜索加密（Searchable Encryption, SE）</strong></h4><p>​        在云计算时代下，海量数据的存储和计算都能够交付给云端的算力。云端的开放和共享性给用户带来了很大的便利，节约了大量的资源和时间。但于此同时，数据的不断增加带来了不可避免的隐私问题。用户希望能够将数据交由云服务器存储和管理的同时又不向云服务器泄露任何与数据相关的信息。常见的方法就是将数据进行加密后上传，这样确实保护了隐私，但是对于在数据库中的搜索能力却下降了。为了解决这个问题，可搜索加密应运而生。<br>​    2000年Song(S&amp;P’2000)[1]等人提出<strong>可搜索加密（Searchable Encryption, SE）</strong></p>
+<blockquote>
+<p>S E: 将已加密数据文件存储在一个不可信服务器上，在对文件进行检索时，希望只获得包含某个特定关键词 w 的一部分文档。服务器可以在加密文件上进行查找并只返回可能包含关键词 w 的文档，而无法获得除此之外的其他信息。</p>
+<p>总结：可搜索加密就是主要解决如何在密文中进行高效检索的问题。</p>
+</blockquote>
+<p>传统方案举例</p>
+<ul>
+<li>Alice 希望将文件存储到云服务器, 出于隐私需求, Alice 可以通过传统加密方式预先加密好的文件并上传, 但只有 Alice 拥有密钥；</li>
+<li>当 Alice 希望查找含有某一关键词的文件时,由于服务器对密文一无所知, Alice 需要从服务器上下载全部文件并一一解密以获得想要的文件, 这一方式显然效率极低。</li>
+<li>SE的工作就是保留加密数据的搜索功能，让Alice能在密文中直接检索</li>
+</ul>
+<p>SE 分类</p>
+<blockquote>
+<p>对称可搜索加密技术(Searchable Symmetric Encryption, SSE)<br>公钥可搜索加密技术(Public key Encryption with Keyword Search, PEKS)</p>
+</blockquote>
+<p>目前<strong>基于索引构建对称可搜索加密</strong>是一个主流的研究方案，基本流程如下图所示</p>
+<ol>
+<li>用户选择对称加密算法对文件进行加密，构建索引结构，保证索引对应加密文件，发送给服务器</li>
+<li>用户生成查询陷门发送给服务器，服务器返回对应的密文</li>
+<li>用户用自己的私钥进行解密，获得明文</li>
+</ol>
+<p><img src="/images/SE-note.assets/image-20221203164759260.png" srcset="/img/loading.gif" lazyload alt="image-20221203164759260" style="zoom: 33%;"></p>
+<h3 id="2-前置知识"><a href="#2-前置知识" class="headerlink" title="2 前置知识"></a>2 前置知识</h3><h4 id="Leakage-泄露"><a href="#Leakage-泄露" class="headerlink" title="Leakage 泄露"></a><strong>Leakage 泄露</strong></h4><p><strong>泄露</strong>就是用户在与服务器交互的过程中无意间透露的信息。如果该信息被统计分析，很可能造隐私泄露。</p>
+<blockquote>
+<p>可泄露的信息例如：用户发送的查询关键词，服务器返回的密文，以及二者之间的对应关系；用户查询某一关键词的频率；服务器返回密文的大小等等。</p>
+</blockquote>
+<p>泄露分为被动攻击/主动攻击</p>
+<ul>
+<li><p>被动攻击：服务器仅收集泄露文本、统计查询关键词等，监听用户和服务器的行为，试图窥探数据库信息-（推理攻击）</p>
+</li>
+<li><p>主动攻击：主动攻击者可以将带有选定关键词的文档上传到服务器，以匹配查询关键词-(文件注入攻击[2]/选择关键词[3])</p>
+</li>
+</ul>
+<p>被动攻击又称为<strong>推理攻击</strong></p>
+<blockquote>
+<p>​        文献[3]首次介绍了一种基于一定先验知识、利用数据访问模式泄露实施的通用攻击模型。攻击过程实际上是将用户搜索时行为模式和搜索习惯作为服务器额外信息。如通过监视用户与服务器之间的数据交互，记录搜索结果集合与陷门之间进行频率统计分析，结合公开数据库信息或已泄露文档信息进行比较，从而推理出更多有用信息。实验结果表明，攻击恢复关键词的成功率能够达到60%～80%.</p>
+<p>​        这种基于Leakage-Abuse思想的攻击，刘文心等人[4]将其统称为<strong>推理攻击</strong>。</p>
+</blockquote>
+<p><strong><em>这次要分享的论文关注的就是被动攻击，针对被动攻击，主要的方法就是对用户的行为模式进行监视，与已经公开的数据库进行对比分析。</em></strong></p>
+<p> 被动攻击3种模式</p>
+<blockquote>
+<p>access pattern 访问模式 ：观察server对查询的响应-&gt;query → document identifier-&gt;服务器数据类型<br>search pattern 搜索模式：统计查询的频率<br>volume pattern 体积模式：观察server返回的密文文档的大小</p>
+</blockquote>
+<h4 id="Attack-攻击"><a href="#Attack-攻击" class="headerlink" title="Attack 攻击"></a><strong>Attack 攻击</strong></h4><p>前提：已经泄露的文件/关键词作为辅助知识</p>
+<p>目标：将已知关键词与用户发送的查询陷门匹配 + 将已泄露文档与服务器响应的文档匹配</p>
+<p>已有工作</p>
+<blockquote>
+<p>Islam等人：根据泄漏知识创建共出现矩阵，将查询映射到关键词<br>Cash等人：泄漏文件中的总出现次数，可以将查询匹配到特定的关键词<br>Blackstone等人：SubgraphVL攻击<br>Ning等人：LEAP(CCS’21)[7]攻击，结合IKK攻击的共出现矩阵+count攻击的唯一计数</p>
+</blockquote>
+<h3 id="3-关键技术内容"><a href="#3-关键技术内容" class="headerlink" title="3 关键技术内容"></a>3 关键技术内容</h3><h4 id="本文contribution"><a href="#本文contribution" class="headerlink" title="本文contribution"></a>本文contribution</h4><p><u><strong>在SE框架下，改进了LEAP 的匹配技术，设计了一种新的体积+访问模式的推理攻击(VAL-Attack)</strong></u></p>
+<p><strong>VAL-attack 攻击策略</strong></p>
+<h4 id="前提假设"><a href="#前提假设" class="headerlink" title="前提假设"></a><strong>前提假设</strong></h4><ol>
+<li>假设泄漏级别为L2（泄露级别详见相关文献对比），即攻击者不知道查询关键词在文档响应中的频率或位置</li>
+<li>假设攻击者可以访问SE方案中使用的所有查询和响应</li>
+<li>攻击者可以访问存储在服务器上的一些未加密文件</li>
+<li>攻击者无法访问任何现有的关键词匹配查询，只知道泄露文件中出现的关键词</li>
+</ol>
+<h4 id="攻击者目标"><a href="#攻击者目标" class="headerlink" title="攻击者目标"></a><strong>攻击者目标</strong></h4><p>1）将尽可能多的加密文档标识符与泄漏的文档匹配<br>2）将查询与关键词匹配，以便了解服务器上存储的内容</p>
+<p><div>            <!--块级封装-->
+    <center>    <!--将图片和文字居中-->
+        符号定义    <!--标题-->
+        <br>        <!--换行-->
+    <img <img src="/images/SE-note.assets/image-20221204113913812.png" srcset="/img/loading.gif" lazyload alt style="zoom:50%;">
+    </center>
+</div></p>
+<h4 id="攻击步骤-3步"><a href="#攻击步骤-3步" class="headerlink" title="攻击步骤(3步)"></a>攻击步骤(3步)</h4><blockquote>
+<ol>
+<li><p>准备两个字典（存储匹配的文档 + 存储匹配的关键词）</p>
+</li>
+<li><p>攻击者构建矩阵AB</p>
+<script type="math/tex; mode=display">
+  A（m^′×n^′），B (m×n) (m^′≤m,n^′≤n)</script></li>
+<li><p>开始匹配（递归地在A、B矩阵中不断寻找映射，找到后存入1的字典）</p>
+</li>
+</ol>
+</blockquote>
+<ol>
+<li><p>准备两个字典（存储匹配的文档 + 存储匹配的关键词）</p>
+</li>
+<li><p>攻击者构建矩阵AB</p>
+<script type="math/tex; mode=display">
+A（m^′×n^′），B (m×n) (m^′≤m,n^′≤n)</script></li>
+<li><p>开始匹配（递归地在A、B矩阵中不断寻找映射，找到后存入1的字典）</p>
+</li>
+</ol>
+<h5 id="一、准备字典-构建攻击矩阵"><a href="#一、准备字典-构建攻击矩阵" class="headerlink" title="一、准备字典 + 构建攻击矩阵"></a>一、准备字典 + 构建攻击矩阵</h5><p><div>            <!--块级封装-->
+    <center>    <!--将图片和文字居中-->
+    <img src="/images/SE-note.assets/fig1.png" srcset="/img/loading.gif" lazyload alt="构建矩阵" style="zoom: 33%;">
+    <br>        <!--换行-->
+    攻击矩阵A B    <!--标题-->
+    </center>
+</div></p>
+<blockquote>
+<p>A矩阵是$m’行n’列，d1,,,dn’表示泄露文档，w1,,,,wm’表示关键词$<br>B矩阵是$m行n列，ed1,,,edn表示密文，q1,,,,qm表示查询令牌$<br>由于泄露文档只是服务器存储所有密文的一部分 $m’&lt;=m,n’&lt;=n$<br>$M 和 M$’ 是对称矩阵，分别由$A^T \cdot A,B^T \cdot B $计算而来，其数值含义是泄露文档(密文)i和j中共同出现的关键词(查询陷门)的个数</p>
+</blockquote>
+<h5 id="二、开始匹配（5步）"><a href="#二、开始匹配（5步）" class="headerlink" title="二、开始匹配（5步）"></a>二、开始匹配（5步）</h5><h6 id="1-用唯一列总和来匹配文档"><a href="#1-用唯一列总和来匹配文档" class="headerlink" title="1 用唯一列总和来匹配文档"></a>1 用唯一列总和来匹配文档</h6><p>（与Count attack [6]中的技术类似）<br>Count attack 计数攻击：假设攻击者已知每个keyword w,对应在数据集中匹配的文档数量count(w)如果某一查询 q 对应唯一的count(q)，且存在count(w)==count(q),则查询q匹配关键词w</p>
+<p><div>            <!--块级封装-->
+    <center>    <!--将图片和文字居中-->
+    <img src="/images/SE-note.assets/fig2.png" srcset="/img/loading.gif" lazyload alt style="zoom: 33%;">
+    </center>
+</div><br>统计矩阵A、B中的每一列的列总和，根据矩阵A B 内容的含义（为1表示该关键词在某文档中出现过），列总和就是统计某一泄露文档/密文中的关键词/查询陷门的个数，如果A矩阵的某个列总和是唯一的，并且B中也有，那么这个泄露文档和该密文可以匹配。</p>
+<h6 id="2-根据体积-关键词数量匹配文档"><a href="#2-根据体积-关键词数量匹配文档" class="headerlink" title="2 根据体积 + 关键词数量匹配文档"></a>2 根据体积 + 关键词数量匹配文档</h6><p>每个文档有两个属性：关键词数量 +文档大小</p>
+<p><div>            <!--块级封装-->
+ <center>    <!--将图片和文字居中-->
+ <img src="/images/SE-note.assets/fig3.png" srcset="/img/loading.gif" lazyload alt style="zoom: 100%;">
+ </center>
+</div><br>1）若服务器上密文(|edj|, vj)的组合是唯一的，并且泄漏文件中存在该组合，则密文edj与泄露文件dj匹配</p>
+<p><div>            <!--块级封装-->
+ <center>    <!--将图片和文字居中-->
+ <img src="/images/SE-note.assets/fig4.png" srcset="/img/loading.gif" lazyload alt style="zoom: 100%;">
+ </center>
+</div><br>2）若1）中组合不唯一，进一步根据关键词进行匹配（假设Acr/Bcr的行根据已经匹配的关键词排序，但初始阶段还不存在已经匹配的查询和关键词，故该步骤之后再运行）<br>分析：比如在泄露文件中大小和关键词的组合是[120，15]，如果这个组合是唯一的并且在服务器文件中也有[120，15]那么这两个文件可以匹配，如果不唯一，如上图，有好几个相同的模式，那我们就按照关键词进行匹配，对应列的每一位都要匹配才能将两个文件匹配，不过前提是行已经是匹配后的关键词和查询，但目前还没有匹配过，该步骤之后会重新调用。</p>
+<h6 id="3-根据共出现矩阵匹配文档"><a href="#3-根据共出现矩阵匹配文档" class="headerlink" title="3 根据共出现矩阵匹配文档"></a>3 根据共出现矩阵匹配文档</h6><p><img src="/images/SE-note.assets/fig5.png" srcset="/img/loading.gif" lazyload alt style="zoom: 33%;"></p>
+<p>$M、M’$的含义是共同出现的关键词的数量，现在若有一个未匹配的密文edx,和一个未匹配的泄露文档dy, 我们先在共出现文档中找到已经匹配的文档，比如d2和ed2匹配，那我们分别检查dy和d2的共出现值，看它是不是和ed2与edx一致，如果一样，则继续用下一对一句匹配的文档，总结来说就是看这两个文档相对于已经匹配的文档的共出现值是否完全一样，如果一样，说明这两个文档匹配。</p>
+<h6 id="4-匹配关键词"><a href="#4-匹配关键词" class="headerlink" title="4 匹配关键词"></a>4 匹配关键词</h6><p><img src="/images/SE-note.assets/fig6.png" srcset="/img/loading.gif" lazyload alt style="zoom: 45%;"></p>
+<p>从A，B矩阵中提取出已经匹配t个的文档，一一对应排列（矩阵$A_c,B_c$），观察每一行，如果存在唯一行，则关键词和查询可以匹配，如果不唯一，进一步分析。<br><img src="/images/SE-note.assets/image-20221208142713198.png" srcset="/img/loading.gif" lazyload alt="image-20221208142713198"><br>举例子如上图。</p>
+<ul>
+<li>在矩阵 $B_c$中$q_3$有唯一的行，且$A_c$中有对应的一行$w_1$，则查询$q_3$就和$w_1$匹配</li>
+<li>像$q_1,q_2$对应$w_2,w_m$，不唯一，则计算一下行总和，行总和反应了该关键词在文档中出现的次数，一般来说应该是在服务器文档中出现的次数较多，此时$q_2＜{w_m}’ $, 所以$q_1$匹配${w_m}’$<h6 id="5-根据已经匹配的关键词匹配文档"><a href="#5-根据已经匹配的关键词匹配文档" class="headerlink" title="5 根据已经匹配的关键词匹配文档"></a>5 根据已经匹配的关键词匹配文档</h6><img src="/images/SE-note.assets/fig7.png" srcset="/img/loading.gif" lazyload alt style="zoom: 45%;"></li>
+</ul>
+<p>第5步是从A，B矩阵中提取已经匹配的t个关键词的行，然后查找唯一列，从而继续匹配文档</p>
+<h6 id="整体算法"><a href="#整体算法" class="headerlink" title="整体算法"></a><strong>整体算法</strong></h6><p><img src="/images/SE-note.assets/fig8.png" srcset="/img/loading.gif" lazyload alt style="zoom: 45%;"><br>总体算法过程以及其简短描述如上图，整个过程其实就是在找<strong>某一种唯一模式，或者模式组合，试图匹配更多的文档和关键词，并且之前匹配得到的信息作为之后匹配的基础知识，然后不断迭代直到不再有新的匹配出现。</strong></p>
+<h3 id="4-实验分析"><a href="#4-实验分析" class="headerlink" title="4 实验分析"></a>4 实验分析</h3><p><strong>数据集</strong><br>Enron数据集-收集150个用户发送的邮件文件夹- 30109封电子邮件<br>Lucene邮件列表- 2002-2011年Lucene项目中的“java用户”邮件列表- 50,667个文档<br>Wiki百科文章<br><strong>预处理</strong>：提取邮件标题关键字、收件人姓名等，用python中NLTK语料库提取关键字集合（5000）<br><strong>初始数据</strong><br>服务器文件n – 数据集的文件<br>关键字m-5000个关键字集合<br>攻击者仅知道$n^′$个泄露文件（由泄露百分比决定）<br>以此构建矩阵$A（m^′×n^′），B (m×n) (m^′≤m,n^′≤n)$<br><strong>实验设置</strong><br>选择0.1%，0.5%，1%，5%，10%，30%作为泄漏百分比<br>选择较低的百分比与LEAP攻击的结果进行比较<br><img src="/images/SE-note.assets/image-20221208151156960.png" srcset="/img/loading.gif" lazyload alt="image-20221208151156960" style="zoom:50%;"><br><img src="/images/SE-note.assets/image-20221208151219848.png" srcset="/img/loading.gif" lazyload alt="image-20221208151219848" style="zoom:50%;"><br><strong>实验结果</strong><br>1）泄漏百分比达到5%VAL - attack 文件恢复率 98% 关键词恢复率93%<br>2）Enron 泄露百分比为10%即3010个文件，4962个关键词匹配2950个文件（98%）和4909个查询（99%）<br><img src="/images/SE-note.assets/image-20221208162407516.png" srcset="/img/loading.gif" lazyload alt="image-20221208162407516" style="zoom:50%;"><br><img src="/images/SE-note.assets/image-20221208162428503.png" srcset="/img/loading.gif" lazyload alt="image-20221208162428503" style="zoom:50%;"><br><strong>对比实验</strong><br>LEAP and SubgraphVL是目前性能最好的攻击，实验与二者进行对比，在文档恢复上性能比较好，但在关键词恢复上差别不是很大。<br><strong>对抗性能</strong><br><img src="/images/SE-note.assets/image-20221208162850548.png" srcset="/img/loading.gif" lazyload alt="image-20221208162850548" style="zoom: 50%;"><br>对抗策略：推理攻击主要就是利用文档关键词、大小等匹配。所以防范的最直接的思路就是体积隐藏，填充和混淆。利用体积隐藏，通过体积填充的手段让服务器返回的密文看上去大小无差别；或者利用假的查询令牌进行混淆。以上几种方式能够很好的防范推理攻击，但是体积隐藏（浪费存储空间）和混淆（过滤假令牌）会花费更多存储开销和计算。如上表所示，在单一对策下，val-attack仍然可以恢复大部分文档，但是在组合的对策下就几乎恢复不了文档。</p>
+<h3 id="5-相关文献分析"><a href="#5-相关文献分析" class="headerlink" title="5 相关文献分析"></a>5 相关文献分析</h3><h4 id="泄露级别L1-L4"><a href="#泄露级别L1-L4" class="headerlink" title="泄露级别L1~L4"></a>泄露级别L1~L4</h4><p>2015David (CCS’15)[6]将泄露级别分为四种等级L1~L4<br><img src="/images/SE-note.assets/image-20221216213758042.png" srcset="/img/loading.gif" lazyload alt="image-20221216213758042" style="zoom: 33%;"><br>L4：泄露keyword出现总数，按照文档位置<br>L3：泄露了keyword出现的频率，因为附加了关键词<br>L2：泄露每个keyword在文档中泄露的频率，但不按照文档顺序<br>L1：更复杂混淆机制，提供更强安全，只泄露已经被搜索过的<br>什么类型的SE会有L2泄露——EDESE，其特点：密文 + keyword ,上传到服务器</p>
+<blockquote>
+<p>EDESE 可搜索加密方案：ShadowCrypt利用了一种名为“高效可部署、高效可搜索加密”(EDESE)的加密方法，它的特点是<strong>将加密令牌和密文绑定</strong></p>
+</blockquote>
+<h4 id="IKK-Attack-NDSS’12-8"><a href="#IKK-Attack-NDSS’12-8" class="headerlink" title="IKK Attack(NDSS’12)[8]"></a>IKK Attack(NDSS’12)[8]</h4><p>提出SE可以借助足够的先验知识而被破解，即首次提出根据泄露进行推理攻击。</p>
+<ul>
+<li>对SE的首次成功实验攻击</li>
+<li>查询恢复攻击</li>
+<li>L1泄漏 &amp;（几乎）完整文档知识&amp;部分查询知识<h4 id="Count-Attack-CCS’15-6"><a href="#Count-Attack-CCS’15-6" class="headerlink" title="Count Attack (CCS’15)[6]"></a>Count Attack (CCS’15)[6]</h4></li>
+<li>查询恢复攻击</li>
+<li>L1泄漏部分文档知识<h4 id="LEAP-SIGSAC’21-7"><a href="#LEAP-SIGSAC’21-7" class="headerlink" title="LEAP(SIGSAC’21)[7]"></a>LEAP(SIGSAC’21)[7]</h4>LEAP –  针对EDESE方案提出一种新的推理攻击，构建攻击矩阵A ,B，并递归匹配</li>
+<li>查询恢复攻击&amp;文档恢复攻击</li>
+<li>L2泄漏&amp;部分文档知识<br>攻击假设：假设攻击者遵循EDESE加密（关键字使用带密钥的伪随机函数作为查询令牌进行加密，并附加到存储在服务器端的加密文档中。）<br>查询过程：</li>
+</ul>
+<ol>
+<li>用户生成查询令牌，并向服务器发送包含查询令牌的查询请求;</li>
+<li>服务器返回与查询请求中的查询令牌一起附加的加密文档；</li>
+<li>由1、2可得 (1)加密的文档 + 查询令牌集合；(2)每个加密文档和每个查询令牌之间的关系，即查询令牌是否包含在加密文档中。<h3 id="6-总结思考"><a href="#6-总结思考" class="headerlink" title="6 总结思考"></a>6 总结思考</h3>&gt;<br>Count攻击：查询返回的文件数<br>SubgraphVL :唯一文件体积<br>LEAP攻击 ：共出现、查询返回文件数<br>Score ：score-attack 相似文档 + 关键词频率<br>Search14 ：搜索模式，发送到服务器的查询的频率模式<br>VAL-attack: 访问 + 体积 + 相似文件<br>&gt;<br><img src="/images/SE-note.assets/image-20221208202313623.png" srcset="/img/loading.gif" lazyload alt="image-20221208202313623"><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4>2000年Song提出可搜索加密的概念，自被提出后，研究者们就致力于为数据库搜索的安全性提出新的攻击和防御方案。期间产生了前向安全和后向安全的可加密搜索方案，特别是在云计算广泛应用的当下，保证数据库的安全和用户隐私成为了亟待解决的课题。2012年针对可搜索加密的推理攻击被提出，这种利用先验知识的推理攻击被实验证明只要能够获得足够的先验知识（泄露的密文或者关键词），就能很大程度上恢复文档和关键词。随后在推理攻击的思想下，诞生了以上的攻击方案。研究者们在不断的探究可能的攻击方案/对应的解决方案的过程中，进一步推动数据库可加密搜索的安全性保证。本文的VAL-Attack基于前人的工作，特别是LEAP的思路，进一步提出了一个体积+关键词数量的组合模式，考虑了更全面的匹配方法，在文档恢复上取得了性能提升。更全面的攻击组合意味着更大的防范开销，给可搜索加密的安全提供了更完善的思路。<h4 id="论文优缺点"><a href="#论文优缺点" class="headerlink" title="论文优缺点"></a>论文优缺点</h4>这篇论文的优点是表达清晰，idea简洁；缺点是其攻击思路大体借鉴LEAP的论文（攻击矩阵AB），主要贡献是对LEAP进行了改进，没有源代码。<h4 id="个人想法"><a href="#个人想法" class="headerlink" title="个人想法"></a>个人想法</h4>对于推理攻击，核心思路是根据先验知识匹配泄露文档，目前已有的方案大多初始匹配是都带有一点猜测和概率匹配的做法，并且一般泄露文档相比于服务器密文来说数据量较少。思考是否能利用机器学习的相关算法，学习用户的访问特征等方法进行用户匹配等。可搜索加密不止在泄露文档上会被恶意方利用，在访问控制，服务器共谋等各个场景都存在着安全隐患，在可搜索加密领域还有许多工作可以做，尽可能考虑更多的安全威胁。</li>
+</ol>
+<h3 id="7-参考文献"><a href="#7-参考文献" class="headerlink" title="7 参考文献"></a>7 参考文献</h3><p>[1] <a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/abstract/document/848445">Song D X, Wagner D, Perrig A. Practical techniques for searches on encrypted data[C]//Proceeding 2000 IEEE symposium on security and privacy. S&amp;P 2000. IEEE, 2000: 44-55.</a><br>[2] <a target="_blank" rel="noopener" href="https://eprint.iacr.org/2016/172.pdf">ZHANG Yupeng, KATZ J, and PAPAMANTHOU C. All your queries are belong to us: The power of file-injection attacks on searchable encryption[C]. The 25th USENIX Security Symposium, Washington, USA, 2016: 707–720</a><br>[3] <a target="_blank" rel="noopener" href="https://pdfs.semanticscholar.org/f78e/9ccbc823e3c82256035037d4cab6f7128f1e.pdf">Islam M S, Kuzu M, Kantarcioglu M. Access pattern disclosure on searchable encryption: ramification, attack and mitigation[C]//Ndss. 2012, 20: 12.</a><br>[4] <a target="_blank" rel="noopener" href="http://jcs.iie.ac.cn/xxaqxb/ch/reader/create_pdf.aspx?file_no=20210205">刘文心, 高莹. 对称可搜索加密的安全性研究进展[J]. 信息安全学报, 2021, 6(2): 73–84. doi: 10.19363/J.cnki.cn10-1380/tn.2021.03.05.</a><br>[5] <a target="_blank" rel="noopener" href="https://link.springer.com/chapter/10.1007/978-3-031-17140-6_32">Lambregts S, Chen H, Ning J, et al. VAL: Volume and Access Pattern Leakage-Abuse Attack with Leaked Documents[C]//European Symposium on Research in Computer Security. Springer, Cham, 2022: 653-676.</a><br>[6] <a target="_blank" rel="noopener" href="https://doi.org/10.1145/2810103.2813700">Cash, D., Grubbs, P., Perry, J., Ristenpart, T.: Leakage-abuse attacks against searchable encryption. In: Ray, I., Li, N., Kruegel, C. (eds.) ACM CCS 2015, pp.668–679. ACM (2015).</a><br>[7] <a target="_blank" rel="noopener" href="https://dl.acm.org/doi/abs/10.1145/3460120.3484540">Ning J, Huang X, Poh G S, et al. Leap: Leakage-abuse attack on efficiently deployable, efficiently searchable encryption with partially known dataset[C]//Proceedings of the 2021 ACM SIGSAC Conference on Computer and Communications Security. 2021: 2307-2320.</a><br>[8] <a target="_blank" rel="noopener" href="https://citeseerx.ist.psu.edu/document?repid=rep1&amp;type=pdf&amp;doi=961487973d4b33f96406fddbfcf1235dc587571f">M. S. Islam, M. Kuzu, and M. Kantarcioglu. Access pattern disclosure on searchable encryption: Ramification, attack and mitigation. In 19th Annual Network and Distributed System Security Symposium, NDSS 2012. The Internet Society, 2012.</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/note/">#note</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>论文阅读笔记</div>
+      <div>https://yuwxl.github.io/2022/12/03/SE-note/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>nayun</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/21/Blockchain%20scaling/" title="Blockchain scaling">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Blockchain scaling</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/28/VPP/" title="VPP">
+                        <span class="hidden-mobile">VPP</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
