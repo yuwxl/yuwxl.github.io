@@ -18,32 +18,32 @@
   
     <meta name="description" content="构建零知识证明系统之前 - 问题转换 需要将函数f转换成特定的格式  匹诺曹协议 cf. Pinocchio: Nearly Practical Verifiable Computation   Plonk 中的问题转换   问题转化解释在零知识证明系统的应用中，需要首先计算问题转换成特定的形式，在ZK-snark中是转换成多项式，或者R1CS的向量形式，二次算术程序”（QAP）（cf. http">
 <meta property="og:type" content="article">
-<meta property="og:title" content="yu&#39;s blog">
-<meta property="og:url" content="https://yuwxl.github.io/2024/03/18/ZK/index.html">
+<meta property="og:title" content="构建零知识证明系统">
+<meta property="og:url" content="https://yuwxl.github.io/2024/03/24/ZK/index.html">
 <meta property="og:site_name" content="yu&#39;s blog">
 <meta property="og:description" content="构建零知识证明系统之前 - 问题转换 需要将函数f转换成特定的格式  匹诺曹协议 cf. Pinocchio: Nearly Practical Verifiable Computation   Plonk 中的问题转换   问题转化解释在零知识证明系统的应用中，需要首先计算问题转换成特定的形式，在ZK-snark中是转换成多项式，或者R1CS的向量形式，二次算术程序”（QAP）（cf. http">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240319135619297.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240319140550670.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240319135619297.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240319140550670.png">
 <meta property="og:image" content="https://vitalik.eth.limo/images/starks-part-1-files/starks_pic1.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240318135437527.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240319200958879.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240319203612784.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240319204626993.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240319204210916.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240319204414546.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240320195323896.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240321132249015.png">
-<meta property="og:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240321132921351.png">
-<meta property="article:published_time" content="2024-03-18T02:42:16.662Z">
-<meta property="article:modified_time" content="2024-03-24T02:19:23.524Z">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240318135437527.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240319200958879.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240319203612784.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240319204626993.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240319204210916.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240319204414546.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240320195323896.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240321132249015.png">
+<meta property="og:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240321132921351.png">
+<meta property="article:published_time" content="2024-03-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-13T07:19:34.628Z">
 <meta property="article:author" content="nayun">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://yuwxl.github.io/2024/03/18/images/ZK/image-20240319135619297.png">
+<meta name="twitter:image" content="https://yuwxl.github.io/2024/03/24/images/ZK/image-20240319135619297.png">
   
   
   
-  <title>yu&#39;s blog</title>
+  <title>构建零知识证明系统 - yu&#39;s blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="构建零知识证明系统"></span>
           
         </div>
 
@@ -224,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-18 10:42" pubdate>
-          2024年3月18日 上午
+        <time datetime="2024-03-24 00:00" pubdate>
+          2024年3月24日 凌晨
         </time>
       </span>
     
@@ -285,7 +285,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">构建零知识证明系统</h1>
             
             
               <div class="markdown-body">
@@ -374,8 +374,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
-      <div>https://yuwxl.github.io/2024/03/18/ZK/</div>
+      <div>构建零知识证明系统</div>
+      <div>https://yuwxl.github.io/2024/03/24/ZK/</div>
     </div>
     <div class="license-meta">
       
@@ -387,7 +387,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月18日</div>
+          <div>2024年3月24日</div>
         </div>
       
       
@@ -423,8 +423,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/01/22/csc/" title="csc">
-                        <span class="hidden-mobile">csc</span>
+                      <a href="/2024/01/16/DAG-IOTA/" title="(转载)突破区块链不可能三角（三）——POS与POW-DAG">
+                        <span class="hidden-mobile">(转载)突破区块链不可能三角（三）——POS与POW-DAG</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
